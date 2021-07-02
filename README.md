@@ -1,6 +1,5 @@
 # Farm-To-Fork
-
-# Vegetable Delivery Service
+Vegetable Delivery Service
 
 ### Site Owner Goals:
  - To encourage new farmers to advertise their products on the site.
@@ -8,18 +7,17 @@
  - To address any issues/concerns faced by either the farmers or customers.
 
 ### User Stories
-
+##### All Users
  - As a first time visitor to the site I would like to understand its' purpose.
  - I would like to browse any current products offered by farmers.
  - I would like to see the locations of farmers currently using the service.
  - I would like to see the prices of products offered by farmers.
  - I would like to see the delivery rates charged by farmers.
-- I would like to compare the products of nearby farmers.
-- I would like to compare the prices of nearby farmers.
+ - I would like to compare the products of nearby farmers.
+ - I would like to compare the prices of nearby farmers.
  - I would like to understand the different categories of products/subscriptions.
  - I would like to register for the service as a farmer/customer.
  - I would like to login/logout of the website.
-
 ##### Farmers:
  - I would like to see what percentage of the price paid by customers is given to farmers.
  - I would like to see how often farmers are paid.
@@ -35,11 +33,10 @@
 
 
 
-## Database:
+### Database Schema:
+__Home Page__ ![Home_page](docs/database_schema/schema.png)
 
-
-
-#### Frontend Structure:
+###### Frontend Structure:
 Navigation Links: Home, About, Support, Login/Register, Search products/subscriptions
 Footer: social links, support, farmer fees, FAQs
 
@@ -55,3 +52,29 @@ Footer: social links, support, farmer fees, FAQs
  - Use MapBox API to allow users to add their location
  - Customers can search within a radius and view the results on a map or on a list
  - To reduce API calls, customers need to take an additional step to check if a farmer will deliver to them (based on customer location, farmer location and the farmers own delivery radius)
+
+### Planning user types and permissions:
+
+###### All user permissions: 
+ - can login
+ - can logout
+ - can edit profile info
+ - can upload profile photo
+ - can delete profile
+
+###### Farmer specific permissions:
+ - can add product/subscription
+ - can edit product/subscription
+ - can delete product/subscription
+
+###### Customer specific permissions: 
+ - can add products/subscriptions to shopping cart
+ - can purchase products/subscriptions
+
+### Wireframes
+__Home Page__ ![Home_page](docs/wireframes/home.png)
+__About Page__ ![About_page](docs/wireframes/about.png)
+__Map Page__ ![Map_page](docs/wireframes/map.png)
+__Profile Page__ ![Profile_page](docs/wireframes/profile.png)
+__Profile Page__ ![Profile_page](docs/wireframes/search.png)
+__Add Product Page__ ![Add_product_page](docs/wireframes/about.png)
