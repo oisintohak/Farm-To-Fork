@@ -10,16 +10,30 @@ class UserManager(BaseUserManager):
     Custom user model manager, with email as unique identifier.
     """
 
-    def create_user(self, email, password=None, **extra_fields):
-        """
-        Creates and saves a User with the given email and password.
-        """
+    def create_user(
+        self,
+        email,
+        username,
+        first_name,
+        last_name,
+        password=None,
+        **extra_fields,
+    ):
         if not email:
             raise ValueError('Users must have an email address')
+        if not username:
+            raise ValueError('Users must have a username')
+        if not first_name:
+            raise ValueError('Users must have an first name')
+        if not last_name:
+            raise ValueError('Users must have a last name')
 
         user = self.model(
             email=self.normalize_email(email),
-            **extra_fields
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            **extra_fields,
         )
 
         user.set_password(password)
@@ -27,9 +41,6 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        """
-        Creates and saves a superuser with the given email and password.
-        """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -49,36 +60,33 @@ class UserManager(BaseUserManager):
 
 
 class UserModel(AbstractUser):
-    username = None
+    username = models.CharField(
+        verbose_name='username',
+        max_length=20,
+        unique=True,
+    )
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
         unique=True,
     )
     first_name = models.CharField(
-        'first_name',
+        verbose_name='first name',
         max_length=40,
-        blank=True,
     )
     last_name = models.CharField(
-        'last_name',
+        verbose_name='last name',
         max_length=40,
-        blank=True,
     )
     date_joined = models.DateTimeField(
-        default=timezone.now
+        verbose_name='date joined',
+        default=timezone.now,
     )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
-    def get_email(self):
+    def __str__(self):
         return self.email
-
-    def get_first_name(self):
-        return self.first_name
-
-    def get_last_name(self):
-        return f'{self.first_name} {self.last_name}'
