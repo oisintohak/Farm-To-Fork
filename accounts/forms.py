@@ -1,15 +1,13 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
-from .models import UserModel
-
-
-class CustomUserCreationForm(UserCreationForm):
-
-    class Meta:
-        model = UserModel
+from allauth.account.forms import SignupForm
+from django import forms
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomSignupForm(SignupForm):
+    first_name = forms.CharField(max_length=30, label='First Name')
+    last_name = forms.CharField(max_length=30, label='Last Name')
 
-    class Meta:
-        model = UserModel
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        return user
