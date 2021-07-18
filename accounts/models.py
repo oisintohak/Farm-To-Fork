@@ -16,6 +16,7 @@ class UserManager(BaseUserManager):
         username,
         first_name,
         last_name,
+        user_type,
         password=None,
         **extra_fields,
     ):
@@ -27,12 +28,15 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have an first name')
         if not last_name:
             raise ValueError('Users must have a last name')
+        if not user_type:
+            raise ValueError('Users must have a user type')
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
             first_name=first_name,
             last_name=last_name,
+            user_type=user_type,
             **extra_fields,
         )
 
@@ -60,6 +64,7 @@ class UserManager(BaseUserManager):
 
 
 class UserModel(AbstractUser):
+    user_type_choices = [('Customers', 'Customer'), ('Farmers', 'Farmer')]
     username = models.CharField(
         verbose_name='username',
         max_length=20,
@@ -77,6 +82,11 @@ class UserModel(AbstractUser):
     last_name = models.CharField(
         verbose_name='last name',
         max_length=40,
+    )
+    user_type = models.CharField(
+        max_length=15,
+        choices=user_type_choices,
+        default='Customers',
     )
     date_joined = models.DateTimeField(
         verbose_name='date joined',

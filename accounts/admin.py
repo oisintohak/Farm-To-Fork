@@ -19,6 +19,16 @@ class CustomUserAdmin(UserAdmin):
                     'email',
                     'first_name',
                     'last_name',
+                    'user_type',
+            )}
+         ),
+    )
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {
+            'classes': ('wide',),
+            'fields':
+                (
+                    'user_type',
             )}
          ),
     )
