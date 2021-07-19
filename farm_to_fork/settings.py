@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'accounts',
     'home',
+    'profiles',
+    'django_countries',
 ]
 
 
@@ -163,13 +165,13 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_ADAPTER = 'accounts.adapter.UserAccountAdapter'
 
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-# ACCOUNT_FORMS = {
-#     'signup': 'accounts.forms.CustomSignupForm',
-# }
-# ACCOUNT_SIGNUP_FORM_CLASS = 'accounts.forms.CustomSignupForm'
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+}
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 

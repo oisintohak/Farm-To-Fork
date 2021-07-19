@@ -1,5 +1,6 @@
 from allauth.account.forms import SignupForm
 from django import forms
+from django.contrib import auth
 
 
 class CustomSignupForm(SignupForm):
@@ -15,10 +16,20 @@ class CustomSignupForm(SignupForm):
         required=True
     )
 
-    def signup(self, request, user):
+    class Meta:
+        model = auth.get_user_model()
+
+    def save(self, request):
+        user = super(CustomSignupForm, self).save(request)
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.user_type = self.cleaned_data['user_type']
-        user.extra_field = self.cleaned_data['extra_field']
-
         user.save()
+
+        profile = user.profile
+        print('')
+        print(self.cleaned_data['user_type'])
+        print('')
+        profile.user_type = self.cleaned_data['user_type']
+        profile.save()
+
+        return user

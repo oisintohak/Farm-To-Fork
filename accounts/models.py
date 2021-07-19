@@ -3,6 +3,10 @@ from django.utils import timezone
 from django.contrib.auth.models import (
     BaseUserManager, AbstractUser
 )
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from django.contrib import auth
+# from django.contrib.auth.models import Group
 
 
 class UserManager(BaseUserManager):
@@ -14,9 +18,6 @@ class UserManager(BaseUserManager):
         self,
         email,
         username,
-        first_name,
-        last_name,
-        user_type,
         password=None,
         **extra_fields,
     ):
@@ -24,22 +25,12 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         if not username:
             raise ValueError('Users must have a username')
-        if not first_name:
-            raise ValueError('Users must have an first name')
-        if not last_name:
-            raise ValueError('Users must have a last name')
-        if not user_type:
-            raise ValueError('Users must have a user type')
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            first_name=first_name,
-            last_name=last_name,
-            user_type=user_type,
             **extra_fields,
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -66,7 +57,6 @@ class UserManager(BaseUserManager):
 class UserModel(AbstractUser):
     user_type_choices = [('Customers', 'Customer'),
                          ('Farmers', 'Farmer')]
-
     username = models.CharField(
         verbose_name='Username',
         max_length=20,
@@ -77,28 +67,21 @@ class UserModel(AbstractUser):
         max_length=255,
         unique=True,
     )
-    first_name = models.CharField(
-        verbose_name='First name',
-        max_length=40,
-    )
-    last_name = models.CharField(
-        verbose_name='Last name',
-        max_length=40,
+    date_joined = models.DateTimeField(
+        verbose_name='date joined',
+        default=timezone.now,
     )
     user_type = models.CharField(
         verbose_name='User type',
         max_length=20,
-        choices=[('Customers', 'Customer'), ('Farmers', 'Farmer')],
-    )
-    date_joined = models.DateTimeField(
-        verbose_name='date joined',
-        default=timezone.now,
+        choices=user_type_choices,
+        null=True,
     )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.email
