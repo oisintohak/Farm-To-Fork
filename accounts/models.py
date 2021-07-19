@@ -64,29 +64,31 @@ class UserManager(BaseUserManager):
 
 
 class UserModel(AbstractUser):
-    user_type_choices = [('Customers', 'Customer'), ('Farmers', 'Farmer')]
+    user_type_choices = [('Customers', 'Customer'),
+                         ('Farmers', 'Farmer')]
+
     username = models.CharField(
-        verbose_name='username',
+        verbose_name='Username',
         max_length=20,
         unique=True,
     )
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='Email address',
         max_length=255,
         unique=True,
     )
     first_name = models.CharField(
-        verbose_name='first name',
+        verbose_name='First name',
         max_length=40,
     )
     last_name = models.CharField(
-        verbose_name='last name',
+        verbose_name='Last name',
         max_length=40,
     )
     user_type = models.CharField(
-        max_length=15,
-        choices=user_type_choices,
-        default='Customers',
+        verbose_name='User type',
+        max_length=20,
+        choices=[('Customers', 'Customer'), ('Farmers', 'Farmer')],
     )
     date_joined = models.DateTimeField(
         verbose_name='date joined',
