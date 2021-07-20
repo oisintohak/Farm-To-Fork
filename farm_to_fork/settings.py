@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_countries',
     'accounts',
     'home',
     'profiles',
-    'django_countries',
 ]
 
 
