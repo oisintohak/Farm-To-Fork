@@ -10,6 +10,7 @@ from .models import UserModel
 
 
 class CustomUserAdmin(UserAdmin):
+    """ User admin, with user_type field """
     model = UserModel
     add_fieldsets = UserAdmin.add_fieldsets + (
         (None, {
@@ -17,8 +18,6 @@ class CustomUserAdmin(UserAdmin):
             'fields':
                 (
                     'email',
-                    'first_name',
-                    'last_name',
                     'user_type',
             )}
          ),

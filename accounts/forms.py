@@ -4,6 +4,7 @@ from django.contrib import auth
 
 
 class CustomSignupForm(SignupForm):
+    """Extend the allauth Signup form to include a user_type field"""
     username = forms.CharField(max_length=20, label='Username', required=True)
     user_type = forms.ChoiceField(
         widget=forms.RadioSelect,

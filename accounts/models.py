@@ -55,6 +55,7 @@ class UserManager(BaseUserManager):
 
 
 class UserModel(AbstractUser):
+    """User model with user_type field"""
     user_type_choices = [('Customers', 'Customer'),
                          ('Farmers', 'Farmer')]
     username = models.CharField(

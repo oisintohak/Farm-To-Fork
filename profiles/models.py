@@ -11,8 +11,7 @@ from django_countries.fields import CountryField
 
 class UserProfile(models.Model):
     """
-    A user profile model for maintaining default
-    delivery information and order history
+    A user profile model to store address information
     """
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
