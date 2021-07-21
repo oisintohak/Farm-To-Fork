@@ -52,6 +52,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'edit-profile' request.user.username %}">Edit Profile</a>
+                    </li>
+
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_login' %}">Login</a>
@@ -72,8 +79,13 @@
     {% if messages %}
     <div class="message-container"></div>
     {% endif %}
-    {% block main_content %}
-    {% endblock %}
+    <div class="container">
+        <div class="row justify-content-center pt-3">
+            {% block main_content %}
+            {% endblock %}
+
+        </div>
+    </div>
 </body>
 
 </html>
