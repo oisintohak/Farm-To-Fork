@@ -5,6 +5,10 @@ from django.contrib import auth
 
 class CustomSignupForm(SignupForm):
     """Extend the allauth Signup form to include a user_type field"""
+
+    class Meta:
+        model = auth.get_user_model()
+
     username = forms.CharField(max_length=20, label='Username', required=True)
     user_type = forms.ChoiceField(
         widget=forms.RadioSelect,
@@ -12,9 +16,6 @@ class CustomSignupForm(SignupForm):
         label='Register as a:',
         required=True
     )
-
-    class Meta:
-        model = auth.get_user_model()
 
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
