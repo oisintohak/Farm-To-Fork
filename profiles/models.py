@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import Group
+from django.urls import reverse
 
 
 from django_countries.fields import CountryField
@@ -42,6 +43,9 @@ class UserProfile(models.Model):
                                 null=True, blank=True)
     country = CountryField(blank_label='Country',
                            null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'username': self.user.username})
 
     def __str__(self):
         return self.user.username
