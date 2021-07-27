@@ -3,6 +3,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from accounts.models import UserModel
 from .models import UserProfile
+from .forms import UserProfileForm
 
 
 class ProfileView(DetailView):
@@ -18,18 +19,8 @@ class ProfileView(DetailView):
 
 class ProfileEditView(UpdateView):
     model = UserProfile
+    form_class = UserProfileForm
     template_name = 'profiles/editprofile.html'
-    fields = [
-        'first_name',
-        'last_name',
-        'phone_number',
-        'street_address1',
-        'street_address2',
-        'town_or_city',
-        'county',
-        'postcode',
-        'country'
-    ]
 
     def get_object(self):
         user = get_object_or_404(
