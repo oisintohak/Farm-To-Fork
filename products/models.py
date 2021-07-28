@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import UserModel
 
 
 class Product(models.Model):
@@ -6,6 +7,7 @@ class Product(models.Model):
     description = models.TextField()
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
+    created_by = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

@@ -6,7 +6,7 @@ from django.contrib import admin
 
 class ProductAdmin(admin.ModelAdmin):
     fields = (
-        'name', 'description', 'image_url', 'image'
+        'name', 'description', 'image_url', 'image', 'created_by',
     )
 
 

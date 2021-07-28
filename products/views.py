@@ -25,11 +25,6 @@ class ProductView(DetailView):
             product=self.get_object())
         return context
 
-# class ProductView(ListView):
-#     context_object_name = 'variants'
-    # template_name = 'products/viewproduct.html'
-#     queryset = ProductVariant.objects.filter(publisher__name='ACME Publishing')
-
 
 # class ProductCreateView(CreateView):
 
