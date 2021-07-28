@@ -14,8 +14,7 @@ class Product(models.Model):
 
 
 class ProductVariant(models.Model):
-    product = models.ForeignKey('Product', null=True, blank=True,
-                                on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     unit_choices = [
         ('L', 'Liter(s)'),
         ('ML', 'Milliliter(s)'),
