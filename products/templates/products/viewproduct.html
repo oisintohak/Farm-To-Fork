@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% load static %} {% block main_content %}
+<h1>
+    {{ product.name }}
+
+</h1>
+
+<h5>
+    {{ product.description }}
+
+</h5>
+<ul>
+
+    {% for variant in variants %}
+    <li>
+        {{ variant }}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

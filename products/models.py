@@ -24,8 +24,13 @@ class ProductVariant(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     size = models.DecimalField(max_digits=6, decimal_places=2)
     unit = models.CharField(
-        verbose_name='User type',
+        verbose_name='unit',
         max_length=20,
         choices=unit_choices,
         null=True,
     )
+
+    def __str__(self):
+        return (
+            f'{self.product.name} , {self.size} {self.unit} , €{self.price}'
+        )
