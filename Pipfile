@@ -10,6 +10,7 @@ django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
 django-countries = "*"
 pillow = "*"
+django-extra-views = "*"
 
 [dev-packages]
 

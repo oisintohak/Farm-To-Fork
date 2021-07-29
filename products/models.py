@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import UserModel
+from django.urls import reverse
 
 
 class Product(models.Model):

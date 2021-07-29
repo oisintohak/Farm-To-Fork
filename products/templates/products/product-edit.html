@@ -2,13 +2,15 @@
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="col-auto">
-    <form method="post" id="product-form">
-        {{ formset.management_form }}
-        {{ formset.empty_form }}
+    {{ formset.management_form }}
+    {{ formset.empty_form }}
+    <form method="post">
         {% csrf_token %}
-        {% crispy product_form %}
-        {% crispy formset %}
-        <button id="submit-form" type="submit" class="btn btn-primary">Submit</button>
+        {{ form|crispy }}
+        {% for formset in inlines %}
+        {{ formset|crispy }}
+        {% endfor %}
+        <input type="submit" value="Submit" />
     </form>
 </div>
 
