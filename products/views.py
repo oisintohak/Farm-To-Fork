@@ -28,18 +28,19 @@ class ProductDetail(DetailView):
 
 class ProductVariantInline(InlineFormSetFactory):
     model = ProductVariant
-    fields = '__all__'
+    factory_kwargs = {'extra': 1}
+    fields = ['price', 'size', 'unit']
 
 
 class ProductCreate(CreateWithInlinesView):
     model = Product
     inlines = [ProductVariantInline]
-    fields = '__all__'
+    fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
 
 
 class ProductEdit(UpdateWithInlinesView):
     model = Product
     inlines = [ProductVariantInline]
-    fields = '__all__'
+    fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'

@@ -2,8 +2,6 @@
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="col-auto">
-    {{ formset.management_form }}
-    {{ formset.empty_form }}
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
@@ -15,6 +13,7 @@
 </div>
 
 {% block body_end_js %}
+<script src="{% static 'js/dynamicFormset.js' %}"></script>
 
 {% endblock %}
 {% endblock %}
