@@ -43,8 +43,13 @@ class UserProfile(models.Model):
                                 null=True, blank=False)
     country = CountryField(blank_label='Country',
                            null=True, blank=False)
-    latitude = models.DecimalField(max_digits=30, decimal_places=20, blank=True, null=True)
-    longitude = models.DecimalField(max_digits=30, decimal_places=20, blank=True, null=True)
+    latitude = models.DecimalField(
+        max_digits=30, decimal_places=20, blank=True, null=True
+    )
+    longitude = models.DecimalField(
+        max_digits=30, decimal_places=20, blank=True, null=True
+    )
+
     def get_absolute_url(self):
         return reverse('profile', kwargs={'username': self.user.username})
 

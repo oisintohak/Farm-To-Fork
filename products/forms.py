@@ -7,14 +7,13 @@ from .models import Product, ProductVariant
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ()
 
 
 class ProductVariantForm(ModelForm):
     class Meta:
         model = ProductVariant
-        fields = ('product', 'size', 'unit', 'price')
-        # exclude = ['product']
+        exclude = ()
 
 
 ProductVariantFormSet = inlineformset_factory(
@@ -23,9 +22,3 @@ ProductVariantFormSet = inlineformset_factory(
     fields=('product', 'price', 'size', 'unit'),
     form=ProductVariantForm,
 )
-
-# ProductFormSet = modelform_factory(
-#     Product,
-#     ProductVariant,
-#     fields=('price', 'size', 'unit'),
-# )

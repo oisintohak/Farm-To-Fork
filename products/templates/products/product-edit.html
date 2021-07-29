@@ -1,12 +1,12 @@
 {% extends "base.html" %} {% load static %}
-<!-- {% load crispy_forms_tags %} -->
+{% load crispy_forms_tags %}
 {% block main_content %}
 <div class="col-auto">
-    <!-- {{ product_form }} -->
     <form method="post" id="product-form">
+        {{ formset.management_form }}
+        {{ formset.empty_form }}
         {% csrf_token %}
-        {{ product_form }}
-        <!-- {{ product_variant_formset }} -->
+        {% crispy product_form %}
         {% crispy formset %}
         <button id="submit-form" type="submit" class="btn btn-primary">Submit</button>
     </form>
