@@ -1,1 +1,0 @@
-const totalElement = document.querySelector('#id_productvariant_set-TOTAL_FORMS');

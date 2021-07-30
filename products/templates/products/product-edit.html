@@ -2,18 +2,22 @@
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="col-auto">
-    <form method="post">
+    <form class="row gy-2 gx-3 align-items-center justify-content-center" method="post">
         {% csrf_token %}
         {{ form|crispy }}
+        <h3 class="text-center">Product Variants:</h3>
+        {{ inlines.formset.management_form }}
         {% for formset in inlines %}
-        {{ formset|crispy }}
+        {% crispy formset helper %}
         {% endfor %}
-        <input type="submit" value="Submit" />
+        <div class="col-12 text-center">
+            <button type="button" class="btn btn-success w-auto">Add Variant</button>
+        </div>
+        <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
     </form>
 </div>
 
 {% block body_end_js %}
-<script src="{% static 'js/dynamicFormset.js' %}"></script>
 
 {% endblock %}
 {% endblock %}

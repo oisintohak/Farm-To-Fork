@@ -14,11 +14,12 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product-detail', kwargs={'id': self.id})
+        return reverse('product-detail', kwargs={'pk': self.id})
 
 
 class ProductVariant(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        'Product', on_delete=models.CASCADE, blank=True)
     unit_choices = [
         ('L', 'Liter(s)'),
         ('ML', 'Milliliter(s)'),
