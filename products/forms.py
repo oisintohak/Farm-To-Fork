@@ -30,14 +30,7 @@ class ProductVariantFormHelper(FormHelper):
                 ),
                 Div(
                     HTML(
-                        '<button type="button"'
-                        'class="btn btn-sm btn-danger">X</button>'
-                    ),
-                    css_class='col-2 mb-3 mt-auto'
-                ),
-                Div(
-                    HTML(
-                        '<fieldset disabled>'
+                        '<fieldset>'
                     ),
                     Field(
                         'DELETE'
@@ -49,5 +42,6 @@ class ProductVariantFormHelper(FormHelper):
                     hidden=True,
                 ),
                 css_class='formset-formgroup row'
+
             )
         )
