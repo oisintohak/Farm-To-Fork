@@ -12,8 +12,12 @@
             {% for item in product_list.values %}
             <li>
                 <h5>
-                    {{ item.product.name }}
+                    {{ item.product.name }} <small><a class="nav-link active" aria-current="page" href="{% url 'product-edit' item.product.id %}">Edit</a></small>
                 </h5>
+                <small>
+                    created by: {{ item.product.created_by }}
+
+                </small>
                 <p>
                     {{ item.product.description }}
                 </p>

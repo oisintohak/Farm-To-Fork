@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from extra_views import (
@@ -29,10 +30,6 @@ class ProductList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.all()
-        # for index, product in enumerate(products):
-        #     context['product_list'][index]['product'] = product
-        #     context['product_list'][index]['variants'] = ProductVariant.obects.filter(
-        #         product=product)
         product_list = {}
         for index, product in enumerate(products):
             product_list[index] = {
@@ -40,12 +37,6 @@ class ProductList(ListView):
                 'variants': ProductVariant.objects.filter(
                     product=product)
             }
-        
-        
-            
-            # ['prod'] = product
-            # product_list[index]['variants'] = ProductVariant.objects.filter(
-            #     product=product)
 
         context['product_list'] = product_list
         for item in product_list.values():
@@ -64,11 +55,16 @@ class ProductVariantInline(InlineFormSetFactory):
     exclude = ['product', 'id']
 
 
-class ProductCreate(CreateWithInlinesView):
+class ProductCreate(
+    LoginRequiredMixin, UserPassesTestMixin, CreateWithInlinesView
+):
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Farmer').exists()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,11 +76,17 @@ class ProductCreate(CreateWithInlinesView):
         return super().form_valid(form)
 
 
-class ProductEdit(UpdateWithInlinesView):
+class ProductEdit(
+    LoginRequiredMixin, UserPassesTestMixin, UpdateWithInlinesView
+):
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.created_by == self.request.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
