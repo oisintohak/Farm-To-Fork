@@ -79,10 +79,17 @@
             </div>
         </div>
     </nav>
-    {% if messages %}
-    <div class="message-container"></div>
-    {% endif %}
-    <div class="container">
+
+{% if messages %}
+<div class="message-container">
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<div class="container">
         {% block main_content %}
         {% endblock %}
 

@@ -1,5 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic.detail import DetailView
+from django.contrib import messages
 from django.views.generic import ListView
 from extra_views import (
     CreateWithInlinesView,
@@ -62,6 +65,16 @@ class ProductCreate(
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
+    raise_exception = True
+    permission_denied_message = 'You can only edit your own products.'
+
+    def handle_no_permission(self):
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            'Login to a farmer account to create products.',
+        )
+        return HttpResponseRedirect(('/accounts/login/'))
 
     def test_func(self):
         return self.request.user.groups.filter(name='Farmer').exists()
@@ -83,6 +96,15 @@ class ProductEdit(
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
+    raise_exception = True
+
+    def handle_no_permission(self):
+        messages.add_message(
+            self.request, 
+            messages.ERROR, 
+            'You can only edit your own products.',
+        )
+        return HttpResponseRedirect(reverse('home'))
 
     def test_func(self):
         obj = self.get_object()
