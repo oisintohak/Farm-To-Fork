@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% load static %} {% block main_content %}
+
+<div class="row justify-content-center pt-6">
+    <div class="col-auto">
+        <h4>product list:</h4>
+        <p>
+        </p>
+        <br>
+        <ul>
+
+
+            {% for item in product_list.values %}
+            <li>
+                <h5>
+                    {{ item.product.name }}
+                </h5>
+                <p>
+                    {{ item.product.description }}
+                </p>
+            </li>
+            <h6>Variants:</h6>
+            <ul>
+
+                {% for variant in item.variants %}
+                <li>
+                    €{{ variant.price }}
+                    {{ variant.size }}
+                    {{ variant.unit }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -35,22 +35,11 @@ class ProductList(ListView):
         #         product=product)
         product_list = {}
         for index, product in enumerate(products):
-            product_list[index] = {
-                'product': product,
-                'variants': ProductVariant.objects.filter(
-                    product=product)
-            }
-        
-        
-            
-            # ['prod'] = product
-            # product_list[index]['variants'] = ProductVariant.objects.filter(
-            #     product=product)
+            product_list[index]['prod'] = product
+            product_list[index]['variants'] = ProductVariant.objects.filter(
+                product=product)
 
         context['product_list'] = product_list
-        for item in product_list.values():
-            print()
-            print(item)
         return context
 
 
