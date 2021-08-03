@@ -11,6 +11,9 @@ crispy-bootstrap5 = "*"
 django-countries = "*"
 pillow = "*"
 django-extra-views = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
+gunicorn = "*"
 
 [dev-packages]
 
