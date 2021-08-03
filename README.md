@@ -50,7 +50,7 @@ Vegetable Delivery Service
 
 ### Database Schema:
 
-**Home Page** ![Home_page](docs/database_schema/schema.png)
+**Database Schema** ![Database_schema](docs/database_schema/schema.png)
 
 ###### Frontend Structure:
 
@@ -68,7 +68,9 @@ Footer: social links, support, farmer fees, FAQs
 Map feature:
 
 - When a farmer signs up they must add their location before adding products
-- Use MapBox API to allow users to add their location
+- Use Google Places API to find coordinates based on users address
+- Frontend validation to geocode address before submitting
+- Use GeoDjango to store location info and to enable sorting farmers by distance
 - Customers can search within a radius and view the results on a map or on a list
 - To reduce API calls, customers need to take an additional step to check if a farmer will deliver to them (based on customer location, farmer location and the farmers own delivery radius)
 
