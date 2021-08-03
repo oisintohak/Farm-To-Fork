@@ -66,7 +66,6 @@ class ProductCreate(
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
     raise_exception = True
-    permission_denied_message = 'You can only edit your own products.'
 
     def handle_no_permission(self):
         messages.add_message(
