@@ -14,6 +14,8 @@ django-extra-views = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
 gunicorn = "*"
+boto3 = "*"
+django-storages = "*"
 
 [dev-packages]
 
