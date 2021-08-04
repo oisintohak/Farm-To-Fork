@@ -76,7 +76,7 @@ class ProductCreate(
         return HttpResponseRedirect(('/accounts/login/'))
 
     def test_func(self):
-        return self.request.user.groups.filter(name='Farmer').exists()
+        return self.request.user.groups.filter(name='Farmers').exists()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
