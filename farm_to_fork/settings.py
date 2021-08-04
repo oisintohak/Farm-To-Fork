@@ -26,9 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '%6!-b3w*8$wbyw8_@wsb0xy6+&vc5c_knjcz2
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', '0')
 
-ALLOWED_HOSTS = ['farmtofork.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['farmtofork.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
