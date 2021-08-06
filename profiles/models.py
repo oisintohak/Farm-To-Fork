@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import Point
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -49,6 +51,7 @@ class UserProfile(models.Model):
     longitude = models.DecimalField(
         max_digits=30, decimal_places=20, blank=True, null=True
     )
+    location = PointField(blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('profile', kwargs={'username': self.user.username})
@@ -72,3 +75,12 @@ def add_user_to_group(sender, instance, created, **kwargs):
     if created:
         group = Group.objects.get(name=instance.user_type)
         instance.groups.add(group)
+
+
+@receiver(post_save, sender=UserProfile)
+def generate_location(sender, instance, created, **kwargs):
+    instance.location = Point(
+        float(instance.latitude),
+        float(instance.longitude)
+    )
+    print(instance.location)
