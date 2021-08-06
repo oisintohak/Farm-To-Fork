@@ -79,8 +79,9 @@ def add_user_to_group(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=UserProfile)
 def generate_location(sender, instance, **kwargs):
-    location = Point(
-        float(instance.longitude),
-        float(instance.latitude)
-    )
-    instance.location = location
+    if instance.latitude and instance.longitude:
+        location = Point(
+            float(instance.longitude),
+            float(instance.latitude)
+        )
+        instance.location = location
