@@ -54,7 +54,7 @@ class UserProfile(models.Model):
     location = PointField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('profile', kwargs={'username': self.user.username})
+        return reverse('profile', kwargs={'id': self.user.id})
 
     def __str__(self):
         return self.user.username

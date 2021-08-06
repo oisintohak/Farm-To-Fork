@@ -16,7 +16,7 @@ class ProfileView(DetailView):
 
     def get_object(self):
         user = get_object_or_404(
-            UserModel, username=self.kwargs.get('username'))
+            UserModel, id=self.kwargs.get('id'))
         return user.profile
 
 
@@ -32,15 +32,20 @@ class ProfileEditView(UpdateView):
 
 
 class FarmerMapView(TemplateView):
+    """
+    Display a map with markers for farmer locations
+    """
     template_name = 'profiles/farmermap.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        """
+        Add an array to context containing GeoJSON information about farmers
+        """
         context = super().get_context_data(**kwargs)
         context["markers"] = json.loads(
             serialize(
                 "geojson",
-                UserProfile.objects.all(),
+                UserProfile.objects.filter(user__groups__name='Farmers'),
                 geometry_field='location'
             )
         )
