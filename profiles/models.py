@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.gis.db.models import PointField
 from django.contrib.gis.geos import Point
-from django.db.models.signals import post_save
+from django.contrib.gis.db.models import PointField
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib import auth
@@ -77,10 +77,10 @@ def add_user_to_group(sender, instance, created, **kwargs):
         instance.groups.add(group)
 
 
-@receiver(post_save, sender=UserProfile)
-def generate_location(sender, instance, created, **kwargs):
-    instance.location = Point(
-        float(instance.latitude),
-        float(instance.longitude)
+@receiver(pre_save, sender=UserProfile)
+def generate_location(sender, instance, **kwargs):
+    location = Point(
+        float(instance.longitude),
+        float(instance.latitude)
     )
-    print(instance.location)
+    instance.location = location
