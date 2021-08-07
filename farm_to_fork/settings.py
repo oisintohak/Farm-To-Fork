@@ -100,6 +100,7 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
+    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 else:
     DATABASES = {
         'default': {
