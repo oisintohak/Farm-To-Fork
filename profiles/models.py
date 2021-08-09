@@ -52,6 +52,8 @@ class UserProfile(models.Model):
         max_digits=30, decimal_places=20, blank=True, null=True
     )
     location = PointField(blank=True, null=True)
+    image_url = models.URLField(max_length=1024, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('profile', kwargs={'id': self.user.id})

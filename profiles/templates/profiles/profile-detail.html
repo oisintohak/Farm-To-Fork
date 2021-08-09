@@ -9,6 +9,25 @@
     <li>
         {{ user_profile.last_name }}
     </li>
+    <p>
+        <style>
+            img {
+                max-width: 200px;
+                max-height: 200px;
+                object-fit: contain;
+            }
+        </style>
+        {% if user_profile.image %}
+        <img class="card-img-top img-fluid" src="{{ user_profile.image.url }}" alt="{{ product.name }}">
+        {% elif user_profile.image_url %}
+        <img class="card-img-top img-fluid" src="{{ user_profile.image_url }}" alt="{{ user_profile.username }}'s profile picture">
+        {% else %}
+        <p>no image</p>    
+        {% endif %}
+    
+    
+    </p>
+    
     <li>
         {{ user_profile.phone_number }}
     </li>

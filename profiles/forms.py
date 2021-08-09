@@ -19,6 +19,8 @@ class UserProfileForm(forms.ModelForm):
             'country',
             'latitude',
             'longitude',
+            'image_url',
+            'image',
         ]
         widgets = {
             'latitude': forms.HiddenInput(),

@@ -15,12 +15,13 @@
     Product Image:
 </h5>
 <p>
-    {{ product.image }}
-
-</p>
-<p>
-    url:{{ product.image_url }}
+    {% if product.image %}
     <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% elif product.image_url %}
+    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% else %}
+    <p>no image</p>    
+    {% endif %}
 
 
 </p>

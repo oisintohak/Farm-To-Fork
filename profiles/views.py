@@ -1,4 +1,7 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.http.response import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import json
 from django.core.serializers import serialize
 from django.views.generic.edit import UpdateView
@@ -9,10 +12,10 @@ from .models import UserProfile
 from .forms import UserProfileForm
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = UserModel
     context_object_name = 'user_profile'
-    template_name = 'profiles/viewprofile.html'
+    template_name = 'profiles/profile-detail.html'
 
     def get_object(self):
         user = get_object_or_404(
@@ -20,10 +23,23 @@ class ProfileView(DetailView):
         return user.profile
 
 
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserProfile
     form_class = UserProfileForm
-    template_name = 'profiles/editprofile.html'
+    template_name = 'profiles/profile-edit.html'
+    raise_exception = True
+
+    def handle_no_permission(self):
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            'You can only edit your own profile.',
+        )
+        return HttpResponseRedirect(('/home'))
+
+    def test_func(self):
+        user = self.get_object()
+        return user == self.request.user
 
     def get_object(self):
         user = get_object_or_404(
@@ -35,7 +51,7 @@ class FarmerMapView(TemplateView):
     """
     Display a map with markers for farmer locations
     """
-    template_name = 'profiles/farmermap.html'
+    template_name = 'profiles/farmer-map.html'
 
     def get_context_data(self, **kwargs):
         """
