@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import json
 from django.core.serializers import serialize
@@ -27,7 +28,14 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = UserProfileForm
     template_name = 'profiles/profile-edit.html'
-    raise_exception = True
+
+    def handle_no_permission(self):
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            'Please log in to edit your profile.',
+        )
+        return super().handle_no_permission()
 
     def get_object(self):
         user = self.request.user

@@ -99,8 +99,8 @@ class ProductEdit(
 
     def handle_no_permission(self):
         messages.add_message(
-            self.request, 
-            messages.ERROR, 
+            self.request,
+            messages.ERROR,
             'You can only edit your own products.',
         )
         return HttpResponseRedirect(reverse('home'))
