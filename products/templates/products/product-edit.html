@@ -7,7 +7,7 @@
 
 {% block main_content %}
 <div class="col-auto">
-    <form class="row gy-2 gx-3 align-items-center justify-content-center" method="post">
+    <form class="row gy-2 gx-3 align-items-center justify-content-center" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
         <h3 class="text-center">Product Variants:</h3>
