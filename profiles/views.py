@@ -23,27 +23,14 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return user.profile
 
 
-class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = UserProfileForm
     template_name = 'profiles/profile-edit.html'
     raise_exception = True
 
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            'You can only edit your own profile.',
-        )
-        return HttpResponseRedirect(('/home'))
-
-    def test_func(self):
-        user = self.get_object()
-        return user == self.request.user
-
     def get_object(self):
-        user = get_object_or_404(
-            UserModel, username=self.kwargs.get('username'))
+        user = self.request.user
         return user.profile
 
 
