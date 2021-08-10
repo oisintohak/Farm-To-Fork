@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% load static %} {% block main_content %}
+<ul>
+
+    {% for farmer in farmers %}
+    <li>
+        {{ farmer }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

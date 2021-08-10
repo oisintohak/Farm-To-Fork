@@ -2,11 +2,14 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import json
 from django.core.serializers import serialize
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 from accounts.models import UserModel
 from .models import UserProfile
@@ -40,6 +43,23 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         user = self.request.user
         return user.profile
+
+
+longitude = -80.191788
+latitude = 25.761681
+
+user_location = Point(longitude, latitude, srid=4326)
+
+
+class FarmerList(ListView):
+    model = UserProfile
+    context_object_name = 'farmers'
+    queryset = UserProfile.objects.filter(
+        user__groups__name='Farmers'
+    ).annotate(
+        distance=Distance('location', user_location)
+    ).order_by('distance')
+    template_name = 'profiles/farmer-list.html'
 
 
 class FarmerMapView(TemplateView):
