@@ -99,7 +99,7 @@
                         del.val('on');
                         del[0].checked = true;
                         row.hide();
-                        forms = $('.' + options.formCssClass).not(':hidden');
+                        forms = $('.' + options.formCssClass);
                         totalForms.val(forms.length);
                     } else {
                         row.remove();
