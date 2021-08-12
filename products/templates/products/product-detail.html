@@ -22,18 +22,31 @@
     {% else %}
     <p>no image</p>    
     {% endif %}
-
-
 </p>
 <a class="nav-link active" aria-current="page" href="{% url 'product-edit' product.id %}">Edit</a>
 
-<ul>
-
-    {% for variant in variants %}
-    <li>
-        {{ variant }}
-    </li>
-    {% endfor %}
-</ul>
-
+    
+        <form class="form" action="{% url 'add-to-cart' %}" method="POST">
+            {% csrf_token %}
+            <label for="variant-select"></label>
+            <select name="product_id" id="variant-select" size="{{ variants|length }}" class="form-select" aria-label="Product Variant Select">
+                {% for variant in variants %}
+                <option value="{{ variant.id }}">
+                    {{ variant }}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="redirect_url" value="{{ request.path }}">
+            <input type="hidden" name="quantity" value=1>
+            <input type="submit" class="btn btn-primary" value="Add to Cart">
+            
+        </form>
+        
+        <ul>
+            {% for variant in variants %}
+            <li>
+                {{ variant }}, ID:{{ variant.id }}
+            </li>
+            {% endfor %}            
+        </ul>
 {% endblock %}

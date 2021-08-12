@@ -11,14 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
-from pathlib import Path
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -56,6 +53,7 @@ INSTALLED_APPS = [
     'home',
     'profiles',
     'products',
+    'cart',
 ]
 
 
@@ -85,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.contexts.cart_contents',
             ],
         },
     },
@@ -109,8 +108,8 @@ else:
             'USER': 'geodjango',
             'PASSWORD': '1234',
         },
-    }    
-    
+    }
+
 
 # DATABASES = {
 #     'default': {
@@ -231,3 +230,6 @@ if os.name == 'nt':
     VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
     os.environ['PATH'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
     os.environ['PROJ_LIB'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
+
+
+DEFAULT_DELIVERY_RADIUS = 10

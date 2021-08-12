@@ -10,10 +10,14 @@
             {% for item in product_list.values %}
             <li>
                 <h5>
-                    {{ item.product.name }} <small><a class="nav-link active" aria-current="page" href="{% url 'product-edit' item.product.id %}">Edit</a></small>
+                    <a href="{% url 'product-detail' item.product.id %}">
+                        {{ item.product.name }}
+                    </a>
                 </h5>
+                    <small><a href="{% url 'product-edit' item.product.id %}">Edit</a></small>
                 <small>
-                    created by: {{ item.product.created_by.profile.first_name }} {{ item.product.created_by.profile.last_name }}
+                    created by: {{ item.product.created_by.profile.first_name }}
+                 {{item.product.created_by.profile.last_name }}
 
                 </small>
                 <p>

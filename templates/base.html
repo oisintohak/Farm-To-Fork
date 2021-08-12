@@ -54,6 +54,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'cart' %}">Shopping Cart</a>
+                    </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
@@ -63,9 +69,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'profile-edit' %}">Edit Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'product-list' %}">Product List</a>
                     </li>
 
                     {% else %}
