@@ -1,5 +1,6 @@
 {% load crispy_forms_tags %}
 {% load static %}
+{% load check_group %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +25,7 @@
     {% endblock %}
 
     {% block core_js %}
+    <script src="https://kit.fontawesome.com/8bdadb5ed1.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
     {% endblock %}
@@ -35,9 +37,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid justify-content-between">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -57,56 +58,68 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product List</a>
                     </li>
+                    {% if request.user|has_group:'Farmers' %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create Product</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'cart' %}">Shopping Cart</a>
-                        {% if total %}
-                        <small>
-                            :€{{ total }}
-                        </small>
-                        {% endif %}
-                    </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile-edit' %}">Edit Profile</a>
-                    </li>
-
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
-                    </li>
                     {% endif %}
-
                 </ul>
+            </div>
+            <a class="nav-link" href="#" id="searchDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fas fa-search"></i>
+            </a>
+            <div class="dropdown-menu w-100" aria-labelledby="searchDropdown">
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn" type="submit">Search</button>
                 </form>
             </div>
+            <a class="nav-link" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fas fa-user"></i>
+            </a>
+            <div class="dropdown-menu w-100 dropdown-menu-end" aria-labelledby="accountDropdown">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile-edit' %}">Edit Profile</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                </li>
+                {% endif %}
+            </div>
+            <a class="nav-link" href="{% url 'cart' %}">
+                <i class="fas fa-shopping-basket"></i>
+                {% if total %}
+                <small>
+                    €{{ total }}
+                </small>
+                {% endif %}
+            </a>
         </div>
     </nav>
 
-{% if messages %}
-<div class="message-container">
-    <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-<div class="container">
+    {% if messages %}
+    <div class="message-container">
+        <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="container">
         {% block main_content %}
         {% endblock %}
 
