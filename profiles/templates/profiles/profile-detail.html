@@ -1,4 +1,8 @@
-{% extends "base.html" %} {% load static %} {% block main_content %}
+{% extends "base.html" %}
+{% load static %}
+{% load check_group %}
+{% block main_content %}
+
 <ul>
     <li>
         {{ user_profile }}
@@ -20,14 +24,12 @@
         {% if user_profile.image %}
         <img class="card-img-top img-fluid" src="{{ user_profile.image.url }}" alt="{{ product.name }}">
         {% elif user_profile.image_url %}
-        <img class="card-img-top img-fluid" src="{{ user_profile.image_url }}" alt="{{ user_profile.username }}'s profile picture">
+        <img class="card-img-top img-fluid" src="{{ user_profile.image_url }}"
+            alt="{{ user_profile.username }}'s profile picture">
         {% else %}
-        <p>no image</p>    
-        {% endif %}
-    
-    
+    <p>no image</p>
+    {% endif %}
     </p>
-    
     <li>
         {{ user_profile.phone_number }}
     </li>
@@ -59,4 +61,40 @@
         location: {{ user_profile.location }}
     </li>
 </ul>
+
+{% if product_list %}
+<h5>Products:</h5>
+<ul>
+    {% for item in product_list.values %}
+    <li>
+        <h5>
+            <a href="{% url 'product-detail' item.product.id %}">
+                {{ item.product.name }}
+            </a>
+        </h5>
+        <small><a href="{% url 'product-edit' item.product.id %}">Edit</a></small>
+        <small>
+            created by: <a href="{% url 'profile' item.product.created_by.id %}">
+                {{ item.product.created_by.profile.first_name }}
+                {{item.product.created_by.profile.last_name }}
+            </a>
+
+        </small>
+        <p>
+            {{ item.product.description }}
+        </p>
+    </li>
+    <h6>Variants:</h6>
+    <ul>
+        {% for variant in item.variants %}
+        <li>
+            €{{ variant.price }}
+            {{ variant.size }}
+            {{ variant.unit }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</ul>{% endif %}
+
 {% endblock %}

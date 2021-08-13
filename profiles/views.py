@@ -12,12 +12,30 @@ from django.views.generic.base import TemplateView
 from accounts.models import UserModel
 from .models import UserProfile
 from .forms import UserProfileForm
+from products.models import Product, ProductVariant
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
     model = UserModel
     context_object_name = 'user_profile'
     template_name = 'profiles/profile-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(
+            UserModel, id=self.kwargs.get('id'))
+
+        if user.groups.filter(name='Farmers').exists():
+            products = Product.objects.filter(created_by=user)
+            product_list = {}
+            for index, product in enumerate(products):
+                product_list[index] = {
+                    'product': product,
+                    'variants': ProductVariant.objects.filter(
+                        product=product),
+                }
+            context['product_list'] = product_list
+        return context
 
     def get_object(self):
         user = get_object_or_404(
@@ -26,7 +44,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
-    # model = UserProfile
     form_class = UserProfileForm
     template_name = 'profiles/profile-edit.html'
 
@@ -71,9 +88,9 @@ class FarmerMapView(TemplateView):
         Add an array to context containing GeoJSON information about farmers
         """
         context = super().get_context_data(**kwargs)
-        context["markers"] = json.loads(
+        context['markers'] = json.loads(
             serialize(
-                "geojson",
+                'geojson',
                 UserProfile.objects.filter(user__groups__name='Farmers'),
                 geometry_field='location'
             )

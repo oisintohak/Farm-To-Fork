@@ -43,9 +43,6 @@ class ProductList(ListView):
             }
 
         context['product_list'] = product_list
-        for item in product_list.values():
-            print()
-            print(item)
         return context
 
 
