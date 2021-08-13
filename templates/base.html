@@ -79,7 +79,7 @@
                 aria-expanded="false">
                 <i class="fas fa-user"></i>
             </a>
-            <div class="dropdown-menu w-100 dropdown-menu-end" aria-labelledby="accountDropdown">
+            <div class="dropdown-menu w-100" aria-labelledby="accountDropdown">
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>

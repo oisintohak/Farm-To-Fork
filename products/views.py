@@ -1,9 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http.response import HttpResponseRedirect
-from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
-from django.contrib import messages
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from extra_views import (
     CreateWithInlinesView,
@@ -13,6 +10,7 @@ from extra_views import (
 from .models import ProductVariant, Product
 from accounts.models import UserModel
 from .forms import ProductVariantFormHelper
+from .mixins import ProductCreationAccessMixin, ProductEditAccessMixin
 
 
 class ProductDetail(DetailView):
@@ -62,24 +60,14 @@ class ProductVariantInline(InlineFormSetFactory):
 
 
 class ProductCreate(
-    LoginRequiredMixin, UserPassesTestMixin, CreateWithInlinesView
+    LoginRequiredMixin,
+    ProductCreationAccessMixin,
+    CreateWithInlinesView,
 ):
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
-    raise_exception = True
-
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            'Login to a farmer account to create products.',
-        )
-        return HttpResponseRedirect(('/accounts/login/'))
-
-    def test_func(self):
-        return self.request.user.groups.filter(name='Farmers').exists()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -92,25 +80,15 @@ class ProductCreate(
 
 
 class ProductEdit(
-    LoginRequiredMixin, UserPassesTestMixin, UpdateWithInlinesView
+    LoginRequiredMixin,
+    ProductEditAccessMixin,
+    UpdateWithInlinesView,
 ):
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
     template_name = 'products/product-edit.html'
     raise_exception = True
-
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            'You can only edit your own products.',
-        )
-        return HttpResponseRedirect(reverse('home'))
-
-    def test_func(self):
-        obj = self.get_object()
-        return obj.created_by == self.request.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
