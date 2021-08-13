@@ -42,7 +42,7 @@ class UserProfile(models.Model):
     county = models.CharField(max_length=80,
                               null=True, blank=False)
     postcode = models.CharField(max_length=20,
-                                null=True, blank=False)
+                                null=True)
     country = CountryField(blank_label='Country',
                            null=True, blank=False)
     latitude = models.DecimalField(

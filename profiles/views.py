@@ -28,7 +28,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
-    model = UserProfile
+    # model = UserProfile
     form_class = UserProfileForm
     template_name = 'profiles/profile-edit.html'
 
