@@ -10,6 +10,7 @@ class UserProfileForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'bio',
             'phone_number',
             'street_address1',
             'street_address2',

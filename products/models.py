@@ -5,7 +5,7 @@ from django.urls import reverse
 
 class Product(models.Model):
     name = models.CharField(max_length=254)
-    description = models.TextField()
+    description = models.TextField(max_length=3000)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
     created_by = models.ForeignKey(UserModel, on_delete=models.CASCADE)
