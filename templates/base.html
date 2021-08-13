@@ -62,6 +62,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'cart' %}">Shopping Cart</a>
+                        {% if total %}
+                        <small>
+                            :€{{ total }}
+                        </small>
+                        {% endif %}
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
