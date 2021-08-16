@@ -38,69 +38,9 @@
 
 <body>
     <div class="page-container mh-100vh d-flex flex-column justify-content-between">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <ul class="navbar-nav d-flex flex-row">
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <a class="nav-link fs-3" href="#" id="searchDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-search"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end position-absolute p-0" aria-labelledby="searchDropdown">
-                            <form class="search-dropdown-form p-2">
-                                <div class="input-group">
-                                    <input type="search" class="form-control" placeholder="Search" aria-label="Search"
-                                        aria-describedby="search-button">
-                                    <button class="btn btn-outline-secondary" type="submit"
-                                        id="search-button">Search</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link fs-3 px-4" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="accountDropdown">
-                        {% if request.user.is_authenticated %}
-                        <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
-                        </li>
-                        <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'profile' request.user.id %}">Profile</a>
-                        </li>
-                        <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'profile-edit' %}">Edit Profile</a>
-                        </li>
-                        {% else %}
-                        <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_login' %}">Login</a>
-                        </li>
-                        <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_signup' %}">Register</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </li>
-                <a class="nav-link fs-3" href="{% url 'cart' %}">
-                    <i class="fas fa-shopping-basket"></i>
-                    {% if total %}
-                    <small>
-                        €{{ total }}
-                    </small>
-                    {% endif %}
-                </a>
-            </ul>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <nav id="main-nav" class="navbar navbar-expand navbar-light bg-light">
+            <div class="container-fluid">
+                <ul class="navbar-nav w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
@@ -119,27 +59,113 @@
                     </li>
                     {% endif %}
                 </ul>
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item me-auto d-lg-none">
+                        <div class="dropdown">
+                            <button class="btn nav-link fs-3 px-4" type="button" id="navMenuDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-start position-absolute"
+                                aria-labelledby="navMenuDropdown">
+                                <li class="dropdown-item">
+                                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product
+                                        List</a>
+                                </li>
+                                {% if request.user|has_group:'Farmers' %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create
+                                        Product</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ms-auto nav-item">
+                        <div class="dropdown">
+                            <button class="btn nav-link fs-3" type="button" id="searchDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end position-absolute p-0"
+                                aria-labelledby="searchDropdown">
+                                <form class="search-dropdown-form p-2">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control search-input" placeholder="Search"
+                                            aria-label="Search" aria-describedby="search-button">
+                                        <button class="btn btn-outline-secondary" type="submit"
+                                            id="search-button">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="btn nav-link fs-3" type="button" id="accountDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="accountDropdown">
+                            {% if request.user.is_authenticated %}
+                            <li class="dropdown-item">
+                                <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="nav-link text-end" href="{% url 'profile' request.user.id %}">Profile</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="nav-link text-end" href="{% url 'profile-edit' %}">Edit Profile</a>
+                            </li>
+                            {% else %}
+                            <li class="dropdown-item">
+                                <a class="nav-link text-end" href="{% url 'account_login' %}">Login</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="nav-link text-end" href="{% url 'account_signup' %}">Register</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <a class="nav-link fs-3" href="{% url 'cart' %}">
+                        <i class="fas fa-shopping-basket"></i>
+                        {% if total %}
+                        <small>
+                            €{{ total }}
+                        </small>
+                        {% endif %}
+                    </a>
+                </ul>
+
+
             </div>
-            
+        </nav>
+
+        {% if messages %}
+        <div class="message-container">
+            <ul>
+                {% for message in messages %}
+                <li>{{message}}</li>
+                {% endfor %}
+            </ul>
         </div>
-    </nav>
+        {% endif %}
 
-    {% if messages %}
-    <div class="message-container">
-        <ul>
-            {% for message in messages %}
-            <li>{{message}}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
+        {% block main_content %}
+        {% endblock %}
 
-    {% block main_content %}
-    {% endblock %}
-
-    {% block body_end_js %}
-    {% endblock %}
-    <!-- </div> -->
+        {% block body_end_js %}
+        {% endblock %}
+        <!-- </div> -->
 </body>
 
 </html>
