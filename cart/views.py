@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, reverse
 from django.contrib import messages
 from products.models import ProductVariant
 
@@ -32,3 +32,23 @@ def add_to_cart(request):
     redirect_url = request.POST.get('redirect_url')
     request.session['cart'] = cart
     return redirect(redirect_url)
+
+
+def update_cart(request):
+    """ Update the quantities of cart items """
+
+    cart = request.session.get('cart', {})
+    print(request.POST)
+    for item in request.POST:
+        if 'csrf' in item:
+            print(request.POST[item])
+        if 'item-delete' in item:
+            if request.POST[item] == '1':
+                id = item.replace('item-delete-', '')
+                cart.pop(id)
+        else:
+            cart[item] = int(request.POST[item])
+
+    request.session['cart'] = cart
+
+    return redirect(reverse('cart'))

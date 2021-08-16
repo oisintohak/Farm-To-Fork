@@ -7,6 +7,10 @@
     min-height: 100vh;
 }
 
+.text-red {
+    color: red;
+}
+
 /* NAVBAR */
 .search-dropdown-form {
     min-width: 12em;
