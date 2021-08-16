@@ -4,13 +4,17 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 {% endblock %}
 {% block main_content %}
-<div class="col-auto">
-
-    <form id="profile-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-auto">
+            <form id="profile-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -33,9 +37,9 @@
 
 
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
-async>
-</script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
+    async>
+    </script>
 <script src="{% static 'js/geocode.js' %}"></script>
 
 {% endblock %}

@@ -1,43 +1,45 @@
 {% extends "base.html" %} {% load static %} {% block main_content %}
-
-<div class="row justify-content-center pt-6">
-    <div class="col-auto">
-        <h4>product list:</h4>
-        <p>
-        </p>
-        <br>
-        <ul>
-            {% for item in product_list.values %}
-            <li>
-                <h5>
-                    <a href="{% url 'product-detail' item.product.id %}">
-                        {{ item.product.name }}
-                    </a>
-                </h5>
-                <small><a href="{% url 'product-edit' item.product.id %}">Edit</a></small>
-                <small>
-                    created by: <a href="{% url 'profile' item.product.created_by.id %}">
-                        {{ item.product.created_by.profile.first_name }}
-                        {{item.product.created_by.profile.last_name }}
-                    </a>
-
-                </small>
-                <p>
-                    {{ item.product.description }}
-                </p>
-            </li>
-            <h6>Variants:</h6>
+<div class="container">
+    <div class="row justify-content-center pt-6">
+        <div class="col-auto">
+            <h4>product list:</h4>
+            <p>
+            </p>
+            <br>
             <ul>
-                {% for variant in item.variants %}
+                {% for item in product_list.values %}
                 <li>
-                    €{{ variant.price }}
-                    {{ variant.size }}
-                    {{ variant.unit }}
+                    <h5>
+                        <a href="{% url 'product-detail' item.product.id %}">
+                            {{ item.product.name }}
+                        </a>
+                    </h5>
+                    <small><a href="{% url 'product-edit' item.product.id %}">Edit</a></small>
+                    <small>
+                        created by: <a href="{% url 'profile' item.product.created_by.id %}">
+                            {{ item.product.created_by.profile.first_name }}
+                            {{item.product.created_by.profile.last_name }}
+                        </a>
+
+                    </small>
+                    <p>
+                        {{ item.product.description }}
+                    </p>
                 </li>
+                <h6>Variants:</h6>
+                <ul>
+                    {% for variant in item.variants %}
+                    <li>
+                        €{{ variant.price }}
+                        {{ variant.size }}
+                        {{ variant.unit }}
+                    </li>
+                    {% endfor %}
+                </ul>
                 {% endfor %}
             </ul>
-            {% endfor %}
-        </ul>
+        </div>
     </div>
 </div>
+
 {% endblock %}
