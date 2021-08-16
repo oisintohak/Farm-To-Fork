@@ -1,0 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.mh-100vh {
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+.search-dropdown-form {
+    min-width: 20em;
+}
+
+.home-banner {
+    background: url('/media/home-banner.jpg') no-repeat;
+    background-size: contain;
+    min-height: 100vh;
+    width: 100%;
+    background-attachment: fixed;
+    background-position: center bottom;
+    background-size: cover;
+}
