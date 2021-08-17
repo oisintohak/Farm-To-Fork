@@ -60,6 +60,13 @@
             </div>
         </div>
     </form>
+
+    <div class="row justify-content-end">
+        <div class="col-4 text-center">
+            <a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+        </div>
+    </div>
+
     {% else %}
     <h6>
         Nothing in your shopping cart.
@@ -72,7 +79,7 @@
 {% block body_end_js %}
 <script>
     document.querySelectorAll('.delete-item-button').forEach((item) => {
-        
+
         item.addEventListener('click', (e) => {
             console.log(e.target);
             let id = e.target.closest('.delete-item-button').dataset['productId'];
