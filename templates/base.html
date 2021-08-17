@@ -25,6 +25,13 @@
     {% endblock %}
 
     {% block core_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
     <script src="https://kit.fontawesome.com/8bdadb5ed1.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
@@ -38,133 +45,151 @@
 
 <body>
     <!-- <div class="page-container mh-100vh d-flex flex-column justify-content-between"> -->
-        <nav id="main-nav" class="navbar navbar-expand navbar-light bg-light">
-            <div class="container-fluid">
-                <ul class="navbar-nav w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product List</a>
-                    </li>
-                    {% if request.user|has_group:'Farmers' %}
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create Product</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav w-100">
-                    <li class="nav-item me-auto d-lg-none">
-                        <div class="dropdown">
-                            <button class="btn nav-link fs-3 px-4" type="button" id="navMenuDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-start position-absolute"
-                                aria-labelledby="navMenuDropdown">
-                                <li class="dropdown-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product
-                                        List</a>
-                                </li>
-                                {% if request.user|has_group:'Farmers' %}
-                                <li class="dropdown-item">
-                                    <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create
-                                        Product</a>
-                                </li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="ms-auto nav-item">
-                        <div class="dropdown">
-                            <button class="btn nav-link fs-3" type="button" id="searchDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end position-absolute p-0"
-                                aria-labelledby="searchDropdown">
-                                <form class="search-dropdown-form p-2">
-                                    <div class="input-group">
-                                        <input type="search" class="form-control search-input" placeholder="Search"
-                                            aria-label="Search" aria-describedby="search-button">
-                                        <button class="btn btn-outline-secondary" type="submit"
-                                            id="search-button">Search</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <button class="btn nav-link fs-3" type="button" id="accountDropdown"
+    <nav id="main-nav" class="navbar navbar-expand navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="navbar-nav w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product List</a>
+                </li>
+                {% if request.user|has_group:'Farmers' %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create Product</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav w-100">
+                <li class="nav-item me-auto d-lg-none">
+                    <div class="dropdown">
+                        <button class="btn nav-link fs-3 px-4" type="button" id="navMenuDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-bars"></i>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="accountDropdown">
-                            {% if request.user.is_authenticated %}
+                        <ul class="dropdown-menu dropdown-menu-start position-absolute"
+                            aria-labelledby="navMenuDropdown">
                             <li class="dropdown-item">
-                                <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link text-end" href="{% url 'profile' request.user.id %}">Profile</a>
+                                <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link text-end" href="{% url 'profile-edit' %}">Edit Profile</a>
-                            </li>
-                            {% else %}
-                            <li class="dropdown-item">
-                                <a class="nav-link text-end" href="{% url 'account_login' %}">Login</a>
+                                <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link text-end" href="{% url 'account_signup' %}">Register</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product
+                                    List</a>
+                            </li>
+                            {% if request.user|has_group:'Farmers' %}
+                            <li class="dropdown-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create
+                                    Product</a>
                             </li>
                             {% endif %}
                         </ul>
-                    </li>
-
-                    <a class="nav-link fs-3" href="{% url 'cart' %}">
-                        <i class="fas fa-shopping-basket"></i>
-                        {% if total %}
-                        <small>
-                            €{{ total }}
-                        </small>
+                    </div>
+                </li>
+                <li class="ms-auto nav-item">
+                    <div class="dropdown">
+                        <button class="btn nav-link fs-3" type="button" id="searchDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false" data-bs-toggle="dropdown" aria-expanded="false"
+                            data-bs-reference="parent">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end position-absolute p-0"
+                            aria-labelledby="searchDropdown">
+                            <form class="search-dropdown-form p-2">
+                                <div class="input-group">
+                                    <input type="search" class="form-control search-input" placeholder="Search"
+                                        aria-label="Search" aria-describedby="search-button">
+                                    <button class="btn btn-outline-secondary" type="submit"
+                                        id="search-button">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn nav-link fs-3" type="button" id="accountDropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="accountDropdown">
+                        {% if request.user.is_authenticated %}
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'profile' request.user.id %}">Profile</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'profile-edit' %}">Edit Profile</a>
+                        </li>
+                        {% else %}
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'account_login' %}">Login</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'account_signup' %}">Register</a>
+                        </li>
                         {% endif %}
-                    </a>
-                </ul>
+                    </ul>
+                </li>
 
-
-            </div>
-        </nav>
-
-        {% if messages %}
-        <div class="message-container">
-            <ul>
-                {% for message in messages %}
-                <li>{{message}}</li>
-                {% endfor %}
+                <a class="nav-link fs-3" href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-basket"></i>
+                    {% if total %}
+                    <small>
+                        €{{ total }}
+                    </small>
+                    {% endif %}
+                </a>
             </ul>
+
+
         </div>
+    </nav>
+
+    {% if messages %}
+    <div class="message-container toast-container">
+        {% for message in messages %}
+        {% with message.level as level %}
+        {% if level == 40 %}
+        {% include 'includes/toasts/toast_error.html' %}
+        {% elif level == 30 %}
+        {% include 'includes/toasts/toast_warning.html' %}
+        {% elif level == 25 %}
+        {% include 'includes/toasts/toast_success.html' %}
+        {% else %}
+        {% include 'includes/toasts/toast_info.html' %}
         {% endif %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
-        {% block main_content %}
-        {% endblock %}
+    {% block main_content %}
+    {% endblock %}
 
-        {% block body_end_js %}
-        {% endblock %}
+    {% block body_end_js %}
+    {% endblock %}
+    <script type="text/javascript">
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl)
+        })
+        toastList.forEach((toast) => {
+            toast.show();
+        })
+    </script>
 </body>
 
 </html>

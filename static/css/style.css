@@ -16,6 +16,13 @@
     min-width: 12em;
 }
 
+.message-container {
+    position: fixed;
+    top: 100x;
+    right: 20px;
+    z-index: 99999999999;
+}
+
 .home-banner {
     background: url('/media/home-banner.jpg') no-repeat;
     background-size: contain;
