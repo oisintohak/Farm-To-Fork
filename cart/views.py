@@ -41,14 +41,15 @@ def update_cart(request):
     print(request.POST)
     for item in request.POST:
         if 'csrf' in item:
-            print(request.POST[item])
-        if 'item-delete' in item:
-            if request.POST[item] == '1':
-                id = item.replace('item-delete-', '')
-                cart.pop(id)
+            # ignore csrf token
+            pass
+        elif 'item-delete' in item and request.POST[item] == '1':
+            # if value of hidden input is 1, delete the item
+            id = item.replace('item-delete-', '')
+            cart.pop(id, None)
         else:
+            # update the cart item quantity from the form input
             cart[item] = int(request.POST[item])
-
+    messages.success(request, ('Cart updated.'))
     request.session['cart'] = cart
-
     return redirect(reverse('cart'))
