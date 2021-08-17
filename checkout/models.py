@@ -7,7 +7,7 @@ from profiles.models import UserProfile
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
-    user_profile = models.ForeignKey(UserProfile, null=False,
+    user_profile = models.ForeignKey(UserProfile, null=True,
                                      blank=False, on_delete=models.SET_NULL,
                                      related_name='orders')
     date = models.DateTimeField(auto_now_add=True)
@@ -65,5 +65,5 @@ class OrderLineItem(models.Model):
 
     def __str__(self):
         return ('Product variant id: '
-                f'{self.product.id}, on'
+                f'{self.product.id}, on '
                 f'order number: {self.order.order_number}')
