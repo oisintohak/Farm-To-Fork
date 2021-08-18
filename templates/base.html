@@ -130,10 +130,10 @@
                         </li>
                         {% else %}
                         <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_login' %}">Login</a>
+                            <a class="nav-link text-end" href="{% url 'account_login' %}?next={{ request.get_full_path|urlencode }}">Login</a>
                         </li>
                         <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_signup' %}">Register</a>
+                            <a class="nav-link text-end" href="{% url 'account_signup' %}?next={{ request.get_full_path|urlencode }}">Register</a>
                         </li>
                         {% endif %}
                     </ul>

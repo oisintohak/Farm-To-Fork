@@ -20,6 +20,14 @@ class ProfileView(LoginRequiredMixin, DetailView):
     context_object_name = 'user_profile'
     template_name = 'profiles/profile-detail.html'
 
+    def handle_no_permission(self):
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            'Please log in to view profiles.',
+        )
+        return super().handle_no_permission()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = get_object_or_404(
