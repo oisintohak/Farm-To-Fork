@@ -11,6 +11,7 @@ class UserProfileForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'phone_number',
             'bio',
             'image_url',
             'image',
