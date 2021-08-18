@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderLineItem
+from .models import Order, OrderLineItem, Address
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
@@ -13,8 +13,8 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('order_number', 'date',
                        'order_total', 'stripe_pid')
 
-    fields = ('order_number', 'user_profile', 'date',
-              'order_total')
+    fields = ('order_number', 'date',
+              'order_total', 'address')
 
     list_display = ('order_number', 'date',
                     'order_total')

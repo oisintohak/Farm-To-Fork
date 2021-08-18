@@ -42,6 +42,7 @@ class Order(models.Model):
         verbose_name='Email address',
         max_length=255,
         default=None,
+        null=True
     )
     first_name = models.CharField(
         verbose_name='First name',
