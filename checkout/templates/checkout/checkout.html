@@ -6,7 +6,8 @@
         <div class="col-auto">
             <form id="checkout-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ forms.order_form|crispy }}
+                {{ forms.address_form|crispy }}
                 <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
             </form>
         </div>
