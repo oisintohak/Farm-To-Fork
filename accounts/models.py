@@ -78,6 +78,7 @@ class UserModel(AbstractUser):
         choices=user_type_choices,
         null=True,
     )
+    
 
     objects = UserManager()
 

@@ -15,7 +15,7 @@ class ProductCreationAccessMixin(UserPassesTestMixin):
                 'Login to a farmer account to create products.',
             )
             return HttpResponseRedirect(reverse('account_login'))
-        if self.request.user.profile.location is None:
+        if self.request.user.profile.address.location is None:
             messages.add_message(
                 self.request,
                 messages.ERROR,
@@ -26,7 +26,7 @@ class ProductCreationAccessMixin(UserPassesTestMixin):
     def test_func(self):
         return (
             self.request.user.groups.filter(name='Farmers').exists() and
-            self.request.user.profile.location is not None
+            self.request.user.profile.address.location is not None
         )
 
 

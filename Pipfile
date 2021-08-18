@@ -16,6 +16,7 @@ dj-database-url = "*"
 gunicorn = "*"
 boto3 = "*"
 django-storages = "*"
+django-multi-form-view = "*"
 
 [dev-packages]
 

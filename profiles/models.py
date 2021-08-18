@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.gis.geos import Point
-from django.contrib.gis.db.models import PointField
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -8,13 +7,12 @@ from django.contrib import auth
 from django.contrib.auth.models import Group
 from django.urls import reverse
 
-
-from django_countries.fields import CountryField
+from checkout.models import Address
 
 
 class UserProfile(models.Model):
     """
-    A user profile model to store address information
+    A user profile model to store user information
     """
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -31,33 +29,19 @@ class UserProfile(models.Model):
         max_length=40,
         null=True,
     )
+    address = models.OneToOneField(
+        'checkout.Address',
+        on_delete=models.SET_NULL,
+        related_name='profile',
+        blank=True,
+        null=True,
+    )
     bio = models.TextField(max_length=3000, null=True, blank=True)
-    phone_number = models.CharField(max_length=20,
-                                    null=True, blank=True)
-    street_address1 = models.CharField(max_length=80,
-                                       null=True, blank=False)
-    street_address2 = models.CharField(max_length=80,
-                                       null=True, blank=False)
-    town_or_city = models.CharField(max_length=40,
-                                    null=True, blank=False)
-    county = models.CharField(max_length=80,
-                              null=True, blank=False)
-    postcode = models.CharField(max_length=20,
-                                null=True)
-    country = CountryField(blank_label='Country',
-                           null=True, blank=False)
-    latitude = models.DecimalField(
-        max_digits=30, decimal_places=20, blank=True, null=True
-    )
-    longitude = models.DecimalField(
-        max_digits=30, decimal_places=20, blank=True, null=True
-    )
-    location = PointField(blank=True, null=True)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('profile', kwargs={'id': self.user.id})
+        return reverse('profile', kwargs={'id': self.request.user.id})
 
     def __str__(self):
         return self.user.username
@@ -71,6 +55,9 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
     instance.profile.save()
+    if created:
+        Address.objects.create(profile=instance.profile)
+    instance.profile.address.save()
 
 
 @receiver(post_save, sender=auth.get_user_model())
@@ -80,7 +67,7 @@ def add_user_to_group(sender, instance, created, **kwargs):
         instance.groups.add(group)
 
 
-@receiver(pre_save, sender=UserProfile)
+@receiver(pre_save, sender=Address)
 def generate_location(sender, instance, **kwargs):
     if instance.latitude and instance.longitude:
         location = Point(

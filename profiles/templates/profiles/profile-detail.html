@@ -34,31 +34,31 @@
         {{ user_profile.phone_number }}
     </li>
     <li>
-        {{ user_profile.street_address1 }}
+        {{ user_profile.address.street_address1 }}
     </li>
     <li>
-        {{ user_profile.street_address2 }}
+        {{ user_profile.address.street_address2 }}
     </li>
     <li>
-        {{ user_profile.town_or_city }}
+        {{ user_profile.address.town_or_city }}
     </li>
     <li>
-        {{ user_profile.county }}
+        {{ user_profile.address.county }}
     </li>
     <li>
-        {{ user_profile.postcode }}
+        {{ user_profile.address.postcode }}
     </li>
     <li>
-        {{ user_profile.country }}
+        {{ user_profile.address.country }}
     </li>
     <li>
-        latitude: {{ user_profile.latitude }}
+        latitude: {{ user_profile.address.latitude }}
     </li>
     <li>
-        longitude: {{ user_profile.longitude }}
+        longitude: {{ user_profile.address.longitude }}
     </li>
     <li>
-        location: {{ user_profile.location }}
+        location: {{ user_profile.address.location }}
     </li>
 </ul>
 
@@ -76,7 +76,7 @@
         <small>
             created by: <a href="{% url 'profile' item.product.created_by.id %}">
                 {{ item.product.created_by.profile.first_name }}
-                {{item.product.created_by.profile.last_name }}
+                {{ item.product.created_by.profile.last_name }}
             </a>
 
         </small>

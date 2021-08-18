@@ -10,7 +10,8 @@
             <form id="profile-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST"
                 enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ forms.profile_form|crispy }}
+                {{ forms.address_form|crispy }}
                 <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
             </form>
         </div>

@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import UserProfile
+from checkout.models import Address
 
 
 class UserProfileForm(forms.ModelForm):
@@ -11,7 +12,16 @@ class UserProfileForm(forms.ModelForm):
             'first_name',
             'last_name',
             'bio',
-            'phone_number',
+            'image_url',
+            'image',
+        ]
+
+
+class AddressForm(forms.ModelForm):
+
+    class Meta:
+        model = Address
+        fields = [
             'street_address1',
             'street_address2',
             'town_or_city',
@@ -20,8 +30,6 @@ class UserProfileForm(forms.ModelForm):
             'country',
             'latitude',
             'longitude',
-            'image_url',
-            'image',
         ]
         widgets = {
             'latitude': forms.HiddenInput(),

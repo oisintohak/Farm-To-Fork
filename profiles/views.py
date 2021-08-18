@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import Point
@@ -9,10 +10,13 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
+from extra_views.advanced import InlineFormSetFactory, UpdateWithInlinesView
 from accounts.models import UserModel
 from .models import UserProfile
-from .forms import UserProfileForm
+from checkout.models import Address
+from .forms import UserProfileForm, AddressForm
 from products.models import Product, ProductVariant
+from multi_form_view import MultiModelFormView
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
@@ -51,9 +55,29 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return user.profile
 
 
-class ProfileEditView(LoginRequiredMixin, UpdateView):
-    form_class = UserProfileForm
+class ProfileEditView(LoginRequiredMixin, MultiModelFormView):
+    form_classes = {
+        'profile_form': UserProfileForm,
+        'address_form': AddressForm,
+    }
     template_name = 'profiles/profile-edit.html'
+    raise_exception = True
+
+    def get_objects(self):
+        profile = get_object_or_404(UserProfile, user=self.request.user)
+        return {
+            'profile_form': profile,
+            'address_form': profile.address,
+        }
+
+    def get_success_url(self):
+        return UserProfile.get_absolute_url(self)
+
+    def forms_valid(self, all_forms):
+        profile = all_forms['profile_form'].save(commit=False)
+        profile.address = all_forms['address_form'].save()
+        profile.save()
+        return super().forms_valid(all_forms)
 
     def handle_no_permission(self):
         messages.add_message(
@@ -63,10 +87,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         )
         return super().handle_no_permission()
 
-    def get_object(self):
-        user = self.request.user
-        return user.profile
-
 
 longitude = -80.191788
 latitude = 25.761681
@@ -74,15 +94,15 @@ latitude = 25.761681
 user_location = Point(longitude, latitude, srid=4326)
 
 
-class FarmerList(ListView):
-    model = UserProfile
-    context_object_name = 'farmers'
-    queryset = UserProfile.objects.filter(
-        user__groups__name='Farmers'
-    ).annotate(
-        distance=Distance('location', user_location)
-    ).order_by('distance')
-    template_name = 'profiles/farmer-list.html'
+# class FarmerList(ListView):
+#     model = UserProfile
+#     context_object_name = 'farmers'
+#     queryset = UserProfile.objects.filter(
+#         user__groups__name='Farmers'
+#     ).annotate(
+#         distance=Distance('location', user_location)
+#     ).order_by('distance')
+#     template_name = 'profiles/farmer-list.html'
 
 
 class FarmerMapView(TemplateView):

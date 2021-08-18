@@ -22,7 +22,7 @@ class CheckoutAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
             return redirect('%s?next=%s' % ('/accounts/login',
                                             self.request.get_full_path()))
             # return HttpResponseRedirect(reverse('account_login'))
-        if self.request.user.profile.location is None:
+        if self.request.user.profile.address.location is None:
             messages.add_message(
                 self.request,
                 messages.ERROR,
@@ -35,4 +35,4 @@ class CheckoutAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
                                             self.request.get_full_path()))
 
     def test_func(self):
-        return self.request.user.profile.location is not None
+        return self.request.user.profile.address.location is not None

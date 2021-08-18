@@ -2,12 +2,43 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from products.models import ProductVariant
-from profiles.models import UserProfile
+from django.contrib.gis.db.models import PointField
+
+from django_countries.fields import CountryField
+
+
+class Address(models.Model):
+    street_address1 = models.CharField(max_length=80,
+                                       null=True, blank=False)
+    street_address2 = models.CharField(max_length=80,
+                                       null=True, blank=False)
+    town_or_city = models.CharField(max_length=40,
+                                    null=True, blank=False)
+    county = models.CharField(max_length=80,
+                              null=True, blank=False)
+    postcode = models.CharField(max_length=20,
+                                null=True)
+    country = CountryField(blank_label='Country',
+                           null=True, blank=False)
+    latitude = models.DecimalField(
+        max_digits=30, decimal_places=20, blank=True, null=True
+    )
+    longitude = models.DecimalField(
+        max_digits=30, decimal_places=20, blank=True, null=True
+    )
+    location = PointField(blank=True, null=True)
 
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
-    user_profile = models.ForeignKey(UserProfile, null=True,
+    address = models.OneToOneField(
+        Address,
+        on_delete=models.SET_NULL,
+        related_name='order',
+        blank=True,
+        null=True,
+    )
+    user_profile = models.ForeignKey('profiles.UserProfile', null=True,
                                      blank=False, on_delete=models.SET_NULL,
                                      related_name='orders')
     date = models.DateTimeField(auto_now_add=True)
