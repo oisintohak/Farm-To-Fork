@@ -110,7 +110,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'postgres',
+            'NAME': 'postgresql',
             'USER': 'geodjango',
             'PASSWORD': '1234',
         },

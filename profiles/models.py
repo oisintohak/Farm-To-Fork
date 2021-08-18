@@ -29,6 +29,7 @@ class UserProfile(models.Model):
         max_length=40,
         null=True,
     )
+    phone_number = models.CharField(max_length=20, null=True, blank=False, default=None)
     address = models.OneToOneField(
         'checkout.Address',
         on_delete=models.SET_NULL,

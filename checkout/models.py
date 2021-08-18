@@ -38,9 +38,26 @@ class Order(models.Model):
         blank=True,
         null=True,
     )
-    user_profile = models.ForeignKey('profiles.UserProfile', null=True,
-                                     blank=False, on_delete=models.SET_NULL,
-                                     related_name='orders')
+    email = models.EmailField(
+        verbose_name='Email address',
+        max_length=255,
+        default=None,
+    )
+    first_name = models.CharField(
+        verbose_name='First name',
+        max_length=40,
+        null=True,
+    )
+    last_name = models.CharField(
+        verbose_name='Last name',
+        max_length=40,
+        null=True,
+    )
+    phone_number = models.CharField(max_length=20, null=False,
+                                    blank=False, default=None)
+    user = models.ForeignKey('accounts.UserModel', null=True,
+                             blank=False, on_delete=models.SET_NULL,
+                             related_name='orders')
     date = models.DateTimeField(auto_now_add=True)
     order_total = models.DecimalField(max_digits=10, decimal_places=2,
                                       null=False, default=0)
