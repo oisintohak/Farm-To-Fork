@@ -4,19 +4,16 @@ from .models import ProductVariant, Product
 # Register your models here.
 
 
+class ProductVariantAdminInline(admin.TabularInline):
+    model = ProductVariant
+
+
 class ProductAdmin(admin.ModelAdmin):
+    inlines = (ProductVariantAdminInline,)
     fields = (
         'name', 'description', 'image_url', 'image', 'created_by',
     )
     readonly_fields = ['id']
 
 
-class ProductVariantAdmin(admin.ModelAdmin):
-    fields = (
-        'product', 'price', 'size', 'unit',
-    )
-    readonly_fields = ['id']
-
-
-admin.site.register(ProductVariant, ProductVariantAdmin)
 admin.site.register(Product, ProductAdmin)
