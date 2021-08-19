@@ -12,7 +12,7 @@
                 {% csrf_token %}
                 {{ forms.profile_form|crispy }}
                 {{ forms.address_form|crispy }}
-                <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
+                <input id="submit-form" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
             </form>
         </div>
     </div>

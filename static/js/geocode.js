@@ -10,7 +10,7 @@ function init() {
 function geocodeAddress(geocoder) {
   let submitButton = document.getElementById('submit-form');
   submitButton.disabled = true;
-  submitButton.textContent = 'Checking Address...';
+  submitButton.value = 'Checking Address...';
 
   let inputs = Array.from(
     document.querySelectorAll('input[type=text], select')

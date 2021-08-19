@@ -1,25 +1,20 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import FormView
-from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from django.forms.models import model_to_dict
-
 from .forms import OrderForm
-from .mixins import CheckoutAccessMixin
 from multi_form_view import MultiModelFormView
 from profiles.forms import AddressForm
 from profiles.models import UserProfile
 
 
-class Checkout(CheckoutAccessMixin,
-               LoginRequiredMixin,
-               MultiModelFormView):
+class Checkout(MultiModelFormView):
+    """
+    A view to display the checkout form, with order and address forms
+    populated with profile data if a user is logged in
+    """
     form_classes = {
         'order_form': OrderForm,
         'address_form': AddressForm,
     }
     template_name = 'checkout/checkout.html'
-    raise_exception = True
 
     def get_initial(self):
         initial = super().get_initial()
