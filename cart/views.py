@@ -8,6 +8,12 @@ class Cart(TemplateView):
     """ View to display the cart """
     template_name = "cart/cart.html"
 
+    def get(self, request, *args, **kwargs):
+        print('cart view')
+        cart = request.session.get('cart')
+        print(cart)
+        return super().get(request, *args, **kwargs)
+
 
 def add_to_cart(request):
     """ Add a quantity of the specified product to the shopping cart """

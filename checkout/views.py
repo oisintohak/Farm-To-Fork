@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404
-from .forms import OrderForm
 from multi_form_view import MultiModelFormView
 from profiles.forms import AddressForm
 from profiles.models import UserProfile
+from .forms import OrderForm
+from .mixins import EmptyCartMixin
 
 
-class Checkout(MultiModelFormView):
+class Checkout(EmptyCartMixin, MultiModelFormView):
     """
     A view to display the checkout form, with order and address forms
     populated with profile data if a user is logged in
