@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% load static %}
+{% load crispy_forms_tags %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/stripe.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+{% endblock %}
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-auto">
+            <form id="payment-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
+                {% csrf_token %}
+                <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+                <input id="submit-form" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Pay Now" />
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block body_end_js %}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+{% endblock %}

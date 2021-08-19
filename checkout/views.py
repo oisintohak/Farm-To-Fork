@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.views.generic.base import TemplateView
 from multi_form_view import MultiModelFormView
 from profiles.forms import AddressForm
 from profiles.models import UserProfile
@@ -39,3 +40,14 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order.address = all_forms['address_form'].save()
         order.save()
         return super().forms_valid(all_forms)
+
+    def get_success_url(self):
+        return 'payment'
+
+
+class Payment(TemplateView):
+    """
+    Display the stripe payment form and show the delivery
+    or collection details for each product.
+    """
+    template_name = 'checkout/payment.html'
