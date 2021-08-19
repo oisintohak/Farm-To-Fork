@@ -1,17 +1,45 @@
 {% extends "base.html" %} {% load static %}
 {% load crispy_forms_tags %}
+{% block extra_js %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+{% endblock %}
 {% block main_content %}
 <div class="container">
     <div class="row">
         <div class="col-auto">
-            <form id="checkout-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
+            <form id="geocode-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
                 {% csrf_token %}
                 {{ forms.order_form|crispy }}
                 {{ forms.address_form|crispy }}
-                <input class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
+                <input id="submit-form" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="submit-modal" tabindex="-1" aria-labelledby="submit-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submit-modal-label">Check your address.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                We Couldn't find coordinates for that address, please enter an accurate street address.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block body_end_js %}
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
+    async>
+</script>
+<script src="{% static 'js/geocode.js' %}"></script>
 {% endblock %}

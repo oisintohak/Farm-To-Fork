@@ -1,6 +1,6 @@
 function init() {
   const geocoder = new google.maps.Geocoder();
-  document.getElementById('profile-form').addEventListener('submit', (e) => {
+  document.getElementById('geocode-form').addEventListener('submit', (e) => {
     e.preventDefault();
     geocodeAddress(geocoder);
   });
@@ -11,20 +11,19 @@ function geocodeAddress(geocoder) {
   let submitButton = document.getElementById('submit-form');
   submitButton.disabled = true;
   submitButton.value = 'Checking Address...';
-
-  let inputs = Array.from(
-    document.querySelectorAll('input[type=text], select')
-  );
-  let address;
-  for (let item of inputs) {
-    if (
-      item.id !== 'id_first_name' &&
-      item.id !== 'id_last_name' &&
-      item.id !== 'id_phone_number'
-    ) {
-      address += `${item.value}, `;
-    }
+  let address = '';
+  const addressInputIDs = [
+    'id_street_address1',
+    'id_street_address2',
+    'id_town_or_city',
+    'id_county',
+    'id_postcode',
+    'id_country'
+  ]
+  for (let id of addressInputIDs) {
+    address += `${document.getElementById(id).value}, `;
   }
+  console.log(address)
   geocoder
     .geocode({ address: address })
     .then(({ results }) => {
@@ -32,7 +31,7 @@ function geocodeAddress(geocoder) {
         results[0].geometry.location.lat();
       document.querySelector('#id_longitude').value =
         results[0].geometry.location.lng();
-      document.getElementById('profile-form').submit();
+      document.getElementById('geocode-form').submit();
     })
     .catch(() => {
       let submitModal = new bootstrap.Modal(
@@ -40,6 +39,6 @@ function geocodeAddress(geocoder) {
       );
       submitModal.show();
       submitButton.disabled = false;
-      submitButton.textContent = 'Submit';
+      submitButton.value = 'Save';
     });
 }

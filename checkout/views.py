@@ -34,7 +34,7 @@ class Checkout(MultiModelFormView):
             return super().get_objects(self)
 
     def forms_valid(self, all_forms):
-        order = all_forms['profile_form'].save(commit=False)
+        order = all_forms['order_form'].save(commit=False)
         order.address = all_forms['address_form'].save()
         order.save()
         return super().forms_valid(all_forms)
