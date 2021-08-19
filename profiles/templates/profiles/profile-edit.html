@@ -30,17 +30,19 @@
                 We Couldn't find coordinates for that address, please enter an accurate street address.
             </div>
             <div class="modal-footer">
-                <button id="submit-form" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
-    async>
-    </script>
-<script src="{% static 'js/geocode.js' %}"></script>
-
 {% endblock %}
+{% block body_end_js %}
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
+    async>
+</script>
+<script src="{% static 'js/geocode.js' %}"></script>
+{% endblock %}
+
+

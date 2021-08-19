@@ -40,7 +40,6 @@
 </head>
 
 <body>
-    <!-- <div class="page-container mh-100vh d-flex flex-column justify-content-between"> -->
     <nav id="main-nav" class="navbar navbar-expand navbar-light bg-light">
         <div class="container-fluid">
             <ul class="navbar-nav w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
@@ -130,23 +129,26 @@
                         </li>
                         {% else %}
                         <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_login' %}?next={{ request.get_full_path|urlencode }}">Login</a>
+                            <a class="nav-link text-end"
+                                href="{% url 'account_login' %}?next={{ request.get_full_path|urlencode }}">Login</a>
                         </li>
                         <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_signup' %}?next={{ request.get_full_path|urlencode }}">Register</a>
+                            <a class="nav-link text-end"
+                                href="{% url 'account_signup' %}?next={{ request.get_full_path|urlencode }}">Register</a>
                         </li>
                         {% endif %}
                     </ul>
                 </li>
-
-                <a class="nav-link fs-3" href="{% url 'cart' %}">
-                    <i class="fas fa-shopping-basket"></i>
-                    {% if total %}
-                    <small>
-                        €{{ total }}
-                    </small>
-                    {% endif %}
-                </a>
+                <li class="nav-item">
+                    <a class="nav-link fs-3" href="{% url 'cart' %}">
+                        <i class="fas fa-shopping-basket"></i>
+                        {% if total %}
+                        <small>
+                            €{{ total }}
+                        </small>
+                        {% endif %}
+                    </a>
+                </li>
             </ul>
 
 
@@ -174,8 +176,6 @@
     {% block main_content %}
     {% endblock %}
 
-    {% block body_end_js %}
-    {% endblock %}
     <script type="text/javascript">
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var toastList = toastElList.map(function (toastEl) {
@@ -185,6 +185,8 @@
             toast.show();
         })
     </script>
+    {% block body_end_js %}
+    {% endblock %}
 </body>
 
 </html>
