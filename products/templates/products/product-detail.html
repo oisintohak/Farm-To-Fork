@@ -45,7 +45,7 @@
                 <div class="mb-3">
                     <label for="quantity-input">Quantity:</label>
                     <input id="quantity-input" class="form-control form-control-sm" type="number" min="1" max="99"
-                        name="quantity" value=1>
+                        name="quantity" value=1 required>
                 </div>
                 <input type="hidden" name="redirect_url" value="{{ request.path }}">
                 <input type="submit" class="btn btn-primary" value="Add to Cart">

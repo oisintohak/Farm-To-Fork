@@ -51,6 +51,8 @@ def update_cart(request):
         else:
             # update the cart item quantity from the form input
             cart[item] = int(request.POST[item])
+            if int(request.POST[item]) < 1:
+                cart.pop(item, None)
     messages.success(request, ('Cart updated.'))
     request.session['cart'] = cart
     return redirect(reverse('cart'))
