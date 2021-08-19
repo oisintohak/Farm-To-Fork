@@ -1,52 +1,57 @@
 {% extends "base.html" %} {% load static %} {% block main_content %}
-<h1>
-    {{ product }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>
+                {{ product }}
+            </h1>
+            <h1>
+                {{ product.name }}
+            </h1>
+            <h5>
+                {{ product.description }}
+            </h5>
+            <h5>
+                Product Image:
+            </h5>
+            <p>
+                {% if product.image %}
+                <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% elif product.image_url %}
+                <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% else %}
+            <p>no image</p>
+            {% endif %}
+            </p>
+            <a class="nav-link active" aria-current="page" href="{% url 'product-edit' product.id %}">Edit</a>
+        </div>
 
-</h1>
-<h1>
-    {{ product.name }}
+    </div>
+    <div class="row">
+        <div class="col-auto">
+            <form class="form" action="{% url 'add-to-cart' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="variant-select">Select a size:</label>
+                    <select name="product_id" id="variant-select" size="{{ variants|length }}" class="form-select"
+                        aria-label="Product Variant Select" required>
+                        {% for variant in variants %}
+                        <option value="{{ variant.id }}">
+                            {{ variant }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="quantity-input">Quantity:</label>
+                    <input id="quantity-input" class="form-control form-control-sm" type="number" min="1" max="99"
+                        name="quantity" value=1>
+                </div>
+                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                <input type="submit" class="btn btn-primary" value="Add to Cart">
+            </form>
+        </div>
+    </div>
+</div>
 
-</h1>
-
-<h5>
-    {{ product.description }}
-</h5>
-<h5>
-    Product Image:
-</h5>
-<p>
-    {% if product.image %}
-    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
-    {% elif product.image_url %}
-    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
-    {% else %}
-    <p>no image</p>    
-    {% endif %}
-</p>
-<a class="nav-link active" aria-current="page" href="{% url 'product-edit' product.id %}">Edit</a>
-
-    
-        <form class="form" action="{% url 'add-to-cart' %}" method="POST">
-            {% csrf_token %}
-            <label for="variant-select"></label>
-            <select name="product_id" id="variant-select" size="{{ variants|length }}" class="form-select" aria-label="Product Variant Select">
-                {% for variant in variants %}
-                <option value="{{ variant.id }}">
-                    {{ variant }}
-                </option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="redirect_url" value="{{ request.path }}">
-            <input type="hidden" name="quantity" value=1>
-            <input type="submit" class="btn btn-primary" value="Add to Cart">
-            
-        </form>
-        
-        <ul>
-            {% for variant in variants %}
-            <li>
-                {{ variant }}, ID:{{ variant.id }}
-            </li>
-            {% endfor %}            
-        </ul>
 {% endblock %}
