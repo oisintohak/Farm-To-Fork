@@ -51,3 +51,8 @@ class Payment(TemplateView):
     or collection details for each product.
     """
     template_name = 'checkout/payment.html'
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['stripe_public_key'] = 'pk_test_51J3J6ySIpQvL8FY5NrCC7Q9uvtWDtDpk2nrHChj7GVEcHFhr8j06nGmJJDczRb0o2TfeaSrIevreQnfOoME2vHP300UTtFfeV9'
+        
