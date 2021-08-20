@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '%6!-b3w*8$wbyw8_@wsb0xy6+&vc5c_knjcz2r62(%op$__@=0')
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', '%6!-b3w*8$wbyw8_@wsb0xy6+&vc5c_knjcz2r62(%op$__@=0')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -234,8 +235,15 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # use this if setting up on Windows 10 with GDAL installed from OSGeo4W using defaults
 if os.name == 'nt':
     VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
-    os.environ['PATH'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
-    os.environ['PROJ_LIB'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
+    os.environ['PATH'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
+    os.environ['PROJ_LIB'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
 
 
 DEFAULT_DELIVERY_RADIUS = 10
+
+
+STRIPE_CURRENCY = 'eur'
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'default')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'default')

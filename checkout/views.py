@@ -1,10 +1,14 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
+from django.conf import settings
 from multi_form_view import MultiModelFormView
 from profiles.forms import AddressForm
 from profiles.models import UserProfile
 from .forms import OrderForm
 from .mixins import EmptyCartMixin
+from cart.contexts import cart_contents
+
+import stripe
 
 
 class Checkout(EmptyCartMixin, MultiModelFormView):
@@ -45,14 +49,24 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         return 'payment'
 
 
-class Payment(TemplateView):
+class Payment(EmptyCartMixin, TemplateView):
     """
     Display the stripe payment form and show the delivery
     or collection details for each product.
     """
     template_name = 'checkout/payment.html'
-    
+
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['stripe_public_key'] = 'pk_test_51J3J6ySIpQvL8FY5NrCC7Q9uvtWDtDpk2nrHChj7GVEcHFhr8j06nGmJJDczRb0o2TfeaSrIevreQnfOoME2vHP300UTtFfeV9'
-        
+        context = super().get_context_data(**kwargs)
+        current_cart = cart_contents(self.request)
+        context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
+        context['stripe_secret_key'] = settings.STRIPE_SECRET_KEY
+
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        intent = stripe.PaymentIntent.create(
+            amount=int(round(current_cart['total']*100)),
+            currency=settings.STRIPE_CURRENCY,
+        )
+        context['client_secret'] = intent.client_secret
+        # print(intent)
+        return context

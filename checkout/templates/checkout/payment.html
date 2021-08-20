@@ -8,7 +8,7 @@
 {% endblock %}
 {% block main_content %}
 <div class="container">
-    <div class="row justify-content-center pt-3">
+    <div class="row justify-content-center pt-3'">
         <div class="col-12 col-md-8 col-lg-5">
             <form id="payment-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
                 {% csrf_token %}
@@ -20,6 +20,10 @@
                 <!-- Pass the client secret to the view so we can get the payment intent id -->
                 <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 <input id="pay-button" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Pay Now" />
+                <h2>client secret: <small>{{ client_secret }}</small></h2>
+                <h2>stripe_public_key: <small>{{ stripe_public_key }}</small></h2>
+                <h2>stripe_secret_key: <small>{{ stripe_secret_key }}</small></h2>
+        
             </form>
         </div>
     </div>

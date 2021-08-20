@@ -17,6 +17,7 @@ gunicorn = "*"
 boto3 = "*"
 django-storages = "*"
 django-multi-form-view = "*"
+stripe = "*"
 
 [dev-packages]
 
