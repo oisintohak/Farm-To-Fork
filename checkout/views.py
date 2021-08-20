@@ -1,4 +1,6 @@
-from django.shortcuts import get_object_or_404
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from multi_form_view import MultiModelFormView
@@ -37,13 +39,13 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
             }
             return initial_data
         else:
-            return super().get_objects(self)
+            return super().get_objects()
 
     def forms_valid(self, all_forms):
         order = all_forms['order_form'].save(commit=False)
         order.address = all_forms['address_form'].save()
         order.save()
-        return super().forms_valid(all_forms)
+        return redirect(reverse('payment', order))
 
     def get_success_url(self):
         return 'payment'

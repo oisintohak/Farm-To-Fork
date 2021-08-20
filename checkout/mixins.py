@@ -1,12 +1,10 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import request
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib import messages
 
 
-class EmptyCartMixin(LoginRequiredMixin, UserPassesTestMixin):
+class EmptyCartMixin(UserPassesTestMixin):
     """
     Mixin to redirect user to product list
     if there are no products in shopping cart.
