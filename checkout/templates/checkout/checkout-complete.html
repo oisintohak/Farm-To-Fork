@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load static %}
+{% load crispy_forms_tags %}
+{% block extra_css %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block main_content %}
+<div class="container">
+    <div class="row justify-content-center pt-3'">
+        <div class="col-12 col-md-8 col-lg-5">
+            <h5>Order</h5>
+            {{ order.email }}
+            {{ order.first_name }}
+            {{ order.last_name }}
+            {{ order.phone_number }}
+            <h5>Address</h5>
+            {{ order.address.street_address1 }}
+            {{ order.address.street_address2 }}
+            {{ order.address.town_or_city }}
+            {{ order.address.county }}
+            {{ order.address.postcode }}
+            {{ order.address.country }}
+            {{ order.address.latitude }}
+            {{ order.address.longitude }}
+            {{ order.address.location }}
+            <h5>Items</h5>
+            <ul>
+                {% for item in order_line_items %}
+                <li>
+                    {{ item }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block body_end_js %}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+{% endblock %}

@@ -101,4 +101,19 @@ class Payment(EmptyCartMixin, TemplateView):
         pid = request.POST.get('client_secret').split('_secret')[0]
         order.stripe_pid = pid
         order.save()
-        return redirect(reverse('home'))
+        return redirect(
+            reverse('checkout-complete', kwargs={'order_number': order.order_number}))
+
+
+class CheckoutComplete(TemplateView):
+    template_name = 'checkout/checkout-complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        context['order_line_items'] = OrderLineItem.objects.filter(order=order)
+        context['order'] = order
+        if 'cart' in self.request.session:
+            del self.request.session['cart']
+        return context
