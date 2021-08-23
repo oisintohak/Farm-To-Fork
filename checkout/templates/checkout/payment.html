@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row justify-content-center pt-3'">
         <div class="col-12 col-md-8 col-lg-5">
-            <form id="payment-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
+            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
                 {% csrf_token %}
                 <!--Stripe.js injects the Card Element-->
                 <div id="card-element">
@@ -19,7 +19,7 @@
                 <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                 <!-- Pass the client secret to the view so we can get the payment intent id -->
                 <input type="hidden" value="{{ client_secret }}" name="client_secret">
-                <input id="pay-button" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Pay Now" />
+                <input id="submit-button" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Pay Now" />
             </form>
         </div>
     </div>
@@ -38,6 +38,11 @@
         {{ order.address.latitude }}
         {{ order.address.longitude }}
         {{ order.address.location }}
+        <h5>Order</h5>
+        <h6>{{ order.lineitems }}</h6>
+        <ul>
+        </ul>
+
         <h5>Cart</h5>
         {{ current_cart }}
         <ul>
