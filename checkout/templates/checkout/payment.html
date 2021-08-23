@@ -20,26 +20,41 @@
                 <!-- Pass the client secret to the view so we can get the payment intent id -->
                 <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 <input id="pay-button" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Pay Now" />
-                <h2>client secret: <small>{{ client_secret }}</small></h2>
-                <h2>stripe_public_key: <small>{{ stripe_public_key }}</small></h2>
-                <h2>stripe_secret_key: <small>{{ stripe_secret_key }}</small></h2>
-                <p>{{ order }}</p>
-                {{ order.address.street_address1 }}
-                {{ order.address.street_address2 }}
-                {{ order.address.town_or_city }}
-                {{ order.address.county }}
-                {{ order.address.postcode }}
-                {{ order.address.country }}
-                {{ order.address.latitude }}
-                {{ order.address.longitude }}
-                {{ order.address.location }}
-                {% for item in order.address.values %}
-                <p>{{ item }}</p>
-                {% endfor %}
-        
             </form>
         </div>
     </div>
+    <div class="row">
+        <h2>client secret: <small>{{ client_secret }}</small></h2>
+        <h2>stripe_public_key: <small>{{ stripe_public_key }}</small></h2>
+        <h2>stripe_secret_key: <small>{{ stripe_secret_key }}</small></h2>
+        <p>{{ order }}</p>
+        <h5>Address</h5>
+        {{ order.address.street_address1 }}
+        {{ order.address.street_address2 }}
+        {{ order.address.town_or_city }}
+        {{ order.address.county }}
+        {{ order.address.postcode }}
+        {{ order.address.country }}
+        {{ order.address.latitude }}
+        {{ order.address.longitude }}
+        {{ order.address.location }}
+        <h5>Cart</h5>
+        {{ current_cart }}
+        <ul>
+            {% for item in current_cart.cart_items %}
+            <li>
+                {{ item }}
+            </li>
+            <li>
+                {{ item.distance }}
+                {{ item.location }}
+            </li>
+            {% endfor %}
+        </ul>
+            
+
+    </div>
+
 </div>
 
 {% endblock %}
