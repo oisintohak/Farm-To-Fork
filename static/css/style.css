@@ -1,3 +1,62 @@
+/* ***** COLORS ***** */
+:root {
+    --dark-green: #97b498;
+    --light-green: #fbfffc;
+    --primary-green: #c8e6c9;
+    --primary-brown: #ffa726;
+    --light-brown: #ffd95b;
+    --dark-brown: #c77800;
+    --main-text: #3C4E3D;
+}
+
+.text-main {
+    color: var(--main-text);
+}
+
+.text-d-green {
+    color: var(--dark-green);
+}
+
+.bg-d-green {
+    background-color: var(--dark-green);
+}
+
+.border-d-green {
+    border-color: var(--dark-green);
+}
+
+.bg-l-green {
+    background-color: var(--light-green);
+}
+
+.bg-p-green {
+    background-color: var(--primary-green);
+}
+
+.text-p-brown {
+    color: var(--primary-brown);
+}
+
+.bg-p-brown {
+    background-color: var(--primary-brown);
+}
+
+.text-l-brown {
+    color: var(--light-brown);
+}
+
+.bg-l-brown {
+    background-color: var(--light-brown);
+}
+
+.text-d-brown {
+    color: var(--dark-brown);
+}
+
+.bg-d-brown {
+    background-color: var(--dark-brown);
+}
+
 *{
     padding: 0;
     margin: 0;
