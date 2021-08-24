@@ -1,4 +1,5 @@
 /* ***** COLORS ***** */
+
 :root {
     --dark-green: #97b498;
     --light-green: #fbfffc;
@@ -6,58 +7,96 @@
     --primary-brown: #ffa726;
     --light-brown: #ffd95b;
     --dark-brown: #c77800;
-    --main-text: #3C4E3D;
+    --primary-dark: #3C4E3D;
 }
 
-.text-main {
-    color: var(--main-text);
+.text-primary-dark {
+    color: var(--primary-dark) !important;
+}
+
+.bg-primary-dark {
+    background-color: var(--primary-dark) !important;
 }
 
 .text-d-green {
-    color: var(--dark-green);
+    color: var(--dark-green) !important;
 }
 
 .bg-d-green {
-    background-color: var(--dark-green);
+    background-color: var(--dark-green) !important;
 }
 
 .border-d-green {
-    border-color: var(--dark-green);
+    border-color: var(--dark-green) !important;
+}
+
+.text-l-green {
+    color: var(--light-green) !important;
 }
 
 .bg-l-green {
-    background-color: var(--light-green);
+    background-color: var(--light-green) !important;
 }
 
 .bg-p-green {
-    background-color: var(--primary-green);
+    background-color: var(--primary-green) !important;
 }
 
 .text-p-brown {
-    color: var(--primary-brown);
+    color: var(--primary-brown) !important;
 }
 
 .bg-p-brown {
-    background-color: var(--primary-brown);
+    background-color: var(--primary-brown) !important;
 }
 
 .text-l-brown {
-    color: var(--light-brown);
+    color: var(--light-brown) !important;
 }
 
 .bg-l-brown {
-    background-color: var(--light-brown);
+    background-color: var(--light-brown) !important;
 }
 
 .text-d-brown {
-    color: var(--dark-brown);
+    color: var(--dark-brown) !important;
 }
 
 .bg-d-brown {
-    background-color: var(--dark-brown);
+    background-color: var(--dark-brown) !important;
 }
 
-*{
+body {
+    background-color: var(--light-green) !important;
+}
+
+* {
+    color: var(--primary-dark) !important;
+}
+
+/* override bootstrap button box-shadow */
+
+.btn-check:focus+.btn, .btn:focus {
+    box-shadow: 0 0 0 .25rem #97b498bb;
+}
+
+.dropdown-menu {
+    background-color: var(--primary-green) !important;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: var(--light-green) !important;
+}
+
+.form-control:focus {
+    color: var(--primary-dark);
+    background-color: var(--light-green);
+    border-color: var(--dark-green);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem #97b498bb;
+}
+
+* {
     padding: 0;
     margin: 0;
 }
@@ -71,6 +110,7 @@
 }
 
 /* NAVBAR */
+
 .search-dropdown-form {
     min-width: 12em;
 }
@@ -83,7 +123,7 @@
 }
 
 .home-banner {
-    background: url('/media/home-banner.jpg') no-repeat;
+    /* background: url('/media/home-banner.jpg') no-repeat; */
     background-size: contain;
     min-height: 100vh;
     width: 100%;
