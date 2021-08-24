@@ -1,17 +1,17 @@
 {% extends "base.html" %} {% load static %} {% block main_content %}
-<div class="container justify-content-center pt-6">
+<div class="container justify-content-center">
     {% if cart_items %}
-    <div class="row justify-content-center">
-        <h5 class="text-center">Cart</h5>
+    <div class="row justify-content-center py-3">
+        <h3 class="text-center">Cart</h3>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-4">
+    <div class="row justify-content-start">
+        <div class="col-3">
             <h6 class="text-center">Name</h6>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <h6 class="text-center">Price</h6>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <h6 class="text-center">Quantity</h6>
         </div>
     </div>
@@ -20,12 +20,12 @@
         {% csrf_token %}
         {% for item in cart_items %}
         <div class="row item-row">
-            <div class="col-4 text-center">
+            <div class="col-3 text-center">
                 <small class="text-center">
                     {{ item.product.product }}
                 </small>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-3 text-center">
                 <small class="text-center">
                     €{{ item.product.price }}
                 </small>
@@ -36,34 +36,32 @@
                 <input type="hidden" value="" id="item-delete-{{ item.product.id }}"
                     name="item-delete-{{ item.product.id }}" data-product-id="{{ item.product.id }}">
             </div>
-            <div class="col-1 text-center">
+            <div class="col-3 text-end">
                 <button type="button" data-product-id="{{ item.product.id }}"
-                    class="btn btn-sm text-red delete-item-button">
-                    <i class="fas fa-times-circle"></i>
+                    class="btn btn-sm delete-item-button">
+                    <i class="fas fa-times-circle text-red"></i>
                 </button>
             </div>
         </div>
         <hr>
         {% endfor %}
         <div class="row justify-content-end">
-            <div class="col-4 text-center">
-                <small>
+            <div class="col text-end">
                     <strong>
-                        Total: {{ total }}
+                        Total: €{{ total }}
                     </strong>
-                </small>
             </div>
         </div>
-        <div class="row justify-content-end">
-            <div class="col-4 text-center">
-                <button class="btn btn-success">Update Cart</button>
+        <div class="row justify-content-end mt-2">
+            <div class="col-auto text-end">
+                <button class="btn cta-button-secondary">Update Cart</button>
             </div>
         </div>
     </form>
 
-    <div class="row justify-content-end">
-        <div class="col-4 text-center">
-            <a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+    <div class="row justify-content-end py-3">
+        <div class="col-auto text-end">
+            <a class="btn cta-button" href="{% url 'checkout' %}">Checkout</a>
         </div>
     </div>
 

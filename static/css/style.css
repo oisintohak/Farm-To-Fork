@@ -15,6 +15,10 @@
     color: var(--primary-dark) !important;
 }
 
+.text-red {
+    color: #ff1744 !important;
+}
+
 .bg-primary-dark {
     background-color: var(--primary-dark) !important;
 }
@@ -185,3 +189,6 @@ body {
     /* object-fit: contain; */
     width: 100%;    
 }
+
+/* ***** SHOPPING CART ***** */
+

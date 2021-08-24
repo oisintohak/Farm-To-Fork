@@ -5,14 +5,14 @@
 {% endblock %}
 {% block main_content %}
 <div class="container">
-    <div class="row">
-        <h5>Enter your address to see delivery/collection information for these products</h5>
+    <div class="row justify-content-center py-3">
+        <h5 class="text-center">Enter your details:</h5>
         <div class="col-auto">
             <form id="geocode-form" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
                 {% csrf_token %}
                 {{ forms.order_form|crispy }}
                 {{ forms.address_form|crispy }}
-                <input id="submit-form" class="btn btn-lg btn-primary w-auto mb-3" type="submit" value="Save" />
+                <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Submit" />
             </form>
         </div>
     </div>
