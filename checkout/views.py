@@ -50,6 +50,22 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order = all_forms['order_form'].save(commit=False)
         order.address = all_forms['address_form'].save()
         order.save()
+        order_cart = cart_contents(self.request)
+        order_location = order.address.location
+        for item in order_cart['cart_items']:
+            item_location = (
+                item['product'].product.created_by.profile.address.location)
+            item_distance = (
+                distance.distance(item_location, order_location).km)
+            order_line_item = OrderLineItem(
+                order=order,
+                product=get_object_or_404(
+                    ProductVariant, pk=item['product_id']),
+                quantity=item['quantity'],
+            )
+            if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
+                order_line_item.delivery = True
+            order_line_item.save()
         return redirect(
             reverse('payment', kwargs={'order_number': order.order_number})
         )
@@ -69,27 +85,13 @@ class Payment(EmptyCartMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
-        current_cart = cart_contents(self.request)
-        order_location = order.address.location
-        for item in current_cart['cart_items']:
-            item['location'] = (
-                item['product'].product.created_by.profile.address.location)
-            item['distance'] = (
-                distance.distance(item['location'], order_location).km)
-            order_line_item = OrderLineItem(
-                order=order,
-                product=get_object_or_404(
-                    ProductVariant, pk=item['product_id']),
-                quantity=item['quantity'],
-            )
-            order_line_item.save()
-        context['current_cart'] = current_cart
         context['order'] = order
+        context['order_line_items'] = OrderLineItem.objects.filter(order=order)
         context['stripe_public_key'] = 'pk_test_51JRZbxKGBmFv7pxwQbENF9k0Qujo9ebBhLY1owB5HeqZEBOPx5KPCfvF8cwbHJp3XyiaEzGkz9g8dOunnkwQg6cG003rEknglB'
         context['stripe_secret_key'] = 'sk_test_51JRZbxKGBmFv7pxw1kFWuq2dtP0z4s7VMepVlOdsg1ttsGBoNSst5W1YsQVDyYrp2iCK6ODYXpyi1JtR5r1OqHKo00Hx4A5dsa'
         stripe.api_key = 'sk_test_51JRZbxKGBmFv7pxw1kFWuq2dtP0z4s7VMepVlOdsg1ttsGBoNSst5W1YsQVDyYrp2iCK6ODYXpyi1JtR5r1OqHKo00Hx4A5dsa'
         intent = stripe.PaymentIntent.create(
-            amount=int(round(current_cart['total']*100)),
+            amount=int(round(order.order_total*100)),
             currency=settings.STRIPE_CURRENCY,
         )
         context['client_secret'] = intent.client_secret
@@ -112,8 +114,8 @@ class CheckoutComplete(TemplateView):
         context = super().get_context_data(**kwargs)
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
-        context['order_line_items'] = OrderLineItem.objects.filter(order=order)
         context['order'] = order
+        context['order_line_items'] = OrderLineItem.objects.filter(order=order)
         if 'cart' in self.request.session:
             del self.request.session['cart']
         return context

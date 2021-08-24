@@ -10,7 +10,8 @@
 <div class="container">
     <div class="row justify-content-center pt-3'">
         <div class="col-12 col-md-8 col-lg-5">
-            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center" method="POST">
+            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center"
+                method="POST">
                 {% csrf_token %}
                 <!--Stripe.js injects the Card Element-->
                 <div id="card-element">
@@ -23,44 +24,99 @@
             </form>
         </div>
     </div>
-    <div class="row">
-        <h2>client secret: <small>{{ client_secret }}</small></h2>
-        <h2>stripe_public_key: <small>{{ stripe_public_key }}</small></h2>
-        <h2>stripe_secret_key: <small>{{ stripe_secret_key }}</small></h2>
-        <p>{{ order }}</p>
-        <h5>Address</h5>
-        {{ order.address.street_address1 }}
-        {{ order.address.street_address2 }}
-        {{ order.address.town_or_city }}
-        {{ order.address.county }}
-        {{ order.address.postcode }}
-        {{ order.address.country }}
-        {{ order.address.latitude }}
-        {{ order.address.longitude }}
-        {{ order.address.location }}
-        <h5>Order</h5>
-        <h6>{{ order.lineitems }}</h6>
-        <ul>
-        </ul>
-
-        <h5>Cart</h5>
-        {{ current_cart }}
-        <ul>
-            {% for item in current_cart.cart_items %}
-            <li>
-                {{ item }}
-            </li>
-            <li>
-                {{ item.distance }}
-                {{ item.location }}
-            </li>
-            {% endfor %}
-        </ul>
-            
-
-    </div>
 
 </div>
+
+<div class="row justify-content-center pt-4'">
+    <div class="col">
+        <h5 class="text-center">Contact</h5>
+        <ul>
+            <li>
+                Name: {{ order.first_name }}
+                {{ order.last_name }}
+            </li>
+            <li>
+                {{ order.phone_number }}
+            </li>
+            <li>
+                Email: {{ order.email }}
+            </li>
+        </ul>
+    </div>
+    <div class="col">
+        <h5 class="text-center">Address</h5>
+        {{ order.address.street_address1 }},<br>
+        {{ order.address.street_address2 }},<br>
+        {{ order.address.town_or_city }},<br>
+        {{ order.address.county }},<br>
+        {{ order.address.postcode }},<br>
+        {{ order.address.country }}
+    </div>
+</div>
+<div class="row justify-content-center pt-4">
+    <h5 class="text-center">Items</h5>
+    <div class="col-3">
+        <h6 class="text-center">Name</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center">Price</h6>
+    </div>
+    <div class="col-2">
+        <h6 class="text-center">Quantity</h6>
+    </div>
+    <div class="col-2">
+        <h6 class="text-center">Subtotal</h6>
+    </div>
+    <div class="col-2">
+        <h6 class="text-center">Delivery</h6>
+    </div>
+</div>
+<hr>
+
+{% for item in order_line_items %}
+<div class="row item-row">
+    <div class="col-3 text-center">
+        <small class="text-center">
+            {{ item.product.product.name }}, {{ item.product.size }}{{ item.product.unit }}
+        </small>
+    </div>
+    <div class="col-3 text-center">
+        <small class="text-center">
+            €{{ item.product.price }}
+        </small>
+    </div>
+    <div class="col-2 text-center">
+        <small class="text-center">
+            {{ item.quantity }}
+        </small>
+    </div>
+    <div class="col-2 text-center">
+        <small class="text-center">
+            €{{ item.lineitem_total }}
+        </small>
+    </div>
+    <div class="col-2 text-center">
+        <small class="text-center">
+            {% if item.delivery %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </small>
+    </div>
+</div>
+<hr>
+{% endfor %}
+<div class="row justify-content-end">
+    <div class="col-4 text-center">
+        <small>
+            <strong>
+                Total: {{ order.order_total }}
+            </strong>
+        </small>
+    </div>
+</div>
+
 
 {% endblock %}
 {% block body_end_js %}

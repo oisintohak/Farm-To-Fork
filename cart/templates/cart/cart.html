@@ -16,9 +16,9 @@
         </div>
     </div>
     <hr>
-    {% for item in cart_items %}
     <form id="cart-form" action="{% url 'update_cart' %}" method="POST">
         {% csrf_token %}
+        {% for item in cart_items %}
         <div class="row item-row">
             <div class="col-4 text-center">
                 <small class="text-center">
