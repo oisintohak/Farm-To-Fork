@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% load static %}
+{% load check_group %}
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h5 class="text-center">My Orders:</h5>            
+            <ul>
+                {% for item in my_orders %}
+                <li>
+                    {{ item }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% if request.user|has_group:'Farmers' %}
+            <h5 class="text-center">Incoming Orders:</h5>            
+            <ul>
+                {% for item in incoming_orders.values %}
+                <li>
+                    <h6>
+                        {{ item.order }}
+                    </h6>
+                    <ul>
+                        {% for line_item in item.line_items.values %}
+                        <li>
+                            {{ line_item }}, id {{ line_item.id }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

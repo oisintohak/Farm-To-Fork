@@ -120,13 +120,16 @@
                     <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="accountDropdown">
                         {% if request.user.is_authenticated %}
                         <li class="dropdown-item">
-                            <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
+                            <a class="nav-link text-end" href="{% url 'orders' %}">My Orders</a>
                         </li>
                         <li class="dropdown-item">
                             <a class="nav-link text-end" href="{% url 'profile' request.user.id %}">Profile</a>
                         </li>
                         <li class="dropdown-item">
                             <a class="nav-link text-end" href="{% url 'profile-edit' %}">Edit Profile</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link text-end" href="{% url 'account_logout' %}">Logout</a>
                         </li>
                         {% else %}
                         <li class="dropdown-item">

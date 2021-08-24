@@ -65,6 +65,7 @@ class Order(models.Model):
                                       null=False, default=0)
     stripe_pid = models.CharField(max_length=254, null=False, blank=False,
                                   default='')
+    product_count = models.IntegerField(default=0)
 
     def _generate_order_number(self):
         """
@@ -79,6 +80,8 @@ class Order(models.Model):
         """
         self.order_total = self.lineitems.aggregate(
             Sum('lineitem_total'))['lineitem_total__sum'] or 0
+        self.product_count = self.lineitems.aggregate(
+            Sum('quantity'))['quantity__sum'] or 0
         self.save()
 
     def save(self, *args, **kwargs):
@@ -91,7 +94,9 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.order_number
+        return (f'Order of {self.product_count} '
+                f'products for €{self.order_total} on '
+                f'{self.date}')
 
 
 class OrderLineItem(models.Model):

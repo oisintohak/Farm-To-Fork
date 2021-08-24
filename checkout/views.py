@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic.base import TemplateView
@@ -102,9 +103,12 @@ class Payment(EmptyCartMixin, TemplateView):
             Order, order_number=self.kwargs['order_number'])
         pid = request.POST.get('client_secret').split('_secret')[0]
         order.stripe_pid = pid
+        if self.request.user.is_authenticated:
+            order.user = self.request.user
         order.save()
-        return redirect(
-            reverse('checkout-complete', kwargs={'order_number': order.order_number}))
+        return redirect(reverse(
+            'checkout-complete', kwargs={'order_number': order.order_number})
+        )
 
 
 class CheckoutComplete(TemplateView):
@@ -118,4 +122,23 @@ class CheckoutComplete(TemplateView):
         context['order_line_items'] = OrderLineItem.objects.filter(order=order)
         if 'cart' in self.request.session:
             del self.request.session['cart']
+        return context
+
+
+class Orders(LoginRequiredMixin, TemplateView):
+    template_name = 'checkout/orders.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['my_orders'] = Order.objects.filter(user=user)
+        incoming_orders = {}
+        line_items = (
+            OrderLineItem.objects.filter(product__product__created_by=user))
+        for index, item in enumerate(line_items):
+            incoming_orders[index] = {
+                'order': Order.objects.filter(id=item.order.id),
+                'line_items': line_items.filter(order=item.order)
+            }
+        context['incoming_orders'] = incoming_orders
         return context
