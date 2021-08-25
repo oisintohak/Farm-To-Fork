@@ -70,7 +70,7 @@
         </div>
         <hr>
     </div>
-    <div class="row justify-content-center mb-3'">
+    <div class="row justify-content-center mb-3">
         <div class="col-12 col-md-8 col-lg-5">
             <h5 class="text-center py-2">Your delivery details:</h5>
             <ul class="list-group list-group-flush">
@@ -105,5 +105,15 @@
             </ul>
         </div>
     </div>
+    {% if not request.user.is_authenticated %}
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 text-center">
+            <p>
+                Register here to save this order and address to a new profile.
+            </p>
+            <a class="btn cta-button" href="{% url 'register-with-order' order.order_number %}">Register</a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

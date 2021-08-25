@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.conf import settings
+from django.http.response import HttpResponseRedirect
+from django.contrib import messages
 
 
 from profiles.forms import AddressForm
@@ -15,6 +17,10 @@ from products.models import ProductVariant
 from multi_form_view import MultiModelFormView
 from geopy import distance
 import stripe
+from allauth.account.views import SignupView
+from allauth.account.utils import complete_signup
+from allauth.account import app_settings
+from allauth.exceptions import ImmediateHttpResponse
 
 
 class Checkout(EmptyCartMixin, MultiModelFormView):
@@ -142,3 +148,45 @@ class Orders(LoginRequiredMixin, TemplateView):
             }
         context['incoming_orders'] = incoming_orders
         return context
+
+
+class RegisterWithOrder(SignupView):
+    """
+    Register a user and add an order and address to their account
+    """
+    template_name = 'checkout/register-with-order.html'
+
+    def get(self, request, *args, **kwargs):
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        if order.user:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'This order is was placed by another user.',
+            )
+            return HttpResponseRedirect(reverse('home'))
+
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.user = form.save(self.request)
+        
+        # get the order and address and assign them to the new user
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        order.user = self.user
+        order.save()
+        self.user.profile.address = order.address
+        self.user.profile.save()
+        
+        # this is taken from the allauth SignupView
+        try:
+            return complete_signup(
+                self.request,
+                self.user,
+                app_settings.EMAIL_VERIFICATION,
+                self.get_success_url(),
+            )
+        except ImmediateHttpResponse as e:
+            return e.response

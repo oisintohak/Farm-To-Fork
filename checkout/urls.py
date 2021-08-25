@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import Checkout, Orders, Payment, CheckoutComplete
+from .views import (
+    Checkout, Orders, Payment, CheckoutComplete, RegisterWithOrder
+)
 
 urlpatterns = [
     path('', Checkout.as_view(), name='checkout'),
@@ -7,4 +9,6 @@ urlpatterns = [
     path('complete/<order_number>/',
          CheckoutComplete.as_view(), name='checkout-complete'),
     path('orders', Orders.as_view(), name='orders'),
+    path('register/<order_number>/', RegisterWithOrder.as_view(),
+         name='register-with-order'),
 ]
