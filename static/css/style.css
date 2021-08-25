@@ -1,5 +1,7 @@
 /* ***** COLORS ***** */
+
 /* https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=C8E6C9&secondary.color=FFA726 */
+
 :root {
     --dark-green: #97b498;
     --light-green: #fbfffc;
@@ -79,67 +81,7 @@ body {
     color: var(--primary-dark) !important;
 }
 
-/* override bootstrap button box-shadow */
-
-.btn-check:focus+.btn, .btn:focus {
-    box-shadow: 0 0 0 .25rem #97b498bb;
-}
-
-.dropdown-menu {
-    background-color: var(--primary-green) !important;
-}
-
-.dropdown-item:focus, .dropdown-item:hover {
-    background-color: var(--dark-green) !important;
-}
-
-.form-control:focus, .form-select:focus {
-    color: var(--primary-dark);
-    background-color: var(--light-green);
-    border-color: var(--dark-green);
-    outline: 0;
-    box-shadow: 0 0 0 .25rem #97b498bb;
-}
-
-* {
-    padding: 0;
-    margin: 0;
-}
-
-.mh-100vh {
-    min-height: 100vh;
-}
-
-.text-red {
-    color: red;
-}
-
-/* NAVBAR */
-
-.search-dropdown-form {
-    min-width: 12em;
-}
-
-.message-container {
-    position: fixed;
-    top: 100x;
-    right: 20px;
-    z-index: 99999999999;
-}
-
-.home-banner {
-    /* background: url('/media/home-banner.jpg') no-repeat; */
-    background-size: contain;
-    min-height: 100vh;
-    width: 100%;
-    background-attachment: fixed;
-    background-position: center bottom;
-    background-size: cover;
-}
-
-.product-image-placeholder {
-    font-size: 10rem;
-}
+/****** CALL TO ACTION BUTTONS *******/
 
 .cta-button {
     background-color: var(--light-brown);
@@ -149,7 +91,6 @@ body {
     letter-spacing: 0.1rem;
     font-weight: 500;
 }
-
 
 .cta-button:hover, .cta-button:active {
     background-color: var(--dark-brown) !important;
@@ -178,6 +119,67 @@ body {
     box-shadow: 0 0 0 .25rem #1a201aa1;
 }
 
+/***** override bootstrap button and input box-shadow *****/
+
+.btn-check:focus+.btn, .btn:focus {
+    box-shadow: 0 0 0 .25rem #97b498bb;
+}
+
+.form-control:focus, .form-select:focus {
+    color: var(--primary-dark);
+    background-color: var(--light-green);
+    border-color: var(--dark-green);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem #97b498bb;
+}
+
+/* **** GLOBAL STYLES **** */
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.mh-100vh {
+    min-height: 100vh;
+}
+
+/***** NAVBAR *****/
+
+.dropdown-menu {
+    background-color: var(--primary-green) !important;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: var(--dark-green) !important;
+}
+
+.search-dropdown-form {
+    width: 14em;
+}
+
+/****** MESSAGES ****** */
+
+.message-container {
+    position: fixed;
+    top: 100x;
+    right: 20px;
+    z-index: 9999;
+}
+
+/***** HOME PAGE ******/
+
+/* .home-banner {
+    background: url('/media/home-banner.jpg') no-repeat;
+    background-size: contain;
+    min-height: 100vh;
+    width: 100%;
+    background-attachment: fixed;
+    background-position: center bottom;
+    background-size: cover;
+} */
+
+/* ***** PRODUCT PAGES ****** */
 
 .product-image {
     max-height: 15rem;
@@ -187,8 +189,11 @@ body {
     /* width: 12rem; */
     /* height: 15rem; */
     /* object-fit: contain; */
-    width: 100%;    
+    width: 100%;
+}
+
+.product-image-placeholder {
+    font-size: 10rem;
 }
 
 /* ***** SHOPPING CART ***** */
-

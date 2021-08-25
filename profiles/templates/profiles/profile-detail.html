@@ -2,99 +2,94 @@
 {% load static %}
 {% load check_group %}
 {% block main_content %}
+<div class="container">
+    <div class="row justify-content-center py-3">
+        <div class="col-12 col-md-10 col-xl-8">
+            <div class="card bg-l-green border-d-green border border-3 p-2 w-auto">
+                <div class="row justify-content-center">
+                    <div class="card-title py-3 text-center">
+                        <h3 class="text-center">
+                            {{ user_profile.first_name|default:user_profile.user.username }}
+                            {{ user_profile.last_name|default:'' }}
+                        </h3>
+                        {{ user_profile.address.county|default:"" }},
+                        {{ user_profile.address.country|default:"" }}
 
-<ul>
-    <li>
-        {{ user_profile }}
-    </li>
-    <li>
-        {{ user_profile.first_name }}
-    </li>
-    <li>
-        {{ user_profile.last_name }}
-    </li>
-    <p>
-        <style>
-            img {
-                max-width: 200px;
-                max-height: 200px;
-                object-fit: contain;
-            }
-        </style>
-        {% if user_profile.image %}
-        <img class="card-img-top img-fluid" src="{{ user_profile.image.url }}" alt="{{ product.name }}">
-        {% elif user_profile.image_url %}
-        <img class="card-img-top img-fluid" src="{{ user_profile.image_url }}"
-            alt="{{ user_profile.username }}'s profile picture">
-        {% else %}
-    <p>no image</p>
-    {% endif %}
-    </p>
-    <li>
-        {{ user_profile.phone_number }}
-    </li>
-    <li>
-        {{ user_profile.address.street_address1 }}
-    </li>
-    <li>
-        {{ user_profile.address.street_address2 }}
-    </li>
-    <li>
-        {{ user_profile.address.town_or_city }}
-    </li>
-    <li>
-        {{ user_profile.address.county }}
-    </li>
-    <li>
-        {{ user_profile.address.postcode }}
-    </li>
-    <li>
-        {{ user_profile.address.country }}
-    </li>
-    <li>
-        latitude: {{ user_profile.address.latitude }}
-    </li>
-    <li>
-        longitude: {{ user_profile.address.longitude }}
-    </li>
-    <li>
-        location: {{ user_profile.address.location }}
-    </li>
-</ul>
-
-{% if product_list %}
-<h5>Products:</h5>
-<ul>
-    {% for item in product_list.values %}
-    <li>
-        <h5>
-            <a href="{% url 'product-detail' item.product.id %}">
-                {{ item.product.name }}
-            </a>
-        </h5>
-        <small><a href="{% url 'product-edit' item.product.id %}">Edit</a></small>
-        <small>
-            created by: <a href="{% url 'profile' item.product.created_by.id %}">
-                {{ item.product.created_by.profile.first_name }}
-                {{ item.product.created_by.profile.last_name }}
-            </a>
-
-        </small>
-        <p>
-            {{ item.product.description }}
-        </p>
-    </li>
-    <h6>Variants:</h6>
-    <ul>
-        {% for variant in item.variants %}
-        <li>
-            €{{ variant.price }}
-            {{ variant.size }}
-            {{ variant.unit }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endfor %}
-</ul>{% endif %}
-
-{% endblock %}
+                    </div>
+                    <div class="col-8 col-md-4 text-center">
+                        {% if user_profile.image %}
+                        <img class="product-card-image img-fluid rounded product-image"
+                            src="{{ user_profile.image.url }}" alt="{{ user_profile }}'s profile picture">
+                        {% elif user_profile.image_url %}
+                        <img class="product-card-image img-fluid rounded product-image"
+                            src="{{ user_profile.image_url }}" alt="{{ user_profile }}'s profile picture">
+                        {% else %}
+                        <img class="product-card-image img-fluid rounded product-image"
+                            src="{{ MEDIA_URL }}product-image-placeholder.png"
+                            alt="{{ user_profile }}'s profile picture">
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <h6>Bio:</h6>
+                        <p>
+                            {{ user_profile.bio|default:"This user hasn't added a bio yet." }}
+                        </p>
+                    </div>
+                </div>
+                {% if product_list %}
+                <div class="row">
+                    <div class="col-12">
+                        <hr>
+                    </div>
+                    <h5 class="text-center mb-3">Products:</h5>
+                    {% for item in product_list.values %}
+                    <div class="col-12 col-xl-6">
+                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+                            <div class="row g-0">
+                                <div class="col-4 d-flex align-items-center">
+                                    {% if item.product.image %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
+                                        alt="{{ item.product.name }}">
+                                    {% elif product.image_url %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
+                                        alt="{{ item.product.name }}">
+                                    {% else %}
+                                    <img class="product-card-image img-fluid rounded"
+                                        src="{{ MEDIA_URL }}product-image-placeholder.png"
+                                        alt="{{ item.product.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="col-8 card-body">
+                                        <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
+                                                {{ item.product.name }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">
+                                            {{ item.product.description }}
+                                        </p>
+                                        <p class="card-text">
+                                            Available in:
+                                            {% for variant in item.variants %}
+                                            {{ variant.size|cut:".00" }}{{ variant.unit }}:
+                                            €{{ variant.price|cut:".00" }},
+                                            {% endfor %}
+                                        </p>
+                                        <p class="card-text text-end">
+                                            <a class="btn btn-sm cta-button"
+                                                href="{% url 'product-detail' item.product.id %}">Details</a>
+                                            {% if item.product.created_by == request.user %}
+                                            <a class="btn btn-sm cta-button-secondary mt-2"
+                                                href="{% url 'product-edit' item.product.id %}">Edit Product</a>
+                                            {% endif %}
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
