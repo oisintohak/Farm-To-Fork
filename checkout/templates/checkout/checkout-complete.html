@@ -6,93 +6,60 @@
 {% endblock %}
 {% block main_content %}
 <div class="container">
-    <div class="row pt-4">
+    <div class="row py-3">
         <div class="col-12 text-center">
             <h5>Payment successful</h5>
             <small>Here are your order details:</small>
         </div>
     </div>
-    <div class="row justify-content-center pt-4'">
-        <div class="col-12 col-md-8 col-lg-5">
-            <h5 class="text-center">Contact</h5>
-            <ul>
-                <li>
-                    Name: {{ order.first_name }}
-                    {{ order.last_name }}
-                </li>
-                <li>
-                    {{ order.phone_number }}
-                </li>
-                <li>
-                    Email: {{ order.email }}
-                </li>
-            </ul>
-        </div>
-        <div class="col">
-            <h5 class="text-center">Address</h5>
-            {{ order.address.street_address1 }},<br>
-            {{ order.address.street_address2 }},<br>
-            {{ order.address.town_or_city }},<br>
-            {{ order.address.county }},<br>
-            {{ order.address.postcode }},<br>
-            {{ order.address.country }}
-        </div>
-
-    </div>
     <div class="row justify-content-center pt-4">
-        <h5 class="text-center">Items</h5>
+        <h5 class="text-center py-2">Order Summary:</h5>
         <div class="col-3">
-            <h6 class="text-center">Name</h6>
+            <h6 class="text-center">Product</h6>
         </div>
         <div class="col-3">
-            <h6 class="text-center">Price</h6>
-        </div>
-        <div class="col-2">
             <h6 class="text-center">Quantity</h6>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <h6 class="text-center">Subtotal</h6>
         </div>
-        <div class="col-2">
-            <h6 class="text-center">Delivery</h6>
+        <div class="col-3">
+            <h6 class="text-center fs-6">Delivery</h6>
         </div>
     </div>
     <hr>
-
     {% for item in order_line_items %}
-<div class="row item-row">
-    <div class="col-3 text-center">
-        <small class="text-center">
-            {{ item.product.product.name }}, {{ item.product.size }}{{ item.product.unit }}
-        </small>
+    <div class="row item-row">
+        <div class="col-3 text-center">
+            <small class="text-center">
+                <a href="{% url 'product-detail' item.product.id %}">
+                    {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                    €{{ item.product.price|cut:".00" }}
+                </a>
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                {{ item.quantity }}
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                €{{ item.lineitem_total }}
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                {% if item.delivery %}
+                Yes
+                {% else %}
+                No
+                {% endif %}
+            </small>
+        </div>
     </div>
-    <div class="col-3 text-center">
-        <small class="text-center">
-            €{{ item.product.price }}
-        </small>
-    </div>
-    <div class="col-2 text-center">
-        <small class="text-center">
-            {{ item.quantity }}
-        </small>
-    </div>
-    <div class="col-2 text-center">
-        <small class="text-center">
-            €{{ item.lineitem_total }}
-        </small>
-    </div>
-    <div class="col-2 text-center">
-        <small class="text-center">
-            {% if item.delivery %}
-            Yes
-            {% else %}
-            No
-            {% endif %}
-        </small>
-    </div>
-</div>
-<hr>
-{% endfor %}
+    <hr>
+    {% endfor %}
     <div class="row justify-content-end">
         <div class="col-4 text-center">
             <small>
@@ -101,7 +68,42 @@
                 </strong>
             </small>
         </div>
+        <hr>
     </div>
-
+    <div class="row justify-content-center mb-3'">
+        <div class="col-12 col-md-8 col-lg-5">
+            <h5 class="text-center py-2">Your delivery details:</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Name: {{ order.first_name }}
+                    {{ order.last_name }}
+                </li>
+                <li class="list-group-item">
+                    Phone: {{ order.phone_number }}
+                </li>
+                <li class="list-group-item">
+                    Email: {{ order.email }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.street_address1 }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.street_address2 }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.town_or_city }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.county }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.postcode }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.address.country }}
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -14,7 +14,8 @@
         <h5 class="text-center">Secure Checkout:</h5>
         <div class="col-12 col-md-8 text-center pt-2 pb-5">
             <small>
-                Please note items that are not marked for delivery will need to be collected. Collection information will be sent in an order confirmation email.
+                Please note items that are not marked for delivery will need to be collected. Collection information
+                will be sent in an order confirmation email.
             </small>
         </div>
         <div class="col-12 col-md-8 col-lg-5">
@@ -53,8 +54,10 @@
     <div class="row item-row">
         <div class="col-3 text-center">
             <small class="text-center">
-                {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }}, 
-                €{{ item.product.price|cut:".00" }}
+                <a href="{% url 'product-detail' item.product.id %}">
+                    {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                    €{{ item.product.price|cut:".00" }}
+                </a>
             </small>
         </div>
         <div class="col-3 text-center">

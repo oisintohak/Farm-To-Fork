@@ -60,28 +60,29 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-8 card-body">
-                                        <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
-                                                {{ item.product.name }}
-                                            </a>
-                                        </h5>
-                                        <p class="card-text">
-                                            {{ item.product.description }}
-                                        </p>
-                                        <p class="card-text">
-                                            Available in:
-                                            {% for variant in item.variants %}
-                                            {{ variant.size|cut:".00" }}{{ variant.unit }}:
-                                            €{{ variant.price|cut:".00" }},
-                                            {% endfor %}
-                                        </p>
-                                        <p class="card-text text-end">
-                                            <a class="btn btn-sm cta-button"
-                                                href="{% url 'product-detail' item.product.id %}">Details</a>
-                                            {% if item.product.created_by == request.user %}
-                                            <a class="btn btn-sm cta-button-secondary mt-2"
-                                                href="{% url 'product-edit' item.product.id %}">Edit Product</a>
-                                            {% endif %}
-                                        </p>
+                                    <h5 class="card-title">
+                                        <a href="{% url 'product-detail' item.product.id %}">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text">
+                                        {{ item.product.description }}
+                                    </p>
+                                    <p class="card-text">
+                                        Available in:
+                                        {% for variant in item.variants %}
+                                        {{ variant.size|cut:".00" }}{{ variant.unit }}:
+                                        €{{ variant.price|cut:".00" }},
+                                        {% endfor %}
+                                    </p>
+                                    <p class="card-text text-end">
+                                        <a class="btn btn-sm cta-button"
+                                            href="{% url 'product-detail' item.product.id %}">Details</a>
+                                        {% if item.product.created_by == request.user %}
+                                        <a class="btn btn-sm cta-button-secondary mt-2"
+                                            href="{% url 'product-edit' item.product.id %}">Edit Product</a>
+                                        {% endif %}
+                                    </p>
                                 </div>
                             </div>
                         </div>

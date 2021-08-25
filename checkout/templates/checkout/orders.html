@@ -2,9 +2,10 @@
 {% load check_group %}
 {% block main_content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h5 class="text-center">My Orders:</h5>            
+    <div class="row justify-content-center py-3">
+        <div class="col text-center">
+            <h5 class="text-center">My Orders:</h5>
+            {% if my_orders %}       
             <ul>
                 {% for item in my_orders %}
                 <li>
@@ -12,8 +13,13 @@
                 </li>
                 {% endfor %}
             </ul>
-            {% if request.user|has_group:'Farmers' %}
-            <h5 class="text-center">Incoming Orders:</h5>            
+            {% else %}
+            <small class="text-center">
+                You haven't placed any orders yet.
+            </small>
+            {% endif %}
+            <h5 class="text-center">Incoming Orders:</h5>
+            {% if request.user|has_group:'Farmers' and incoming_orders %}
             <ul>
                 {% for item in incoming_orders.values %}
                 <li>
@@ -30,10 +36,13 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <small class="text-center">
+                You haven't received any incoming orders yet.
+            </small>
             {% endif %}
         </div>
     </div>
-
 </div>
 
 {% endblock %}
