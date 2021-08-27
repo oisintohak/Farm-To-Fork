@@ -1,20 +1,22 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView
+from django.contrib import messages
+from django.db.models.functions import Lower
+from django.db.models import Q
 from extra_views import (
     CreateWithInlinesView,
     UpdateWithInlinesView,
     InlineFormSetFactory
 )
 from .models import ProductVariant, Product
-from accounts.models import UserModel
 from .forms import ProductVariantFormHelper
 from .mixins import ProductCreationAccessMixin, ProductEditAccessMixin
 
 
 class ProductDetail(DetailView):
-
     model = Product
     context_object_name = 'product'
     template_name = 'products/product-detail.html'
@@ -26,23 +28,46 @@ class ProductDetail(DetailView):
         return context
 
 
-class ProductList(ListView):
-    model = Product
+class Products(ListView):
     template_name = 'products/product-list.html'
+    context_object_name = 'product_list'
+    model = Product
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            queries = Q(name__icontains=query) | Q(
+                description__icontains=query)
+            return qs.filter(queries)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        products = Product.objects.all()
+        products = context[self.context_object_name]
         product_list = {}
+        if 'sort' in self.request.GET:
+            sort = self.request.GET['sort']
+            context['sort'] = sort
+            if sort == 'alpha':
+                sortkey = 'lower_name'
+                products = products.annotate(lower_name=Lower('name'))
+            if sort == 'date':
+                sortkey = 'created_at'
+            if 'direction' in self.request.GET:
+                direction = self.request.GET['direction']
+                context['direction'] = direction
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}'
+            products = products.order_by(sortkey)
         for index, product in enumerate(products):
             product_list[index] = {
                 'product': product,
                 'variants': ProductVariant.objects.filter(
                     product=product),
-                'owner': get_object_or_404(UserModel, pk=product.created_by.id)
             }
-
         context['product_list'] = product_list
+        print(self.request.GET.copy())
         return context
 
 

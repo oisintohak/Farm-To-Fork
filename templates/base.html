@@ -57,7 +57,7 @@
                     <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product List</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'products' %}">Product List</a>
                 </li>
                 {% if request.user|has_group:'Farmers' %}
                 <li class="nav-item">
@@ -84,7 +84,7 @@
                                 <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'product-list' %}">Product
+                                <a class="nav-link" aria-current="page" href="{% url 'products' %}">Product
                                     List</a>
                             </li>
                             {% if request.user|has_group:'Farmers' %}
@@ -104,9 +104,9 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                             aria-labelledby="searchDropdown">
-                            <form class="search-dropdown-form p-2">
+                            <form class="search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                                 <div class="input-group">
-                                    <input type="search" class="form-control search-input" placeholder="Search"
+                                    <input type="search" class="form-control search-input" name="q" placeholder="Search"
                                         aria-label="Search" aria-describedby="search-button">
                                     <button class="btn cta-button" type="submit"
                                         id="search-button">Go</button>
@@ -157,8 +157,6 @@
                     </a>
                 </li>
             </ul>
-
-
         </div>
     </nav>
 
