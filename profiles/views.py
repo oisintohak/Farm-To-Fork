@@ -1,10 +1,12 @@
 from django import forms
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.db.models import F
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
+from geopy import distance
 from django.core.serializers import serialize
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
@@ -94,15 +96,15 @@ latitude = 25.761681
 user_location = Point(longitude, latitude, srid=4326)
 
 
-# class FarmerList(ListView):
-#     model = UserProfile
-#     context_object_name = 'farmers'
-#     queryset = UserProfile.objects.filter(
-#         user__groups__name='Farmers'
-#     ).annotate(
-#         distance=Distance('location', user_location)
-#     ).order_by('distance')
-#     template_name = 'profiles/farmer-list.html'
+class FarmerList(ListView):
+    model = UserProfile
+    context_object_name = 'farmers'
+    queryset = UserProfile.objects.filter(
+        user__groups__name='Farmers'
+    ).annotate(
+        distance=Distance('address__location', user_location)
+    ).order_by('distance')
+    template_name = 'profiles/farmer-list.html'
 
 
 class FarmerMapView(TemplateView):
@@ -116,11 +118,24 @@ class FarmerMapView(TemplateView):
         Add an array to context containing GeoJSON information about farmers
         """
         context = super().get_context_data(**kwargs)
-        context['markers'] = json.loads(
+        markers = json.loads(
             serialize(
                 'geojson',
                 UserProfile.objects.filter(user__groups__name='Farmers'),
-                geometry_field='location'
+                geometry_field='location',
             )
         )
+        for item in markers['features']:
+            address = Address.objects.get(id=item['properties']['address'])
+            if address.location:
+                item['geometry'] = {
+                    'type': 'Point',
+                    'coordinates': [
+                        address.location.coords[0],
+                        address.location.coords[1]
+                    ]
+                }
+
+        context['markers'] = markers
+        print(markers)
         return context

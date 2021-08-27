@@ -20,11 +20,9 @@
     </div>
 </div>
 
+{{ markers }}
+
 {{ markers|json_script:"markers-data" }}
-<p>
-</p>
-<ul>
-</ul>
 <script>
     const map = L.map('map', {
         center: [53.2755, -7.4933],
