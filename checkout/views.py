@@ -12,7 +12,7 @@ from profiles.models import UserProfile
 from .forms import OrderForm
 from .mixins import EmptyCartMixin
 from cart.contexts import cart_contents
-from .models import Order, OrderLineItem
+from .models import Order, OrderLineItem, FarmerOrder
 from products.models import ProductVariant
 from multi_form_view import MultiModelFormView
 from geopy import distance
@@ -72,6 +72,11 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
             )
             if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
                 order_line_item.delivery = True
+            farmer_order, created = FarmerOrder.objects.update_or_create(
+                order=order,
+                farmer=order_line_item.product.product.created_by
+            )
+            order_line_item.farmer_order = farmer_order
             order_line_item.save()
         return redirect(
             reverse('payment', kwargs={'order_number': order.order_number})
@@ -171,7 +176,7 @@ class RegisterWithOrder(SignupView):
 
     def form_valid(self, form):
         self.user = form.save(self.request)
-        
+
         # get the order and address and assign them to the new user
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
@@ -179,7 +184,7 @@ class RegisterWithOrder(SignupView):
         order.save()
         self.user.profile.address = order.address
         self.user.profile.save()
-        
+
         # this is taken from the allauth SignupView
         try:
             return complete_signup(
