@@ -1,0 +1,119 @@
+{% extends "base.html" %} {% load static %}
+{% load crispy_forms_tags %}
+{% block extra_css %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block main_content %}
+<div class="container">
+    <div class="row py-3">
+        <div class="col-12 text-center">
+            <h5>{{ order }}<h5>
+            <small>Here are your order details:</small>
+        </div>
+    </div>
+    <div class="row justify-content-center pt-4">
+        <h5 class="text-center py-2">Order Summary:</h5>
+        <div class="col-3">
+            <h6 class="text-center">Product</h6>
+        </div>
+        <div class="col-3">
+            <h6 class="text-center">Quantity</h6>
+        </div>
+        <div class="col-3">
+            <h6 class="text-center">Subtotal</h6>
+        </div>
+        <div class="col-3">
+            <h6 class="text-center fs-6">Delivery</h6>
+        </div>
+    </div>
+    <hr>
+    {% for item in line_items %}
+    <div class="row item-row">
+        <div class="col-3 text-center">
+            <small class="text-center">
+                <a href="{% url 'product-detail' item.product.id %}">
+                    {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                    €{{ item.product.price|cut:".00" }}
+                </a>
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                {{ item.quantity }}
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                €{{ item.lineitem_total }}
+            </small>
+        </div>
+        <div class="col-3 text-center">
+            <small class="text-center">
+                {% if item.delivery %}
+                Yes
+                {% else %}
+                No
+                {% endif %}
+            </small>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <div class="row justify-content-end">
+        <div class="col-4 text-center">
+            <small>
+                <strong>
+                    Total: {{ order.farmer_order_total }}
+                </strong>
+            </small>
+        </div>
+        <hr>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-md-8 col-lg-5">
+            <h5 class="text-center py-2">Customer Details:</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Name: {{ order.order.first_name }}
+                    {{ order.order.last_name }}
+                </li>
+                <li class="list-group-item">
+                    Phone: {{ order.order.phone_number }}
+                </li>
+                <li class="list-group-item">
+                    Email: {{ order.order.email }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.street_address1 }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.street_address2 }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.town_or_city }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.county }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.postcode }}
+                </li>
+                <li class="list-group-item">
+                    {{ order.order.address.country }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% if not request.user.is_authenticated %}
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 text-center">
+            <p>
+                Register here to save this order and address to a new profile.
+            </p>
+            <a class="btn cta-button" href="{% url 'register-with-order' order.order_number %}">Register</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

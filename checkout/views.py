@@ -57,6 +57,10 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order = all_forms['order_form'].save(commit=False)
         order.address = all_forms['address_form'].save()
         order.save()
+        print('test')
+        print(order)
+        print(order.id)
+        print('test')
         order_cart = cart_contents(self.request)
         order_location = order.address.location
         for item in order_cart['cart_items']:
@@ -74,10 +78,11 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
                 order_line_item.delivery = True
             farmer_order, created = FarmerOrder.objects.update_or_create(
                 order=order,
-                farmer=order_line_item.product.product.created_by
             )
+            farmer_order.farmer = order_line_item.product.product.created_by
             order_line_item.farmer_order = farmer_order
             order_line_item.save()
+            farmer_order.save()
         return redirect(
             reverse('payment', kwargs={'order_number': order.order_number})
         )
@@ -143,15 +148,8 @@ class Orders(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['my_orders'] = Order.objects.filter(user=user)
-        incoming_orders = {}
-        line_items = (
-            OrderLineItem.objects.filter(product__product__created_by=user))
-        for index, item in enumerate(line_items):
-            incoming_orders[index] = {
-                'order': Order.objects.filter(id=item.order.id),
-                'line_items': line_items.filter(order=item.order)
-            }
-        context['incoming_orders'] = incoming_orders
+        if user.groups.filter(name='Farmers').exists():
+            context['farmer_orders'] = FarmerOrder.objects.filter(farmer=user)
         return context
 
 
@@ -195,3 +193,28 @@ class RegisterWithOrder(SignupView):
             )
         except ImmediateHttpResponse as e:
             return e.response
+
+
+class OrderDetail(TemplateView):
+    template_name = 'checkout/order-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        context['line_items'] = OrderLineItem.objects.filter(order=order)
+        context['order'] = order
+        return context
+
+
+class FarmerOrderDetail(TemplateView):
+    template_name = 'checkout/farmer-order-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = get_object_or_404(
+            FarmerOrder, id=self.kwargs['id'])
+        context['line_items'] = OrderLineItem.objects.filter(
+            farmer_order=order)
+        context['order'] = order
+        return context

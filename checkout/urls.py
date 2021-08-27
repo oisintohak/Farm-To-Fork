@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import (
-    Checkout, Orders, Payment, CheckoutComplete, RegisterWithOrder
+    Checkout, FarmerOrderDetail,
+    OrderDetail, Orders, Payment,
+    CheckoutComplete, RegisterWithOrder
 )
 
 urlpatterns = [
@@ -9,6 +11,10 @@ urlpatterns = [
     path('complete/<order_number>/',
          CheckoutComplete.as_view(), name='checkout-complete'),
     path('orders', Orders.as_view(), name='orders'),
+    path('order-detail/<order_number>',
+         OrderDetail.as_view(), name='order-detail'),
+    path('farmer-order-detail/<id>', FarmerOrderDetail.as_view(),
+         name='farmer-order-detail'),
     path('register/<order_number>/', RegisterWithOrder.as_view(),
          name='register-with-order'),
 ]

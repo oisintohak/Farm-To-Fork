@@ -2,14 +2,16 @@
 {% load check_group %}
 {% block main_content %}
 <div class="container">
-    <div class="row justify-content-center py-3">
-        <div class="col text-center">
+    <div class="row justify-content-center">
+        <div class="col-auto text-center my-3">
             <h5 class="text-center">My Orders:</h5>
-            {% if my_orders %}       
-            <ul>
+            {% if my_orders %}
+            <ul class="list-group">
                 {% for item in my_orders %}
-                <li>
-                    {{ item }}
+                <li class="list-group-item">
+                    <a href="{% url 'order-detail' item.order_number %}">
+                        {{ item }}
+                    </a>
                 </li>
                 {% endfor %}
             </ul>
@@ -18,21 +20,19 @@
                 You haven't placed any orders yet.
             </small>
             {% endif %}
-            <h5 class="text-center">Incoming Orders:</h5>
-            {% if request.user|has_group:'Farmers' and incoming_orders %}
-            <ul>
-                {% for item in incoming_orders.values %}
-                <li>
-                    <h6>
-                        {{ item.order }}
-                    </h6>
-                    <ul>
-                        {% for line_item in item.line_items.values %}
-                        <li>
-                            {{ line_item }}, id {{ line_item.id }}
-                        </li>
-                        {% endfor %}
-                    </ul>
+        </div>
+        {% if request.user|has_group:'Farmers' %}
+        <div class="col-auto">
+            <hr>
+            <h5 class="text-center">Farmer Orders:</h5>
+            {% endif %}
+            {% if farmer_orders %}
+            <ul class="list-group">
+                {% for item in farmer_orders %}
+                <li class="list-group-item">
+                    <a href="{% url 'farmer-order-detail' item.id %}">
+                        {{ item }}
+                    </a>
                 </li>
                 {% endfor %}
             </ul>
@@ -40,8 +40,8 @@
             <small class="text-center">
                 You haven't received any incoming orders yet.
             </small>
-            {% endif %}
         </div>
+            {% endif %}
     </div>
 </div>
 
