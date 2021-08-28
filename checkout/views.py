@@ -106,8 +106,10 @@ class Payment(EmptyCartMixin, TemplateView):
             Order, order_number=self.kwargs['order_number'])
         context['order'] = order
         context['order_line_items'] = OrderLineItem.objects.filter(order=order)
-        context['stripe_public_key'] = 'pk_test_51JRZbxKGBmFv7pxwQbENF9k0Qujo9ebBhLY1owB5HeqZEBOPx5KPCfvF8cwbHJp3XyiaEzGkz9g8dOunnkwQg6cG003rEknglB'
-        stripe.api_key = 'sk_test_51JRZbxKGBmFv7pxw1kFWuq2dtP0z4s7VMepVlOdsg1ttsGBoNSst5W1YsQVDyYrp2iCK6ODYXpyi1JtR5r1OqHKo00Hx4A5dsa'
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        stripe_secret_key = settings.STRIPE_SECRET_KEY
+        context['stripe_public_key'] = stripe_public_key
+        stripe.api_key = stripe_secret_key
         intent = stripe.PaymentIntent.create(
             amount=int(round(order.order_total*100)),
             currency=settings.STRIPE_CURRENCY,

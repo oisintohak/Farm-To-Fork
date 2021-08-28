@@ -29,6 +29,10 @@ class Address(models.Model):
     )
     location = PointField(blank=True, null=True)
 
+    def __str__(self):
+        return (f'{self.street_address1}, {self.street_address1}'
+                f', {self.town_or_city}, {self.country}')
+
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
