@@ -64,6 +64,8 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=auth.get_user_model())
 def add_user_to_group(sender, instance, created, **kwargs):
     if created:
+        if not instance.user_type:
+            instance.user_type = 'Farmer'
         group = Group.objects.get(name=instance.user_type)
         instance.groups.add(group)
 
