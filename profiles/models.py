@@ -55,10 +55,10 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     """
     if created:
         UserProfile.objects.create(user=instance)
-    instance.profile.save()
+        instance.profile.save()
     if created:
         Address.objects.create(profile=instance.profile)
-    instance.profile.address.save()
+        instance.profile.address.save()
 
 
 @receiver(post_save, sender=auth.get_user_model())
