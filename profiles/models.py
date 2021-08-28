@@ -48,31 +48,31 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-# @receiver(post_save, sender=auth.get_user_model())
-# def create_or_update_user_profile(sender, instance, created, **kwargs):
-#     """
-#     Create or update the user profile
-#     """
-#     if created:
-#         UserProfile.objects.create(user=instance)
-#     instance.profile.save()
-#     if created:
-#         Address.objects.create(profile=instance.profile)
-#     instance.profile.address.save()
+@receiver(post_save, sender=auth.get_user_model())
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    """
+    Create or update the user profile
+    """
+    if created:
+        UserProfile.objects.create(user=instance)
+    instance.profile.save()
+    if created:
+        Address.objects.create(profile=instance.profile)
+    instance.profile.address.save()
 
 
-# @receiver(post_save, sender=auth.get_user_model())
-# def add_user_to_group(sender, instance, created, **kwargs):
-#     if created:
-#         group = Group.objects.get(name=instance.user_type)
-#         instance.groups.add(group)
+@receiver(post_save, sender=auth.get_user_model())
+def add_user_to_group(sender, instance, created, **kwargs):
+    if created:
+        group = Group.objects.get(name=instance.user_type)
+        instance.groups.add(group)
 
 
-# @receiver(pre_save, sender=Address)
-# def generate_location(sender, instance, **kwargs):
-#     if instance.latitude and instance.longitude:
-#         location = Point(
-#             float(instance.longitude),
-#             float(instance.latitude)
-#         )
-#         instance.location = location
+@receiver(pre_save, sender=Address)
+def generate_location(sender, instance, **kwargs):
+    if instance.latitude and instance.longitude:
+        location = Point(
+            float(instance.longitude),
+            float(instance.latitude)
+        )
+        instance.location = location
