@@ -3,8 +3,8 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 
-from .models import Order, OrderLineItem
-from products.models import Product
+from .models import Address, FarmerOrder, Order, OrderLineItem
+from products.models import Product, ProductVariant
 from profiles.models import UserProfile
 
 import json
@@ -48,12 +48,11 @@ class StripeWH_Handler:
         """
         intent = event.data.object
         pid = intent.id
+        order_number = intent.metadata.order_number
         cart = intent.metadata.cart
-        save_info = intent.metadata.save_info
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
 
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
@@ -65,18 +64,7 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
-                    full_name__iexact=shipping_details.name,
-                    email__iexact=billing_details.email,
-                    phone_number__iexact=shipping_details.phone,
-                    country__iexact=shipping_details.address.country,
-                    postcode__iexact=shipping_details.address.postal_code,
-                    town_or_city__iexact=shipping_details.address.city,
-                    street_address1__iexact=shipping_details.address.line1,
-                    street_address2__iexact=shipping_details.address.line2,
-                    county__iexact=shipping_details.address.state,
-                    grand_total=grand_total,
-                    original_cart=cart,
-                    stripe_pid=pid,
+                    order_number=order_number
                 )
                 order_exists = True
                 break
@@ -84,6 +72,8 @@ class StripeWH_Handler:
                 attempt += 1
                 time.sleep(1)
         if order_exists:
+            order.wh_success = True
+            order.save()
             self._send_confirmation_email(order)
             return HttpResponse(
                 content=(f'Webhook received: {event["type"]} | SUCCESS: '
@@ -92,35 +82,47 @@ class StripeWH_Handler:
         else:
             order = None
             try:
-                order = Order.objects.create(
-                    full_name=shipping_details.name,
-                    user_profile=profile,
-                    email=billing_details.email,
-                    phone_number=shipping_details.phone,
-                    country=shipping_details.address.country,
-                    postcode=shipping_details.address.postal_code,
-                    town_or_city=shipping_details.address.city,
+                address = Address.objects.create(
                     street_address1=shipping_details.address.line1,
                     street_address2=shipping_details.address.line2,
+                    town_or_city=shipping_details.address.city,
                     county=shipping_details.address.state,
-                    original_cart=cart,
+                    postcode=shipping_details.address.postal_code,
+                    country=shipping_details.address.country,
+                )
+                order = Order.objects.create(
+                    first_name=shipping_details.name,
+                    email=billing_details.email,
+                    phone_number=shipping_details.phone,
+                    address=address,
                     stripe_pid=pid,
                 )
-                for item_id, item_data in json.loads(bag).items():
-                    product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):
-                        order_line_item = OrderLineItem(
+                for product_id, quantity in json.loads(cart).items():
+                    product = ProductVariant.objects.get(pk=product_id)
+                    order_line_item = OrderLineItem(
+                        order=order,
+                        product=product,
+                        quantity=quantity,
+                    )
+                    farmer_order, created = (
+                        FarmerOrder.objects.update_or_create(
                             order=order,
-                            product=product,
-                            quantity=item_data,
-                        )
-                        order_line_item.save()
+                        ))
+                    farmer_order.farmer = (
+                        order_line_item.product.product.created_by
+                    )
+                    order_line_item.farmer_order = farmer_order
+                    order_line_item.save()
+                    farmer_order.save()
+
             except Exception as e:
                 if order:
                     order.delete()
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500)
+        order.wh_success = True
+        order.save()
         self._send_confirmation_email(order)
         return HttpResponse(
             content=(f'Webhook received: {event["type"]} | SUCCESS: '

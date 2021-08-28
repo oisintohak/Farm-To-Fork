@@ -16,11 +16,13 @@ from .models import Order, OrderLineItem, FarmerOrder
 from products.models import ProductVariant
 from multi_form_view import MultiModelFormView
 from geopy import distance
-import stripe
 from allauth.account.views import SignupView
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings
 from allauth.exceptions import ImmediateHttpResponse
+
+import stripe
+import json
 
 
 class Checkout(EmptyCartMixin, MultiModelFormView):
@@ -117,6 +119,12 @@ class Payment(EmptyCartMixin, TemplateView):
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
         pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'order_number': order.order_number,
+            'username': request.user,
+            'cart': json.dumps(request.session.get('cart', {})),
+        })
         order.stripe_pid = pid
         if self.request.user.is_authenticated:
             order.user = self.request.user
