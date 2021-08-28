@@ -6,8 +6,8 @@
     https://stripe.com/docs/stripe-js
 */
 
-var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
-var clientSecret = $('#id_client_secret').text().slice(1, -1);
+var stripePublicKey = document.querySelector('#id_stripe_public_key').value
+var clientSecret = document.querySelector('#id_client_secret').value
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var style = {
@@ -61,31 +61,31 @@ form.addEventListener('submit', function (ev) {
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
-            // billing_details: {
-            //     name: $.trim(form.full_name.value),
-            //     phone: $.trim(form.phone_number.value),
-            //     email: $.trim(form.email.value),
-            //     address: {
-            //         line1: $.trim(form.street_address1.value),
-            //         line2: $.trim(form.street_address2.value),
-            //         city: $.trim(form.town_or_city.value),
-            //         country: $.trim(form.country.value),
-            //         state: $.trim(form.county.value),
-            //     }
-            // }
+            billing_details: {
+                name: $.trim(form.first_name.value) + ' ' + $.trim(form.last_name.value),
+                phone: $.trim(form.phone_number.value),
+                email: $.trim(form.email.value),
+                address: {
+                    line1: $.trim(form.street_address1.value),
+                    line2: $.trim(form.street_address2.value),
+                    city: $.trim(form.town_or_city.value),
+                    country: $.trim(form.country.value),
+                    state: $.trim(form.county.value),
+                }
+            }
         },
-        // shipping: {
-        //     name: $.trim(form.full_name.value),
-        //     phone: $.trim(form.phone_number.value),
-        //     address: {
-        //         line1: $.trim(form.street_address1.value),
-        //         line2: $.trim(form.street_address2.value),
-        //         city: $.trim(form.town_or_city.value),
-        //         country: $.trim(form.country.value),
-        //         postal_code: $.trim(form.postcode.value),
-        //         state: $.trim(form.county.value),
-        //     }
-        // },
+        shipping: {
+            name: $.trim(form.first_name.value) + ' ' + $.trim(form.last_name.value),
+            phone: $.trim(form.phone_number.value),
+            address: {
+                line1: $.trim(form.street_address1.value),
+                line2: $.trim(form.street_address2.value),
+                city: $.trim(form.town_or_city.value),
+                country: $.trim(form.country.value),
+                postal_code: $.trim(form.postcode.value),
+                state: $.trim(form.county.value),
+            }
+        },
     }).then(function (result) {
         if (result.error) {
             var errorDiv = document.getElementById('card-errors');

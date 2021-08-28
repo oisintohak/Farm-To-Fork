@@ -4,6 +4,7 @@ from .views import (
     OrderDetail, Orders, Payment,
     CheckoutComplete, RegisterWithOrder
 )
+from .webhooks import webhook
 
 urlpatterns = [
     path('', Checkout.as_view(), name='checkout'),
@@ -17,4 +18,6 @@ urlpatterns = [
          name='farmer-order-detail'),
     path('register/<order_number>/', RegisterWithOrder.as_view(),
          name='register-with-order'),
+    path('wh/', webhook, name='webhook'),
+
 ]
