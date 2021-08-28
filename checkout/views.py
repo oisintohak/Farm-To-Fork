@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, HttpResponse
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.conf import settings
@@ -20,9 +20,38 @@ from allauth.account.views import SignupView
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings
 from allauth.exceptions import ImmediateHttpResponse
+from django.views.decorators.http import require_POST
+
 
 import stripe
 import json
+
+
+@require_POST
+def cache_checkout_data(request):
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        order_number = request.POST.get('order_number')
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'order_number': order_number,
+            'username': request.user,
+            'cart': json.dumps(request.session.get('cart', {})),
+        })
+
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'bag': json.dumps(request.session.get('bag', {})),
+            'save_info': request.POST.get('save_info'),
+            'username': request.user,
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, ('Sorry, your payment cannot be '
+                                 'processed right now. Please try '
+                                 'again later.'))
+        return HttpResponse(content=e, status=400)
 
 
 class Checkout(EmptyCartMixin, MultiModelFormView):
@@ -122,11 +151,6 @@ class Payment(EmptyCartMixin, TemplateView):
             Order, order_number=self.kwargs['order_number'])
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe.PaymentIntent.modify(pid, metadata={
-            'order_number': order.order_number,
-            'username': request.user,
-            'cart': json.dumps(request.session.get('cart', {})),
-        })
         order.stripe_pid = pid
         if self.request.user.is_authenticated:
             order.user = self.request.user
