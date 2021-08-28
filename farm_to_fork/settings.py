@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_countries',
     'extra_views',
+    'django_filters',
     'storages',
     'accounts',
     'home',

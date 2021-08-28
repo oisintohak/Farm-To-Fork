@@ -19,6 +19,7 @@ django-storages = "*"
 django-multi-form-view = "*"
 stripe = "*"
 geopy = "*"
+django-filter = "*"
 
 [dev-packages]
 
