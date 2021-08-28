@@ -29,7 +29,7 @@
                 <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                 <!-- Pass the client secret to the view so we can get the payment intent id -->
                 <input type="hidden" value="{{ client_secret }}" name="client_secret">
-                <input type="hidden" value="{{ stripe_public_key }}" name="client_secret">
+                <input type="hidden" value="{{ stripe_public_key }}" name="stripe_public_key">
                 <input type="hidden" value="{{ order.first_name }}" name="first_name">
                 <input type="hidden" value="{{ order.last_name }}" name="last_name">
                 <input type="hidden" value="{{ order.phone_number }}" name="phone_number">
