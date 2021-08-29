@@ -1,16 +1,18 @@
 {% extends "base.html" %} {% load static %} {% block main_content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <h3 class="text-center">Farm To Fork</h3>
-        <div class="col-auto col-lg-6 text-center">
-            <p class="text-center">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor pariatur quae repellendus quas vitae,
-                laborum laudantium sit! Magnam reprehenderit ab debitis necessitatibus accusantium enim nihil quos, ea
-                nesciunt, quas iusto.
+<div class="container-fluid home-banner py-5">
+    <div class="row justify-content-center py-5">
+        <div class="col-12 col-lg-6 text-end">
+            <h1 class="text-l-green text-end">Farm To Fork</h1>
+            <p class="home-banner-text text-l-green text-end">
+                Find the freshest produce from your local farmer.
             </p>
         </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
         <div class="col-12 text-center">
-            <h5 class="text-center">Farmers</h5>
+            <h5 class="text-center">Browse Farmers</h5>
             <ul class="slick-slider">
                 {% for farmer in farmers %}
                 <li>
@@ -58,7 +60,7 @@
             </ul>
         </div>
         <div class="col-12 text-center">
-            <h5 class="text-center">Products</h5>
+            <h5 class="text-center">Browse Products</h5>
             <ul class="slick-slider">
                 {% for item in product_list.values %}
                 <li>

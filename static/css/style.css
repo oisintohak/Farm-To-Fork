@@ -169,15 +169,17 @@ body {
 
 /***** HOME PAGE ******/
 
-/* .home-banner {
+.home-banner {
     background: url('/media/home-banner.jpg') no-repeat;
     background-size: contain;
-    min-height: 100vh;
-    width: 100%;
     background-attachment: fixed;
     background-position: center bottom;
     background-size: cover;
-} */
+}
+
+.home-banner-text {
+    font-size: 2rem;
+}
 
 /* ***** PRODUCT PAGES ****** */
 
