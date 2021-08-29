@@ -27,34 +27,6 @@ import stripe
 import json
 
 
-@require_POST
-def cache_checkout_data(request):
-    print('cache-checkout')
-    try:
-        pid = request.POST.get('client_secret').split('_secret')[0]
-        order_number = request.POST.get('order_number')
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe.PaymentIntent.modify(pid, metadata={
-            'order_number': order_number,
-            'username': request.user,
-            'cart': json.dumps(request.session.get('cart', {})),
-        })
-
-        pid = request.POST.get('client_secret').split('_secret')[0]
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe.PaymentIntent.modify(pid, metadata={
-            'bag': json.dumps(request.session.get('bag', {})),
-            'save_info': request.POST.get('save_info'),
-            'username': request.user,
-        })
-        return HttpResponse(status=200)
-    except Exception as e:
-        messages.error(request, ('Sorry, your payment cannot be '
-                                 'processed right now. Please try '
-                                 'again later.'))
-        return HttpResponse(content=e, status=400)
-
-
 class Checkout(EmptyCartMixin, MultiModelFormView):
     """
     A view to display the checkout form, with order and address forms
@@ -139,24 +111,25 @@ class Payment(EmptyCartMixin, TemplateView):
         intent = stripe.PaymentIntent.create(
             amount=int(round(order.order_total*100)),
             currency=settings.STRIPE_CURRENCY,
+            metadata={
+                'order_number': order.order_number,
+                'username': self.request.user,
+                'cart': json.dumps(self.request.session.get('cart', {})),
+            }
         )
+        pid = intent.client_secret.split('_secret')[0]
+        print('pid')
+        print(pid)
+        order.stripe_pid = pid
+        if self.request.user.is_authenticated:
+            order.user = self.request.user
+        order.save()
         context['client_secret'] = intent.client_secret
         return context
 
     def post(self, request, *args, **kwargs):
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        pid = request.POST.get('client_secret').split('_secret')[0]
-        stripe.PaymentIntent.modify(pid, metadata={
-            'order_number': order.order_number,
-            'username': request.user,
-            'cart': json.dumps(request.session.get('cart', {})),
-        })
-        order.stripe_pid = pid
-        if self.request.user.is_authenticated:
-            order.user = self.request.user
-        order.save()
         return redirect(reverse(
             'checkout-complete', kwargs={'order_number': order.order_number})
         )

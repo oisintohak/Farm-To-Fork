@@ -3,7 +3,6 @@ from .views import (
     Checkout, FarmerOrderDetail,
     OrderDetail, Orders, Payment,
     CheckoutComplete, RegisterWithOrder,
-    cache_checkout_data,
 )
 from .webhooks import webhook
 
@@ -20,9 +19,4 @@ urlpatterns = [
     path('register/<order_number>/', RegisterWithOrder.as_view(),
          name='register-with-order'),
     path('wh/', webhook, name='webhook'),
-    path('cache_checkout_data/',
-         cache_checkout_data,
-         name='cache_checkout_data'),
-
-
 ]
