@@ -51,6 +51,8 @@ class StripeWH_Handler:
         intent = event.data.object
         print('intent:')
         print(intent)
+        print('event:')
+        print(event)
         pid = intent.id
         cart = intent.metadata.cart
         order_number = intent.metadata.order_number
