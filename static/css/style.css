@@ -17,6 +17,10 @@
     color: var(--primary-dark) !important;
 }
 
+.border-primary-dark {
+    border-color: var(--primary-dark) !important;
+}
+
 .text-red {
     color: #ff1744 !important;
 }
@@ -86,7 +90,7 @@ body {
 .cta-button {
     background-color: var(--light-brown);
     color: var(--primary-dark);
-    border: #1a201aa1 2px solid !important;
+    border: var(--primary-dark) 2px solid !important;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     font-weight: 500;
@@ -103,7 +107,7 @@ body {
 
 .cta-button-secondary {
     background-color: var(--light-green);
-    border: var(--dark-green) 2px solid;
+    border: var(--primary-dark) 2px solid;
     color: var(--primary-dark);
     text-transform: uppercase;
     letter-spacing: 0.1rem;
@@ -162,10 +166,11 @@ body {
 
 .message-container {
     position: fixed;
-    top: 100x;
+    bottom: 20px;
     right: 20px;
     z-index: 9999;
 }
+
 
 /***** HOME PAGE ******/
 
