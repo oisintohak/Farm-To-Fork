@@ -14,10 +14,13 @@ class OrderAdmin(admin.ModelAdmin):
                        'order_total', 'stripe_pid', 'id',
                        'wh_success')
 
-    fields = (
-        'order_total', 'address', 'first_name',
-        'last_name', 'phone_number', 'user', 'product_count',
-    )
+    fields = ('order_number', 'address', 'email',
+              'first_name', 'last_name',
+              'phone_number', 'user', 'date',
+              'order_total', 'original_bag',
+              'stripe_pid', 'product_count',
+              'wh_success'
+              )
 
     list_display = ('order_number', 'date',
                     'order_total')
