@@ -25,6 +25,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('order_number', 'date',
                     'order_total')
 
+    list_filter = ('wh_success')
+
     ordering = ('-date',)
 
 
