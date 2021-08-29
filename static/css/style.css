@@ -85,6 +85,10 @@ body {
     color: var(--primary-dark) !important;
 }
 
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1920px;
+}
+
 /****** CALL TO ACTION BUTTONS *******/
 
 .cta-button {
@@ -159,8 +163,21 @@ body {
 }
 
 .search-dropdown-form {
-    width: 14em;
+    width: 10em;
 }
+
+/* @media only screen and (max-width: 500px) {
+    .search-dropdown-menu {
+        position:absolute !important;
+        top: 100px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+    }
+    .search-dropdown-form {
+        width: 100% !important;
+    }
+} */
 
 /****** MESSAGES ****** */
 
@@ -171,6 +188,11 @@ body {
     z-index: 9999;
 }
 
+@media only screen and (max-width: 500px) {
+    .toast {
+        width: 280px;
+    }
+}
 
 /***** HOME PAGE ******/
 
@@ -181,18 +203,16 @@ body {
     min-height: 60vh;
 }
 
-/* @media only screen and (min-width: 700px) {
-    .home-banner {
-        min-height: ;
-    }
-} */
-
 .home-banner-text p {
     font-size: 2rem;
 }
 
 .home-banner-text {
     background-color: #c8e6c9b8;
+}
+
+.carousel-card-list-group {
+    min-height: 3rem;
 }
 
 /* ***** PRODUCT PAGES ****** */
@@ -202,12 +222,9 @@ body {
 }
 
 .product-card-image {
-    /* width: 12rem; */
-    /* height: 15rem; */
-    /* object-fit: contain; */
     object-fit: contain;
     width: 100%;
-    max-height: 20rem;
+    max-height: 10rem;
 }
 
 .product-image-placeholder {
@@ -215,7 +232,3 @@ body {
 }
 
 /* ***** SHOPPING CART ***** */
-
-.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-    max-width: 1920px;
-}

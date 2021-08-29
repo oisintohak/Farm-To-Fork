@@ -43,8 +43,8 @@
     <title>Farm To Fork{% block extra_title %}{% endblock %}</title>
 </head>
 
-<body>
-    <nav id="main-nav" class="navbar navbar-expand text-primary-dark bg-p-green border-d-green">
+<body class="d-flex flex-column h-100">
+    <nav id="main-nav" class="navbar navbar-expand text-primary-dark bg-p-green">
         <div class="container-fluid container-xxl">
             <ul class="navbar-nav text-primary-dark w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -99,10 +99,10 @@
                 <li class="ms-auto nav-item">
                     <div class="dropdown">
                         <button class="btn nav-link fs-3" type="button" id="searchDropdown" data-bs-toggle="dropdown"
-                            aria-expanded="false" data-bs-reference="parent">
+                            aria-expanded="false">
                             <i class="fas fa-search"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                        <div class="dropdown-menu search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                             aria-labelledby="searchDropdown">
                             <form class="search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                                 <div class="input-group">
@@ -182,6 +182,12 @@
         {% block main_content %}
         {% endblock %}
     </div>
+
+    <footer class="bg-p-green mt-auto py-3">
+        <div class="container-fluid container-xxl">
+            <h5>Farm To Fork.</h5>
+        </div>
+    </footer>
 
     <script type="text/javascript">
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))

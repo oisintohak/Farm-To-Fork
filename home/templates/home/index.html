@@ -13,27 +13,29 @@
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-12 text-center my-5">
+    <div class="col-12 text-center my-5 pb-5">
         <h3 class="text-center">Browse Farmers</h3>
         <ul class="slick-slider p-0 m-0">
             {% for farmer in farmers %}
-            <li>
-                <a class="nav-link text-end" href="{% url 'profile' farmer.user.id %}">
+            <li class="slick-slider-slide-item">
+                <a href="{% url 'profile' farmer.user.id %}">
                     <div class="col-12 p-2">
-                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+                        <div class="card bg-l-green border-d-green border border-3 p-2">
                             <div class="row g-0">
                                 <div class="col-12 d-flex align-items-center">
-                                    {% if item.product.image %}
-                                    <img class="product-card-image img-fluid rounded" src="{{ farmer.image.url }}"
-                                        alt="{{ farmer.user.username }}'s profile picture">
-                                    {% elif product.image_url %}
-                                    <img class="product-card-image img-fluid rounded" src="{{ farmer.image_url }}"
-                                        alt="{{ farmer.user.username }}'s profile picture">
-                                    {% else %}
-                                    <img class="product-card-image img-fluid rounded"
-                                        src="{{ MEDIA_URL }}product-image-placeholder.png"
-                                        alt="{{ farmer.user.username }}'s profile picture">
-                                    {% endif %}
+                                    <a class="product-card-image" href="{% url 'profile' farmer.user.id %}">
+                                        {% if item.product.image %}
+                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image.url }}"
+                                            alt="{{ farmer.user.username }}'s profile picture">
+                                        {% elif product.image_url %}
+                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image_url }}"
+                                            alt="{{ farmer.user.username }}'s profile picture">
+                                        {% else %}
+                                        <img class="product-card-image img-fluid rounded"
+                                            src="{{ MEDIA_URL }}product-image-placeholder.png"
+                                            alt="{{ farmer.user.username }}'s profile picture">
+                                        {% endif %}
+                                    </a>
                                 </div>
                                 <div class="col-12">
                                     <div class="card-body">
@@ -45,8 +47,8 @@
                                         <p class="card-text">
                                             {{ farmer.bio|truncatewords:10 }}
                                         </p>
-                                        <p class="card-text text-end">
-                                            <a class="btn cta-button ms-auto" href="{% url 'profile' farmer.user.id %}">
+                                        <p class="card-text text-center">
+                                            <a class="btn cta-button" href="{% url 'profile' farmer.user.id %}">
                                                 View Profile
                                             </a>
                                         </p>
@@ -61,16 +63,16 @@
         </ul>
     </div>
     <hr>
-    <div class="col-12 text-center my-5">
+    <div class="col-12 text-center my-5 pb-5">
         <h3 class="text-center">Browse Products</h3>
         <ul class="slick-slider p-0 m-0">
             {% for item in product_list.values %}
-            <li>
-                <a href="{% url 'product-detail' item.product.id %}">
-                    <div class="col-12 p-2">
-                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
-                            <div class="row g-0">
-                                <div class="col-12 d-flex align-items-center">
+            <li class="slick-slider-slide-item">
+                <div class="col-12 p-2">
+                    <div class="card bg-l-green border-d-green border border-3 p-2">
+                        <div class="row g-0">
+                            <div class="col-12 d-flex align-items-center">
+                                <a class="product-card-image" href="{% url 'product-detail' item.product.id %}">
                                     {% if item.product.image %}
                                     <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
                                         alt="{{ item.product.name }}">
@@ -82,42 +84,49 @@
                                         src="{{ MEDIA_URL }}product-image-placeholder.png"
                                         alt="{{ item.product.name }}">
                                     {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
-                                                {{ item.product.name }}
-                                            </a>
-                                        </h5>
-                                        <small>Farmer:
-                                            <a href="{% url 'profile' item.product.created_by.id %}">
-                                                {{ item.product.created_by.profile.first_name }}
-                                                {{ item.product.created_by.profile.last_name }}
-                                            </a>
-                                        </small>
-                                        <p class="card-text">
-                                            {{ item.product.description|truncatewords:10 }}, available in:
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h5>
+                                    <small>Farmer:
+                                        <a href="{% url 'profile' item.product.created_by.id %}">
+                                            {{ item.product.created_by.profile.first_name }}
+                                            {{ item.product.created_by.profile.last_name }}
+                                        </a>
+                                    </small>
+                                    <p class="card-text">
+                                        Available in:
+                                        <ul class="list-group carousel-card-list-group">
                                             {% for variant in item.variants %}
-                                            {% if forloop.counter < 6 %} {{ variant.size|cut:".00" }}
-                                            {{ variant.unit }}:
-                                            €{{ variant.price|cut:".00" }},
-                                            {% endif %}
+                                            {% if forloop.counter < 3 %}
+                                            <li class="list-group-item">
+                                                {{ variant.size|cut:".00" }}
+                                                {{ variant.unit }}:
+                                                €{{ variant.price|cut:".00" }}
+                                                {% endif %}
+                                            </li>
                                             {% endfor %}
-                                            {% if item.variants|length > 6 %}
-                                            ...
-                                            {% endif %}
-                                        </p>
-                                        <p class="card-text text-end">
-                                            <a class="btn cta-button ms-auto"
-                                                href="{% url 'product-detail' item.product.id %}">Details
-                                            </a>
-                                        </p>
-                                    </div>
+                                        </ul>
+                                        {% if item.variants|length > 6 %}
+                                        <a href="{% url 'product-detail' item.product.id %}">
+                                        ...see more
+                                        </a>
+                                        {% endif %}
+                                    </p>
+                                    <p class="card-text text-center">
+                                        <a class="btn cta-button"
+                                            href="{% url 'product-detail' item.product.id %}">Details
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </li>
             {% endfor %}
         </ul>
@@ -136,8 +145,8 @@
             autoplaySpeed: 2000,
             centerMode: true,
             arrows: true,
-            prevArrow: '<button type="button" class="slick-prev text-primary-dark"><i class="fas fa-arrow-circle-left fs-4 text-primary-dark"></i></button>',
-            nextArrow: '<button type="button" class="slick-next text-primary-dark"><i class="fas fa-arrow-circle-right fs-4 text-primary-dark"></i></button>',
+            prevArrow: '<button type="button" class="slick-prev text-primary-dark"><i class="fas fa-arrow-circle-left fs-1 text-primary-dark"></i></button>',
+            nextArrow: '<button type="button" class="slick-next text-primary-dark"><i class="fas fa-arrow-circle-right fs-1 text-primary-dark"></i></button>',
             responsive: [{
                     breakpoint: 1024,
                     settings: {
