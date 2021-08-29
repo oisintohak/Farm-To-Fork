@@ -29,6 +29,7 @@ import json
 
 @require_POST
 def cache_checkout_data(request):
+    print('cache-checkout')
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         order_number = request.POST.get('order_number')
@@ -88,10 +89,6 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order = all_forms['order_form'].save(commit=False)
         order.address = all_forms['address_form'].save()
         order.save()
-        print('test')
-        print(order)
-        print(order.id)
-        print('test')
         order_cart = cart_contents(self.request)
         order_location = order.address.location
         for item in order_cart['cart_items']:
@@ -149,8 +146,13 @@ class Payment(EmptyCartMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
-        pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.PaymentIntent.modify(pid, metadata={
+            'order_number': order.order_number,
+            'username': request.user,
+            'cart': json.dumps(request.session.get('cart', {})),
+        })
         order.stripe_pid = pid
         if self.request.user.is_authenticated:
             order.user = self.request.user
