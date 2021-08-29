@@ -1,125 +1,126 @@
 {% extends "base.html" %} {% load static %} {% block main_content %}
-<div class="container-fluid home-banner py-5">
-    <div class="row justify-content-center py-5">
-        <div class="col-12 col-lg-6 text-end">
-            <h1 class="text-l-green text-end">Farm To Fork</h1>
-            <p class="home-banner-text text-l-green text-end">
-                Find the freshest produce from your local farmer.
-            </p>
+<div class="row home-banner">
+    <div class="col-12">
+        <div class="row justify-content-end py-5 px-2">
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 my-5 text-end home-banner-text rounded h-auto">
+                <h1 class="text-l-green text-end">Farm To Fork</h1>
+                <p class="text-l-green text-end">
+                    Find the freshest produce from your local farmer.
+                </p>
+            </div>
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12 text-center">
-            <h5 class="text-center">Browse Farmers</h5>
-            <ul class="slick-slider">
-                {% for farmer in farmers %}
-                <li>
-                    <a class="nav-link text-end" href="{% url 'profile' farmer.user.id %}">
-                        <div class="col-12 p-2">
-                            <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
-                                <div class="row g-0">
-                                    <div class="col-12 d-flex align-items-center">
-                                        {% if item.product.image %}
-                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image.url }}"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% elif product.image_url %}
-                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image_url }}"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% else %}
-                                        <img class="product-card-image img-fluid rounded"
-                                            src="{{ MEDIA_URL }}product-image-placeholder.png"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><a href="{% url 'profile' farmer.user.id %}">
-                                                    {{ farmer.first_name }}
-                                                    {{ farmer.last_name }}
-                                                </a>
-                                            </h5>
-                                            <p class="card-text">
-                                                {{ farmer.bio|truncatewords:10 }}
-                                            </p>
-                                            <p class="card-text text-end">
-                                                <a class="btn cta-button ms-auto"
-                                                    href="{% url 'profile' farmer.user.id %}">
-                                                    View Profile
-                                                </a>
-                                            </p>
-                                        </div>
+
+<div class="row justify-content-center">
+    <div class="col-12 text-center my-5">
+        <h3 class="text-center">Browse Farmers</h3>
+        <ul class="slick-slider p-0 m-0">
+            {% for farmer in farmers %}
+            <li>
+                <a class="nav-link text-end" href="{% url 'profile' farmer.user.id %}">
+                    <div class="col-12 p-2">
+                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+                            <div class="row g-0">
+                                <div class="col-12 d-flex align-items-center">
+                                    {% if item.product.image %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ farmer.image.url }}"
+                                        alt="{{ farmer.user.username }}'s profile picture">
+                                    {% elif product.image_url %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ farmer.image_url }}"
+                                        alt="{{ farmer.user.username }}'s profile picture">
+                                    {% else %}
+                                    <img class="product-card-image img-fluid rounded"
+                                        src="{{ MEDIA_URL }}product-image-placeholder.png"
+                                        alt="{{ farmer.user.username }}'s profile picture">
+                                    {% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="{% url 'profile' farmer.user.id %}">
+                                                {{ farmer.first_name }}
+                                                {{ farmer.last_name }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">
+                                            {{ farmer.bio|truncatewords:10 }}
+                                        </p>
+                                        <p class="card-text text-end">
+                                            <a class="btn cta-button ms-auto" href="{% url 'profile' farmer.user.id %}">
+                                                View Profile
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col-12 text-center">
-            <h5 class="text-center">Browse Products</h5>
-            <ul class="slick-slider">
-                {% for item in product_list.values %}
-                <li>
-                    <a href="{% url 'product-detail' item.product.id %}">
-                        <div class="col-12 p-2">
-                            <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
-                                <div class="row g-0">
-                                    <div class="col-12 d-flex align-items-center">
-                                        {% if item.product.image %}
-                                        <img class="product-card-image img-fluid rounded"
-                                            src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                                        {% elif product.image_url %}
-                                        <img class="product-card-image img-fluid rounded"
-                                            src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
-                                        {% else %}
-                                        <img class="product-card-image img-fluid rounded"
-                                            src="{{ MEDIA_URL }}product-image-placeholder.png"
-                                            alt="{{ item.product.name }}">
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
-                                                    {{ item.product.name }}
-                                                </a>
-                                            </h5>
-                                            <small>Farmer:
-                                                <a href="{% url 'profile' item.product.created_by.id %}">
-                                                    {{ item.product.created_by.profile.first_name }}
-                                                    {{ item.product.created_by.profile.last_name }}
-                                                </a>
-                                            </small>
-                                            <p class="card-text">
-                                                {{ item.product.description|truncatewords:10 }}, available in:
-                                                {% for variant in item.variants %}
-                                                {% if forloop.counter < 6 %} {{ variant.size|cut:".00" }}
-                                                {{ variant.unit }}:
-                                                €{{ variant.price|cut:".00" }},
-                                                {% endif %}
-                                                {% endfor %}
-                                                {% if item.variants|length > 6 %}
-                                                ...
-                                                {% endif %}
-                                            </p>
-                                            <p class="card-text text-end">
-                                                <a class="btn cta-button ms-auto"
-                                                    href="{% url 'product-detail' item.product.id %}">Details
-                                                </a>
-                                            </p>
-                                        </div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <hr>
+    <div class="col-12 text-center my-5">
+        <h3 class="text-center">Browse Products</h3>
+        <ul class="slick-slider p-0 m-0">
+            {% for item in product_list.values %}
+            <li>
+                <a href="{% url 'product-detail' item.product.id %}">
+                    <div class="col-12 p-2">
+                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+                            <div class="row g-0">
+                                <div class="col-12 d-flex align-items-center">
+                                    {% if item.product.image %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
+                                        alt="{{ item.product.name }}">
+                                    {% elif product.image_url %}
+                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
+                                        alt="{{ item.product.name }}">
+                                    {% else %}
+                                    <img class="product-card-image img-fluid rounded"
+                                        src="{{ MEDIA_URL }}product-image-placeholder.png"
+                                        alt="{{ item.product.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
+                                                {{ item.product.name }}
+                                            </a>
+                                        </h5>
+                                        <small>Farmer:
+                                            <a href="{% url 'profile' item.product.created_by.id %}">
+                                                {{ item.product.created_by.profile.first_name }}
+                                                {{ item.product.created_by.profile.last_name }}
+                                            </a>
+                                        </small>
+                                        <p class="card-text">
+                                            {{ item.product.description|truncatewords:10 }}, available in:
+                                            {% for variant in item.variants %}
+                                            {% if forloop.counter < 6 %} {{ variant.size|cut:".00" }}
+                                            {{ variant.unit }}:
+                                            €{{ variant.price|cut:".00" }},
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% if item.variants|length > 6 %}
+                                            ...
+                                            {% endif %}
+                                        </p>
+                                        <p class="card-text text-end">
+                                            <a class="btn cta-button ms-auto"
+                                                href="{% url 'product-detail' item.product.id %}">Details
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
@@ -127,7 +128,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.slick-slider').slick({
-            dots: true,
             infinite: true,
             speed: 300,
             slidesToShow: 4,
@@ -158,7 +158,7 @@
                     breakpoint: 480,
                     settings: {
                         slidesToShow: 1,
-                        slidesToScroll: 1
+                        slidesToScroll: 1,
                     }
                 }
             ]

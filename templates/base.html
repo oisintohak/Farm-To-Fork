@@ -22,21 +22,21 @@
     <link rel="stylesheet" href="{% static 'css/slick-theme.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% endblock %}
-    
+
     {% block extra_css %}
     {% endblock %}
-    
+
     {% block core_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/8bdadb5ed1.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="{% static 'js/slick.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
     {% endblock %}
-    
+
     {% block extra_js %}
     {% endblock %}
 
@@ -45,7 +45,7 @@
 
 <body>
     <nav id="main-nav" class="navbar navbar-expand text-primary-dark bg-p-green border-d-green">
-        <div class="container-fluid">
+        <div class="container-fluid container-xxl">
             <ul class="navbar-nav text-primary-dark w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
@@ -108,8 +108,7 @@
                                 <div class="input-group">
                                     <input type="search" class="form-control search-input" name="q" placeholder="Search"
                                         aria-label="Search" aria-describedby="search-button">
-                                    <button class="btn cta-button" type="submit"
-                                        id="search-button">Go</button>
+                                    <button class="btn cta-button" type="submit" id="search-button">Go</button>
                                 </div>
                             </form>
                         </div>
@@ -120,7 +119,8 @@
                         aria-expanded="false">
                         <i class="fas fa-user"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end position-absolute border-d-green border border-2" aria-labelledby="accountDropdown">
+                    <ul class="dropdown-menu dropdown-menu-end position-absolute border-d-green border border-2"
+                        aria-labelledby="accountDropdown">
                         {% if request.user.is_authenticated %}
                         <li class="dropdown-item">
                             <a class="nav-link text-end" href="{% url 'orders' %}">My Orders</a>
@@ -178,8 +178,10 @@
     </div>
     {% endif %}
 
-    {% block main_content %}
-    {% endblock %}
+    <div class="container-fluid container-xxl">
+        {% block main_content %}
+        {% endblock %}
+    </div>
 
     <script type="text/javascript">
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))

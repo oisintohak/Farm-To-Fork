@@ -23,8 +23,7 @@
     line-height: 0;
 
     position: absolute;
-    top: 50%;
-
+    bottom: 0;
     display: block;
 
     width: 20px;
@@ -77,13 +76,15 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* ***** ARROWS ***** */
+
 .slick-prev
 {
-    left: -25px;
+    left: 20%;
 }
 [dir='rtl'] .slick-prev
 {
-    right: -25px;
+    right: 20%;
     left: auto;
 }
 .slick-prev:before
@@ -97,12 +98,12 @@
 
 .slick-next
 {
-    right: -25px;
+    right: 20%;
 }
 [dir='rtl'] .slick-next
 {
     right: auto;
-    left: -25px;
+    left: 20%;
 }
 .slick-next:before
 {
@@ -111,6 +112,27 @@
 [dir='rtl'] .slick-next:before
 {
     content: '←';
+}
+
+@media only screen and (min-width: 700px) {
+    .slick-prev
+    {
+        left: 45%;
+    }
+    [dir='rtl'] .slick-prev
+    {
+        right: 45%;
+        left: auto;
+    }
+    .slick-next
+    {
+        right: 45%;
+    }
+    [dir='rtl'] .slick-next
+    {
+        right: auto;
+        left: 45%;
+    }
 }
 
 /* Dots */
