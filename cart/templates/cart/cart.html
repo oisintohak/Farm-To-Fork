@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% block extra_title %}
+- Shopping Cart
+{% endblock %}
+
 {% block main_content %}
 <div class="row justify-content-center py-5">
     {% if cart_items %}
@@ -25,7 +29,7 @@
             <div class="row item-row align-items-center">
                 <div class="col-3 text-center">
                     <small class="text-center">
-                        <a href="{% url 'product-detail' item.product.id %}">
+                        <a href="{% url 'product-detail' item.product.product.id %}">
                             {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
                             €{{ item.product.price|cut:".00" }}
                         </a>

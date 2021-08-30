@@ -43,7 +43,6 @@ class FarmerOrderAdmin(admin.ModelAdmin):
     list_filter = ['farmer', 'order', 'delivery']
 
 
-
 class AddressAdmin(admin.ModelAdmin):
     readonly_fields = ['latitude', 'longitude', 'location']
 

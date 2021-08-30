@@ -1,0 +1,124 @@
+{% load static %}
+{% load profiles_extras %}
+<div class="row justify-content-center pt-4">
+    <h5 class="text-center py-2">Order Summary:</h5>
+    <div class="col-3">
+        <h6 class="text-center">Product</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center">Quantity</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center">Subtotal</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center fs-6">Delivery</h6>
+    </div>
+</div>
+<hr>
+{% for farmer_order in farmer_order_list.values %}
+{% with farmer_order.farmer_order.farmer.profile as farmer %}
+<div class="row item-row align-items-center">
+    <div class="col-9 align-self-start">
+        {% for item in farmer_order.line_items %}
+        <div class="row align-items-start">
+            <div class="col-4 text-center">
+                <small class="text-center">
+                    <a href="{% url 'product-detail' item.product.product.id %}">
+                        {{ item.product.product.name }},
+                        {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                        €{{ item.product.price|cut:".00" }}
+                    </a>
+                </small>
+            </div>
+            <div class="col-4 text-center">
+                <small class="text-center">
+                    {{ item.quantity }}
+                </small>
+            </div>
+            <div class="col-4 text-center">
+                <small class="text-center">
+                    €{{ item.lineitem_total }}
+                </small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-3">
+        <div class="row align-items-center">
+            {% if farmer_order.delivery %}
+            <div class="col-12 text-center p-0">
+                <small class="text-center">
+                    <span class="badge bg-success text-l-green rounded-pill fs-6">
+                        Yes
+                    </span><br>
+                    <a href="{% url 'profile' farmer.user.id %}">
+                        <span>Farmer: {{ farmer.first_name }} {{farmer.last_name }}</span>
+                    </a>
+                </small>
+            </div>
+            {% else %}
+            <div class="col-12 text-center p-0">
+                <small class="text-center">
+                    <span class="badge bg-red text-l-green rounded-pill fs-6">
+                        No
+                    </span><br>
+                    <a href="{% url 'profile' farmer.user.id %}">
+                        <span>Farmer: {{ farmer.first_name }} {{farmer.last_name }}</span>
+                    </a><br>
+                    Distance: {{ farmer_order.farmer_order.distance }}km
+                </small>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+<hr>
+{% endwith %}
+{% endfor %}
+<div class="row justify-content-end">
+    <div class="col-3 text-center">
+        <small>
+            <strong>
+                Total: €{{ order.order_total }}
+            </strong>
+        </small>
+    </div>
+    <hr>
+</div>
+<div class="row justify-content-center mb-3">
+    <div class="col-12 col-md-8 col-lg-5">
+        <h5 class="text-center py-2">Your delivery details:</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                Name: {{ order.first_name }}
+                {{ order.last_name }}
+            </li>
+            <li class="list-group-item">
+                Phone: {{ order.phone_number }}
+            </li>
+            <li class="list-group-item">
+                Email: {{ order.email }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.street_address1 }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.street_address2 }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.town_or_city }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.county }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.postcode }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.country }}
+            </li>
+        </ul>
+    </div>
+</div>
