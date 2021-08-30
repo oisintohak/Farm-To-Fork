@@ -8,169 +8,166 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 {% endblock %}
 {% block main_content %}
-<div class="container">
+<div class="row justify-content-center py-5">
+    <h3 class="text-center pb-3 pt-2">
+        Secure Checkout:
+    </h3>
+    <div class="col-auto">
 
-    <div class="row justify-content-center pt-3">
-        <h5 class="text-center">Secure Checkout:</h5>
-        <div class="col-12 col-md-8 text-center pt-2 pb-5">
-            <small>
-                Please note items that are not marked for delivery will need to be collected. Collection information
-                will be sent in an order confirmation email.
-            </small>
-        </div>
-        <div class="col-12 col-md-8 col-lg-5">
-            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center"
-                method="POST">
-                {% csrf_token %}
-                <!--Stripe.js injects the Card Element-->
-                <div id="card-element">
-                </div>
-                <!-- Used to display form errors -->
-                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                <!-- Pass the client secret to the view so we can get the payment intent id -->
-                <input type="hidden" value="{{ client_secret }}" name="client_secret">
-                <input type="hidden" value="{{ stripe_public_key }}" name="stripe_public_key">
-                <input type="hidden" value="{{ order.first_name }}" name="first_name">
-                <input type="hidden" value="{{ order.last_name }}" name="last_name">
-                <input type="hidden" value="{{ order.phone_number }}" name="phone_number">
-                <input type="hidden" value="{{ order.email }}" name="email">
-                <input type="hidden" value="{{ order.address.street_address1 }}" name="street_address1">
-                <input type="hidden" value="{{ order.address.street_address2 }}" name="street_address2">
-                <input type="hidden" value="{{ order.address.street_address2 }}" name="street_address2">
-                <input type="hidden" value="{{ order.address.town_or_city }}" name="town_or_city">
-                <input type="hidden" value="{{ order.address.county }}" name="county">
-                <input type="hidden" value="{{ order.address.postcode }}" name="postcode">
-                <input type="hidden" value="{{ order.address.country }}" name="country">
-                <input type="hidden" value="{{ order.order_number }}" name="order_number">
-                
-                <h5 class="text-center">Amount: €{{ order.order_total }}</h5>
-                <input id="submit-button" class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Pay Now" />
-            </form>
-        </div>
+        <small>
+            Please note items that are not marked for delivery will need to be collected. Collection information
+            will be sent in an order confirmation email.
+        </small>
     </div>
-    <div class="row justify-content-center pt-4">
-        <h5 class="text-center">Order Summary:</h5>
-        <div class="col-3">
-            <h6 class="text-center">Product</h6>
-        </div>
-        <div class="col-3">
-            <h6 class="text-center">Quantity</h6>
-        </div>
-        <div class="col-3">
-            <h6 class="text-center">Subtotal</h6>
-        </div>
-        <div class="col-3">
-            <h6 class="text-center fs-6">Delivery</h6>
-        </div>
-    </div>
-    <hr>
+    <div class="col-12 col-md-8 col-lg-5">
+        <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center"
+            method="POST">
+            {% csrf_token %}
+            <!--Stripe.js injects the Card Element-->
+            <div id="card-element">
+            </div>
+            <!-- Used to display form errors -->
+            <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+            <!-- Pass the client secret to the view so we can get the payment intent id -->
+            <input type="hidden" value="{{ client_secret }}" name="client_secret">
+            <input type="hidden" value="{{ stripe_public_key }}" name="stripe_public_key">
+            <input type="hidden" value="{{ order.first_name }}" name="first_name">
+            <input type="hidden" value="{{ order.last_name }}" name="last_name">
+            <input type="hidden" value="{{ order.phone_number }}" name="phone_number">
+            <input type="hidden" value="{{ order.email }}" name="email">
+            <input type="hidden" value="{{ order.address.street_address1 }}" name="street_address1">
+            <input type="hidden" value="{{ order.address.street_address2 }}" name="street_address2">
+            <input type="hidden" value="{{ order.address.street_address2 }}" name="street_address2">
+            <input type="hidden" value="{{ order.address.town_or_city }}" name="town_or_city">
+            <input type="hidden" value="{{ order.address.county }}" name="county">
+            <input type="hidden" value="{{ order.address.postcode }}" name="postcode">
+            <input type="hidden" value="{{ order.address.country }}" name="country">
+            <input type="hidden" value="{{ order.order_number }}" name="order_number">
 
-    {% for item in order_line_items %}
-    <div class="row item-row">
-        <div class="col-3 text-center">
-            <small class="text-center">
-                <a href="{% url 'product-detail' item.product.id %}">
-                    {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
-                    €{{ item.product.price|cut:".00" }}
-                </a>
-            </small>
-        </div>
-        <div class="col-3 text-center">
-            <small class="text-center">
-                {{ item.quantity }}
-            </small>
-        </div>
-        <div class="col-3 text-center">
-            <small class="text-center">
-                €{{ item.lineitem_total }}
-            </small>
-        </div>
-        <div class="col-3 text-center">
-            <small class="text-center">
-                {% if item.delivery %}
-                Yes
-                {% else %}
-                No
-                {% endif %}
-            </small>
-        </div>
+            <h5 class="text-center">Amount: €{{ order.order_total }}</h5>
+            <input id="submit-button" class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Pay Now" />
+        </form>
     </div>
-    <hr>
-    {% endfor %}
-    <div class="row justify-content-end mb-3">
-        <div class="col text-end">
-            <strong>
-                Total: €{{ order.order_total }}
-            </strong>
-        </div>
+</div>
+<div class="row justify-content-center pt-4">
+    <h5 class="text-center">Order Summary:</h5>
+    <div class="col-3">
+        <h6 class="text-center">Product</h6>
     </div>
+    <div class="col-3">
+        <h6 class="text-center">Quantity</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center">Subtotal</h6>
+    </div>
+    <div class="col-3">
+        <h6 class="text-center fs-6">Delivery</h6>
+    </div>
+</div>
+<hr>
 
-    <div class="row justify-content-center pt-4'">
-        <div class="col">
-            <h5 class="text-center">Contact</h5>
-            <ul>
-                <li>
-                    Name: {{ order.first_name }}
-                    {{ order.last_name }}
-                </li>
-                <li>
-                    {{ order.phone_number }}
-                </li>
-                <li>
-                    Email: {{ order.email }}
-                </li>
-            </ul>
-        </div>
-        <div class="col">
-            <h5 class="text-center">Address</h5>
-            {{ order.address.street_address1 }},<br>
-            {{ order.address.street_address2 }},<br>
-            {{ order.address.town_or_city }},<br>
-            {{ order.address.county }},<br>
-            {{ order.address.postcode }},<br>
-            {{ order.address.country }}
-        </div>
+{% for item in order_line_items %}
+<div class="row item-row align-items-center">
+    <div class="col-3 text-center">
+        <small class="text-center">
+            <a href="{% url 'product-detail' item.product.id %}">
+                {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                €{{ item.product.price|cut:".00" }}
+            </a>
+        </small>
     </div>
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-md-8 col-lg-5">
-            <h5 class="text-center py-2">Your delivery details:</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    Name: {{ order.first_name }}
-                    {{ order.last_name }}
-                </li>
-                <li class="list-group-item">
-                    Phone:
-                    {{ order.phone_number }}
-                </li>
-                <li class="list-group-item">
-                    Email: {{ order.email }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.street_address1 }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.street_address2 }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.town_or_city }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.county }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.postcode }}
-                </li>
-                <li class="list-group-item">
-                    {{ order.address.country }}
-                </li>
-            </ul>
-        </div>
+    <div class="col-3 text-center">
+        <small class="text-center">
+            {{ item.quantity }}
+        </small>
     </div>
-
+    <div class="col-3 text-center">
+        <small class="text-center">
+            €{{ item.lineitem_total }}
+        </small>
+    </div>
+    <div class="col-3 text-center">
+        <small class="text-center">
+            {% if item.delivery %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </small>
+    </div>
+</div>
+<hr>
+{% endfor %}
+<div class="row justify-content-end mb-3">
+    <div class="col text-end">
+        <strong>
+            Total: €{{ order.order_total }}
+        </strong>
+    </div>
 </div>
 
-
+<div class="row justify-content-center pt-4'">
+    <div class="col">
+        <h5 class="text-center">Contact</h5>
+        <ul>
+            <li>
+                Name: {{ order.first_name }}
+                {{ order.last_name }}
+            </li>
+            <li>
+                {{ order.phone_number }}
+            </li>
+            <li>
+                Email: {{ order.email }}
+            </li>
+        </ul>
+    </div>
+    <div class="col">
+        <h5 class="text-center">Address</h5>
+        {{ order.address.street_address1 }},<br>
+        {{ order.address.street_address2 }},<br>
+        {{ order.address.town_or_city }},<br>
+        {{ order.address.county }},<br>
+        {{ order.address.postcode }},<br>
+        {{ order.address.country }}
+    </div>
+</div>
+<div class="row justify-content-center mb-3">
+    <div class="col-12 col-md-8 col-lg-5">
+        <h5 class="text-center py-2">Your delivery details:</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                Name: {{ order.first_name }}
+                {{ order.last_name }}
+            </li>
+            <li class="list-group-item">
+                Phone:
+                {{ order.phone_number }}
+            </li>
+            <li class="list-group-item">
+                Email: {{ order.email }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.street_address1 }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.street_address2 }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.town_or_city }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.county }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.postcode }}
+            </li>
+            <li class="list-group-item">
+                {{ order.address.country }}
+            </li>
+        </ul>
+    </div>
+</div>
 
 {% endblock %}
 {% block body_end_js %}

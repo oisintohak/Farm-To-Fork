@@ -4,19 +4,19 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 {% endblock %}
 {% block main_content %}
-<div class="container">
-    <div class="row justify-content-center py-3">
-        <h5 class="text-center">Enter your details:</h5>
-        <div class="col-auto">
-            <form id="geocode-form" method="POST">
-                {% csrf_token %}
-                {{ forms.order_form|crispy }}
-                {{ forms.address_form|crispy }}
-                <div class="text-center">
-                    <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Submit" />
-                </div>
-            </form>
-        </div>
+<div class="row justify-content-center py-5">
+    <h3 class="text-center pb-3 pt-2">
+        Enter your details:
+    </h3>
+    <div class="col-auto">
+        <form id="geocode-form" method="POST">
+            {% csrf_token %}
+            {{ forms.order_form|crispy }}
+            {{ forms.address_form|crispy }}
+            <div class="text-center">
+                <button id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit">Submit</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -41,7 +41,7 @@
 {% endblock %}
 {% block body_end_js %}
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
     async>
 </script>
 <script src="{% static 'js/geocode.js' %}"></script>

@@ -1,88 +1,93 @@
-{% extends "base.html" %} {% load static %} {% block main_content %}
-<div class="container justify-content-center">
+{% extends "base.html" %}
+{% load static %}
+{% block main_content %}
+<div class="row justify-content-center py-5">
     {% if cart_items %}
-    <div class="row justify-content-center py-3">
-        <h3 class="text-center">Cart</h3>
-    </div>
-    <div class="row justify-content-start">
-        <div class="col-3">
-            <h6 class="text-center">Name</h6>
-        </div>
-        <div class="col-3">
-            <h6 class="text-center">Price</h6>
-        </div>
-        <div class="col-3">
-            <h6 class="text-center">Quantity</h6>
-        </div>
-    </div>
-    <hr>
-    <form id="cart-form" action="{% url 'update_cart' %}" method="POST">
-        {% csrf_token %}
-        {% for item in cart_items %}
-        <div class="row item-row">
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    {{ item.product.product }}
-                </small>
+    <h3 class="text-center pb-3 pt-2">
+        Cart
+    </h3>
+    <div class="col-12 col-md-10">
+        <div class="row justify-content-start">
+            <div class="col-3">
+                <h6 class="text-center">Product</h6>
             </div>
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    €{{ item.product.price }}
-                </small>
+            <div class="col-3">
+                <h6 class="text-center">Quantity</h6>
             </div>
-            <div class="col-3 text-center">
-                <input class="form-control form-control-sm" type="number" name="{{ item.product.id }}"
-                    id="item-quantity-{{ item.product.id }}" value="{{ item.quantity }}" min="0" max="99" required>
-                <input type="hidden" value="" id="item-delete-{{ item.product.id }}"
-                    name="item-delete-{{ item.product.id }}" data-product-id="{{ item.product.id }}">
-            </div>
-            <div class="col-3 text-end">
-                <button type="button" data-product-id="{{ item.product.id }}"
-                    class="btn btn-sm delete-item-button">
-                    <i class="fas fa-times-circle text-red"></i>
-                </button>
+            <div class="col-3">
+                <h6 class="text-center">Subtotal</h6>
             </div>
         </div>
         <hr>
-        {% endfor %}
-        <div class="row justify-content-end">
-            <div class="col text-end">
+        <form id="cart-form" action="{% url 'update_cart' %}" method="POST">
+            {% csrf_token %}
+            {% for item in cart_items %}
+            <div class="row item-row align-items-center">
+                <div class="col-3 text-center">
+                    <small class="text-center">
+                        <a href="{% url 'product-detail' item.product.id %}">
+                            {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                            €{{ item.product.price|cut:".00" }}
+                        </a>
+                    </small>
+                </div>
+                <div class="col-3 text-center">
+                    <input class="cart-quantity-input form-control form-control-sm mx-auto" type="number" name="{{ item.product.id }}"
+                        id="item-quantity-{{ item.product.id }}" value="{{ item.quantity }}" min="0" max="99" required>
+                    <input type="hidden" value="" id="item-delete-{{ item.product.id }}"
+                        name="item-delete-{{ item.product.id }}" data-product-id="{{ item.product.id }}">
+                </div>
+                <div class="col-3 text-center">
+                    <small class="text-center">
+                        €{{ item.product.price }}
+                    </small>
+                </div>
+                <div class="col-3 text-end">
+                    <button type="button" data-product-id="{{ item.product.id }}" class="btn btn-sm delete-item-button">
+                        <i class="fas fa-times-circle text-red fs-2"></i>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+            <div class="row justify-content-end">
+                <div class="col text-end">
                     <strong>
                         Total: €{{ total }}
                     </strong>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-end mt-2">
+            <div class="row justify-content-end mt-2">
+                <div class="col-auto text-end">
+                    <button class="btn cta-button-secondary">Update Cart</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row justify-content-end py-3">
             <div class="col-auto text-end">
-                <button class="btn cta-button-secondary">Update Cart</button>
+                <a class="btn cta-button" href="{% url 'checkout' %}">Checkout</a>
             </div>
         </div>
-    </form>
 
-    <div class="row justify-content-end py-3">
-        <div class="col-auto text-end">
-            <a class="btn cta-button" href="{% url 'checkout' %}">Checkout</a>
-        </div>
     </div>
-
     {% else %}
-    <h6>
-        Nothing in your shopping cart.
-    </h6>
+    <div class="col-12 text-center">
+        <h6 class="text-center">
+            Nothing in your shopping cart.
+        </h6>
+    </div>
+    <div class="col-12 text-center mt-3">
+        <a class="btn cta-button" href="{% url 'products' %}">Browse Products</a>
+    </div>
     {% endif %}
 </div>
-
-
 {% endblock %}
 {% block body_end_js %}
 <script>
     document.querySelectorAll('.delete-item-button').forEach((item) => {
-
         item.addEventListener('click', (e) => {
-            console.log(e.target);
             let id = e.target.closest('.delete-item-button').dataset['productId'];
-            console.log(id);
-            console.log(document.querySelector(`#item-delete-${id}`));
             document.querySelector(`#item-delete-${id}`).value = 1
             document.querySelector('#cart-form').submit();
         })

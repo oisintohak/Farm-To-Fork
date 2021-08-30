@@ -10,7 +10,8 @@ function init() {
 function geocodeAddress(geocoder) {
   let submitButton = document.getElementById('submit-form');
   submitButton.disabled = true;
-  submitButton.value = 'Checking Address...';
+  submitButton.innerHTML = '<span class="spinner-grow spinner-grow-lg mx-3 align-middle" role="status" aria-hidden="true"></span>'
+    + '<span class="align-middle">Checking Address...</span>';
   let address = '';
   const addressInputIDs = [
     'id_street_address1',

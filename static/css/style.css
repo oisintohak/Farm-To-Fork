@@ -228,3 +228,6 @@ body {
 }
 
 /* ***** SHOPPING CART ***** */
+.cart-quantity-input {
+    width: 2.5rem;
+}
