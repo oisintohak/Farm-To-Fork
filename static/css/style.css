@@ -25,6 +25,10 @@
     color: #ff1744 !important;
 }
 
+.bg-red {
+    background-color: #ff1744 !important;
+}
+
 .bg-primary-dark {
     background-color: var(--primary-dark) !important;
 }
@@ -106,7 +110,7 @@ body {
 }
 
 .cta-button:focus, .cta-button:active {
-    box-shadow: 0 0 0 .25rem #ffa826b6;
+    box-shadow: 0 0 0 .25rem #ffa826b6 !important;
 }
 
 .cta-button-secondary {
@@ -121,6 +125,11 @@ body {
 .cta-button-secondary:hover, .cta-button-secondary:active {
     background-color: var(--primary-dark) !important;
     color: var(--light-green) !important;
+}
+
+.add-variant-button:hover, .add-variant-button:active {
+    background-color: var(--light-green) !important;
+    color: var(--primary-dark) !important;
 }
 
 .cta-button-secondary:focus, .cta-button-secondary:active {

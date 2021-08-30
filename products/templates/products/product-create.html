@@ -4,14 +4,15 @@
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 {% endblock %}
 {% block extra_title %}
-- Edit Product - {{ product.name }}
+- Create Product
 {% endblock %}
+
 
 {% block main_content %}
 <div class="container">
-    <div class="row justify-content-center py-5">
+    <div class="row justify-content-center py-3">
         <h3 class="text-center pb-3 pt-2">
-            Edit Product - {{ product.name }}
+            Create Product
         </h3>
         <div class="col-auto">
             <form method="POST" enctype="multipart/form-data">
@@ -24,7 +25,7 @@
                 {% endfor %}
 
                 <div class="text-center">
-                    <input class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Save" /><br>
+                    <input class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Save" /> <br>
                     <small class="text-center">A maximum of 10 variants can be added.</small>
                 </div>
             </form>

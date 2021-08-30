@@ -57,7 +57,7 @@
 
                 var delButtonHTML = '<div class="col-2 mb-3 mt-auto">' +
                     '<a class="' + options.deleteCssClass + '" href="javascript:void(0)">' +
-                    '<button type="button" class="btn btn-sm btn-danger">Delete</button>' +
+                    '<button type="button" class="btn delete-item-button"><i class="fas fa-times-circle text-red"></i></button>' +
                     '</a></button></div>';
 
                 // var delButtonHTML = '<div class="col-2 mb-3 mt-auto"> <button type="button" class="' +
@@ -190,9 +190,9 @@
             // FIXME: Perhaps using $.data would be a better idea?
             options.formTemplate = template;
 
-            var addButtonHTML = '<div class="col-12 text-center">' +
+            var addButtonHTML = '<div class="col-12 my-2 text-center">' +
                 '<button type="button" class="' +
-                'btn btn-success w-auto">Add Variant</button> </div>'
+                'btn btn-sm cta-button-secondary add-variant-button bg-d-green text-l-green w-auto">Add Variant</button> </div>'
 
 
             // var addButtonHTML = '<a class="' + options.addCssClass + '" href="javascript:void(0)">' + options.addText + '</a>';

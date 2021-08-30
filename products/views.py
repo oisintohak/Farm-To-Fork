@@ -76,6 +76,7 @@ class ProductVariantInline(InlineFormSetFactory):
     factory_kwargs = {
         'extra': 1,
         'can_delete': True,
+        'max_num': 10
     }
     fields = ['price', 'size', 'unit', ]
     exclude = ['product', 'id']
@@ -89,7 +90,7 @@ class ProductCreate(
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
-    template_name = 'products/product-edit.html'
+    template_name = 'products/product-create.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,4 +116,5 @@ class ProductEdit(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['helper'] = ProductVariantFormHelper()
+        context['product'] = self.object
         return context
