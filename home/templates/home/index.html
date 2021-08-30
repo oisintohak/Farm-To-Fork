@@ -13,9 +13,12 @@
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-12 text-center my-5 pb-5">
-        <h3 class="text-center">Browse Farmers</h3>
-        <ul class="slick-slider p-0 m-0">
+    <div class="col-12 mt-5">
+        <hr>
+    </div>
+    <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
+        <h3 class="text-center py-3">Popular Farmers</h3>
+        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
             {% for farmer in farmers %}
             <li class="slick-slider-slide-item">
                 <a href="{% url 'profile' farmer.user.id %}">
@@ -62,10 +65,12 @@
             {% endfor %}
         </ul>
     </div>
-    <hr>
-    <div class="col-12 text-center my-5 pb-5">
-        <h3 class="text-center">Browse Products</h3>
-        <ul class="slick-slider p-0 m-0">
+    <div class="col-12">
+        <hr>
+    </div>
+    <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
+        <h3 class="text-center py-3">Popular Products</h3>
+        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
             {% for item in product_list.values %}
             <li class="slick-slider-slide-item">
                 <div class="col-12 p-2">
@@ -92,7 +97,7 @@
                                             {{ item.product.name }}
                                         </a>
                                     </h5>
-                                    <small>Farmer:
+                                    <small>Grown by:
                                         <a href="{% url 'profile' item.product.created_by.id %}">
                                             {{ item.product.created_by.profile.first_name }}
                                             {{ item.product.created_by.profile.last_name }}
@@ -109,13 +114,15 @@
                                                 €{{ variant.price|cut:".00" }}
                                                 {% endif %}
                                             </li>
+                                            {% if item.variants|length > 2 and forloop.counter == 3 %}
+                                            <li class="list-group-item">
+                                            <a href="{% url 'product-detail' item.product.id %}">
+                                                ...see more
+                                            </a>
+                                            </li>
+                                            {% endif %}
                                             {% endfor %}
                                         </ul>
-                                        {% if item.variants|length > 6 %}
-                                        <a href="{% url 'product-detail' item.product.id %}">
-                                        ...see more
-                                        </a>
-                                        {% endif %}
                                     </p>
                                     <p class="card-text text-center">
                                         <a class="btn cta-button"
