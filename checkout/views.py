@@ -66,13 +66,16 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         for item in order_cart['cart_items']:
             item_location = (
                 item['product'].product.created_by.profile.address.location)
-            item_distance = (
-                distance.distance(item_location, order_location).km)
+            dist = distance.distance(
+                (item_location.coords[1], item_location.coords[0]),
+                (order_location.coords[1], order_location.coords[0])).km
+            item_distance = round(dist, 2)
             order_line_item = OrderLineItem(
                 order=order,
                 product=get_object_or_404(
                     ProductVariant, pk=item['product_id']),
                 quantity=item['quantity'],
+                item_distance=item_distance,
             )
             if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
                 order_line_item.delivery = True
@@ -104,6 +107,15 @@ class Payment(EmptyCartMixin, TemplateView):
             Order, order_number=self.kwargs['order_number'])
         context['order'] = order
         context['order_line_items'] = OrderLineItem.objects.filter(order=order)
+        farmer_orders = FarmerOrder.objects.filter(order=order)
+        farmer_order_list = {}
+        for index, farmer_order in enumerate(farmer_orders):
+            farmer_order_list[index] = {
+                'farmer_order': farmer_order,
+                'line_items': OrderLineItem.objects.filter(
+                    farmer_order=farmer_order)
+            }
+        context['farmer_order_list'] = farmer_order_list
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         context['stripe_public_key'] = stripe_public_key
@@ -118,8 +130,6 @@ class Payment(EmptyCartMixin, TemplateView):
             }
         )
         pid = intent.client_secret.split('_secret')[0]
-        print('pid')
-        print(pid)
         order.stripe_pid = pid
         if self.request.user.is_authenticated:
             order.user = self.request.user
@@ -144,6 +154,15 @@ class CheckoutComplete(TemplateView):
             Order, order_number=self.kwargs['order_number'])
         context['order'] = order
         context['order_line_items'] = OrderLineItem.objects.filter(order=order)
+        farmer_orders = FarmerOrder.objects.filter(order=order)
+        farmer_order_list = {}
+        for index, farmer_order in enumerate(farmer_orders):
+            farmer_order_list[index] = {
+                'farmer_order': farmer_order,
+                'line_items': OrderLineItem.objects.filter(
+                    farmer_order=farmer_order)
+            }
+        context['farmer_order_list'] = farmer_order_list
         if 'cart' in self.request.session:
             del self.request.session['cart']
         return context

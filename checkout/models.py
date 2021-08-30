@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.db.models.fields import BooleanField
+from geopy import distance
 from products.models import ProductVariant
 from django.contrib.gis.db.models import PointField
 
@@ -146,6 +147,8 @@ class OrderLineItem(models.Model):
     lineitem_total = models.DecimalField(max_digits=6, decimal_places=2,
                                          null=False, blank=False,
                                          editable=False)
+    item_distance = models.DecimalField(max_digits=8, decimal_places=2,
+                                        null=True)
     delivery = BooleanField(default=False)
 
     def save(self, *args, **kwargs):
