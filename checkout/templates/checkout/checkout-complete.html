@@ -29,67 +29,70 @@
             </div>
         </div>
         <hr>
-        {% for item in order_line_items %}
+        {% for farmer_order in farmer_order_list.values %}
+        {% with farmer_order.farmer_order.farmer.profile as farmer %}
         <div class="row item-row align-items-center">
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    <a href="{% url 'product-detail' item.product.product.id %}">
-                        {{ item.product.product.name }}, {{ item.product.size|cut:".00" }}{{ item.product.unit }},
-                        €{{ item.product.price|cut:".00" }}
-                    </a>
-                </small>
-            </div>
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    {{ item.quantity }}
-                </small>
-            </div>
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    €{{ item.lineitem_total }}
-                </small>
-            </div>
-            {% if item.delivery %}
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    <span class="badge bg-success text-l-green rounded-pill fs-6">
-                        Yes
-                    </span>
-                </small>
-            </div>
-            {% else %}
-            <div class="col-3 text-center">
-                <small class="text-center">
-                    <span class="badge bg-red text-l-green rounded-pill fs-6">
-                        No
-                    </span><br>
-                    <button
-                        class="btn btn-sm add-variant-button border-2 border-primary-dark bg-d-green text-l-green w-auto mt-2"
-                        type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
-                        aria-expanded="false" aria-controls="collapse{{ item.id }}">
-                        Show collection details
-                    </button>
-                </small>
-            </div>
-            {% with item.product.product.created_by.profile as farmer %}
-            <div class="col-12 collapse" id="collapse{{ item.id }}">
-                <div class="card bg-l-green card-body">
-                    <div class="row g-0">
-                        <div class="col-auto">
-                            <h6 class="card-title">
-                                <a target="_blank" href="{% url 'profile' farmer.user.id %}">
-                                    {{ farmer.first_name }} {{ farmer.last_name }}
-                                </a>
-                            </h6>
-                        </div>
+            {{ farmer.first_name }} {{ farmer.last_name }}
+        </div>
+        {% for item in farmer_order.line_items %}
+        <div class="row item-row align-items-center">
+            <div class="col-9">
+                <div class="row align-items-center">
+                    <div class="col-4 text-center">
+                        <small class="text-center">
+                            <a href="{% url 'product-detail' item.product.product.id %}">
+                                {{ item.product.product.name }},
+                                {{ item.product.size|cut:".00" }}{{ item.product.unit }},
+                                €{{ item.product.price|cut:".00" }}
+                            </a>
+                        </small>
+                    </div>
+                    <div class="col-4 text-center">
+                        <small class="text-center">
+                            {{ item.quantity }}
+                        </small>
+                    </div>
+                    <div class="col-4 text-center">
+                        <small class="text-center">
+                            €{{ item.lineitem_total }}
+                        </small>
                     </div>
                 </div>
             </div>
-            {% endwith %}
+            <div class="col-3">
+                <div class="row align-items-center">
 
+                {% if farmer_order.delivery %}
+                <div class="col-12 text-center">
+                    <small class="text-center">
+                        <span class="badge bg-success text-l-green rounded-pill fs-6">
+                            Yes
+                        </span>
+                    </small>
+                </div>
+                {% else %}
+                <div class="col-12 text-center">
+                    <small class="text-center">
+                        <span class="badge bg-red text-l-green rounded-pill fs-6">
+                            No
+                        </span><br>
+                        farmer distance: {{ farmer_order.farmer_order.distance }}km
+                        <button
+                            class="btn btn-sm add-variant-button border-2 border-primary-dark bg-d-green text-l-green w-auto mt-2"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
+                            aria-expanded="false" aria-controls="collapse{{ item.id }}">
+                            Show collection details
+                        </button>
+                    </small>
+                </div>
+            </div>
+
+            </div>
             {% endif %}
         </div>
         <hr>
+        {% endfor %}
+        {% endwith %}
         {% endfor %}
         <div class="row justify-content-end">
             <div class="col-3 text-center">
@@ -149,4 +152,18 @@
     </div>
 </div>
 
+
+<div class="col-12 collapse" id="collapse{{ item.id }}">
+    <div class="card bg-l-green card-body">
+        <div class="row g-0">
+            <div class="col-auto">
+                <h6 class="card-title">collapse card details
+                    <a target="_blank" href="">
+                        {{ farmer.first_name }} {{ farmer.last_name }}
+                    </a>
+                </h6>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.db.models.fields import BooleanField
-from geopy import distance
 from products.models import ProductVariant
 from django.contrib.gis.db.models import PointField
 
@@ -107,15 +106,25 @@ class Order(models.Model):
 
 
 class FarmerOrder(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['farmer', 'order'], name='unique_farmer_order'
+            )
+        ]
+
     farmer = models.ForeignKey('accounts.UserModel', null=True,
                                blank=False, on_delete=models.SET_NULL,
                                related_name='farmer_orders')
-    order = models.OneToOneField(Order, null=False, blank=False,
-                                 on_delete=models.CASCADE,
-                                 related_name='farmer_orders')
+    order = models.ForeignKey(Order, null=False, blank=False,
+                              on_delete=models.CASCADE,
+                              related_name='farmer_orders')
     farmer_order_total = models.DecimalField(max_digits=10, decimal_places=2,
                                              null=False, default=0)
     product_count = models.IntegerField(default=0)
+    distance = models.DecimalField(max_digits=8, decimal_places=2,
+                                   null=True)
+    delivery = BooleanField(default=False)
 
     def update_total(self):
         """
@@ -147,9 +156,6 @@ class OrderLineItem(models.Model):
     lineitem_total = models.DecimalField(max_digits=6, decimal_places=2,
                                          null=False, blank=False,
                                          editable=False)
-    item_distance = models.DecimalField(max_digits=8, decimal_places=2,
-                                        null=True)
-    delivery = BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         """

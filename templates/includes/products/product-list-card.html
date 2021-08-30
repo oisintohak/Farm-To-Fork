@@ -62,7 +62,7 @@
                             </div>
                             {% if item.product.created_by == request.user %}
                             <div
-                                class="col-12 col-sm-auto d-flex align-items-end justify-content-center justify-content-sm-start mt-2">
+                                class="col-12 col-sm-auto d-flex align-items-end justify-content-center justify-content-sm-start mt-2 ms-auto">
                                 <a class="btn cta-button-secondary" href="{% url 'product-edit' item.product.id %}">Edit
                                     Product</a>
                             </div>

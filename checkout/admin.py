@@ -32,13 +32,16 @@ class OrderAdmin(admin.ModelAdmin):
 
 class OrderLineItemAdmin(admin.ModelAdmin):
     readonly_fields = ['order', 'farmer_order',
-                       'product', 'quantity', 'delivery']
+                       'product', 'quantity', ]
 
 
 class FarmerOrderAdmin(admin.ModelAdmin):
     inlines = (OrderLineItemAdminInline,)
-
+    fields = ['farmer', 'order', 'farmer_order_total',
+              'product_count', 'distance', 'delivery']
     readonly_fields = ['farmer', 'order']
+    list_filter = ['farmer', 'order', 'delivery']
+
 
 
 class AddressAdmin(admin.ModelAdmin):

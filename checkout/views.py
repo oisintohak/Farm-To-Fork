@@ -75,15 +75,16 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
                 product=get_object_or_404(
                     ProductVariant, pk=item['product_id']),
                 quantity=item['quantity'],
-                item_distance=item_distance,
             )
-            if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
-                order_line_item.delivery = True
             farmer_order, created = FarmerOrder.objects.update_or_create(
                 order=order,
+                farmer=item['product'].product.created_by
             )
             farmer_order.farmer = order_line_item.product.product.created_by
+            farmer_order.distance = item_distance
             order_line_item.farmer_order = farmer_order
+            if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
+                farmer_order.delivery = True
             order_line_item.save()
             farmer_order.save()
         return redirect(
