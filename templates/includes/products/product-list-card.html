@@ -1,0 +1,76 @@
+{% load static %}
+{% load profiles_extras %}
+<div class="col-12 col-xl-6">
+    <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+        <div class="row g-0">
+            <div class="col-12 col-md-4 d-flex align-items-center">
+                <a class="product-card-image" href="{% url 'product-detail' item.product.id %}">
+                    {% if item.product.image %}
+                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
+                        alt="{{ item.product.name }}">
+                    {% elif product.image_url %}
+                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
+                        alt="{{ item.product.name }}">
+                    {% else %}
+                    <img class="product-card-image img-fluid rounded" src="{{ MEDIA_URL }}product-image-placeholder.png"
+                        alt="{{ item.product.name }}">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="card-body text-center text-sm-start">
+                    <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
+                            {{ item.product.name|truncatechars:15 }}
+                        </a>
+                    </h5>
+                    <small>Farmer:
+                        <a href="{% url 'profile' item.product.created_by.id %}">
+                            {% with item.product.created_by.profile.first_name|addstr:item.product.created_by.profile.last_name as fullname %}
+                            {{ fullname|truncatechars:25 }}
+                            {% endwith %}
+                        </a>
+                    </small>
+                    <p class="card-text">
+                        {{ item.product.description|truncatechars:120 }}
+                    </p>
+                    <p class="card-text">
+                        Available in:
+                        <div class="row justify-content-center justify-content-sm-start">
+                            <div class="col-auto text-center d-flex align-items-end text-sm-start mt-2">
+                                <ul class="list-group list-group-horizontal-sm carousel-card-list-group">
+                                    {% for variant in item.variants %}
+                                    {% if forloop.counter < 4 %}
+                                    <li class="list-group-item">
+                                        {{ variant.size|cut:".00" }}
+                                        {{ variant.unit }}:
+                                        €{{ variant.price|cut:".00" }}
+                                        {% endif %}
+                                    </li>
+                                    {% if item.variants|length > 3 and forloop.counter == 3 %}
+                                    <li class="list-group-item">
+                                        <a href="{% url 'product-detail' item.product.id %}">
+                                            ...see more
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div
+                                class="col-12 col-sm-auto d-flex align-items-end justify-content-center justify-content-sm-start ms-auto mt-2">
+                                <a class="btn cta-button" href="{% url 'product-detail' item.product.id %}">Details</a>
+                            </div>
+                            {% if item.product.created_by == request.user %}
+                            <div
+                                class="col-12 col-sm-auto d-flex align-items-end justify-content-center justify-content-sm-start mt-2">
+                                <a class="btn cta-button-secondary" href="{% url 'product-edit' item.product.id %}">Edit
+                                    Product</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

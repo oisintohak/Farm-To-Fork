@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block main_content %}
+{% extends "base.html" %}
+{% load static %}
+{% load profiles_extras %}
+{% block main_content %}
 <div class="container">
     <div class="row justify-content-between pt-5 pb-1">
         <div class="col-auto text-start d-flex flex-column justify-content-end">
@@ -7,7 +10,7 @@
             </h3>
         </div>
         <div class="col-auto text-end">
-            {% include 'includes/sort-products.html' %}
+            {% include 'includes/products/sort-products.html' %}
         </div>
         <div class="col-12">
             <hr>
@@ -15,68 +18,7 @@
     </div>
     <div class="row justify-content-center pb-3">
         {% for item in product_list.values %}
-        <div class="col-12 col-xl-6">
-            <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
-                <div class="row g-0">
-                    <div class="col-12 col-md-4 d-flex align-items-center">
-                        <a class="product-card-image" href="{% url 'product-detail' item.product.id %}">
-                            {% if item.product.image %}
-                            <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
-                                alt="{{ item.product.name }}">
-                            {% elif product.image_url %}
-                            <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
-                                alt="{{ item.product.name }}">
-                            {% else %}
-                            <img class="product-card-image img-fluid rounded"
-                                src="{{ MEDIA_URL }}product-image-placeholder.png" alt="{{ item.product.name }}">
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="col-12 col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{% url 'product-detail' item.product.id %}">
-                                    {{ item.product.name|truncatechars:15 }}
-                                </a>
-                            </h5>
-                            <small>Farmer:
-                                <a href="{% url 'profile' item.product.created_by.id %}">
-                                    {{ item.product.created_by.profile.first_name }}
-                                    {{ item.product.created_by.profile.last_name }}
-                                </a>
-                            </small>
-                            <p class="card-text">
-                                {{ item.product.description|truncatechars:120 }}
-                            </p>
-                            <p class="card-text">
-                                Available in:
-                                        <ul class="list-group carousel-card-list-group">
-                                            {% for variant in item.variants %}
-                                            {% if forloop.counter < 3 %}
-                                            <li class="list-group-item">
-                                                {{ variant.size|cut:".00" }}
-                                                {{ variant.unit }}:
-                                                €{{ variant.price|cut:".00" }}
-                                                {% endif %}
-                                            </li>
-                                            {% if item.variants|length > 2 and forloop.counter == 3 %}
-                                            <li class="list-group-item">
-                                            <a href="{% url 'product-detail' item.product.id %}">
-                                                ...see more
-                                            </a>
-                                            </li>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </ul>
-                            </p>
-                            <p class="card-text text-end">
-                                <a class="btn cta-button ms-auto"
-                                    href="{% url 'product-detail' item.product.id %}">Details</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include 'includes/products/product-list-card.html' %}
         {% endfor %}
     </div>
 </div>

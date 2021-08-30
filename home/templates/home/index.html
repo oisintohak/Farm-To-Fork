@@ -1,6 +1,8 @@
-{% extends "base.html" %} {% load static %} 
+{% extends "base.html" %}
+{% load static %}
+{% load profiles_extras %}
 {% block extra_title %}
- - Home
+- Home
 {% endblock %}
 {% block main_content %}
 
@@ -48,12 +50,13 @@
                                 <div class="col-12">
                                     <div class="card-body">
                                         <h5 class="card-title"><a href="{% url 'profile' farmer.user.id %}">
-                                                {{ farmer.first_name }}
-                                                {{ farmer.last_name }}
+                                                {% with farmer.first_name|addstr:farmer.last_name as fullname %}
+                                                {{ fullname|truncatechars:25 }}
+                                                {% endwith %}
                                             </a>
                                         </h5>
                                         <p class="card-text">
-                                            {{ farmer.bio|truncatewords:10 }}
+                                            {{ farmer.bio|default:"This user hasn't added a bio yet."|truncatechars:33 }}
                                         </p>
                                         <p class="card-text text-center">
                                             <a class="btn cta-button" href="{% url 'profile' farmer.user.id %}">
@@ -121,9 +124,9 @@
                                             </li>
                                             {% if item.variants|length > 2 and forloop.counter == 3 %}
                                             <li class="list-group-item">
-                                            <a href="{% url 'product-detail' item.product.id %}">
-                                                ...see more
-                                            </a>
+                                                <a href="{% url 'product-detail' item.product.id %}">
+                                                    ...see more
+                                                </a>
                                             </li>
                                             {% endif %}
                                             {% endfor %}

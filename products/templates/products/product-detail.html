@@ -29,9 +29,9 @@
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-8">
-                        <div class="row">
-                            <p>
-                                {{ product.description }}
+                        <div class="row justify-content-center justify-content-md-start">
+                            <p class="text-center text-md-start">
+                                {{ product.description|default:"This product doesn't have a description yet." }}
                             </p>
                         </div>
                         <div class="col-auto">
@@ -55,11 +55,12 @@
                                         min="1" max="99" name="quantity" value=1 required>
                                 </div>
                                 <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                                <div class="text-end">
-                                    <input type="submit" class="btn cta-button mb-2" value="Add to Cart">
+                                <div class="text-center text-md-end">
                                     {% if product.created_by == request.user %}
                                     <a class="btn cta-button-secondary mb-2"
                                         href="{% url 'product-edit' product.id %}">Edit Product</a>
+                                    {% else %}
+                                    <input type="submit" class="btn cta-button mb-2" value="Add to Cart">
                                     {% endif %}
                                 </div>
                             </form>

@@ -1,96 +1,58 @@
 {% extends "base.html" %}
 {% load static %}
 {% load check_group %}
+{% load profiles_extras %}
 {% block main_content %}
-<div class="container">
-    <div class="row justify-content-center py-3">
-        <div class="col-12 col-md-10 col-xl-8">
-            <div class="card bg-l-green border-d-green border border-3 p-2 w-auto">
-                <div class="row justify-content-center">
-                    <div class="card-title py-3 text-center">
-                        <h3 class="text-center">
-                            {{ user_profile.first_name|default:user_profile.user.username }}
-                            {{ user_profile.last_name|default:'' }}
-                        </h3>
-                        {{ user_profile.address.county|default:"" }},
-                        {{ user_profile.address.country|default:"" }}
-
-                    </div>
-                    <div class="col-8 col-md-4 text-center">
-                        {% if user_profile.image %}
-                        <img class="product-card-image img-fluid rounded product-image"
-                            src="{{ user_profile.image.url }}" alt="{{ user_profile }}'s profile picture">
-                        {% elif user_profile.image_url %}
-                        <img class="product-card-image img-fluid rounded product-image"
-                            src="{{ user_profile.image_url }}" alt="{{ user_profile }}'s profile picture">
+<div class="row justify-content-center py-3">
+    <div class="col-12 col-md-10 col-xl-8">
+        <div class="card bg-l-green border-d-green border border-3 p-2 w-auto">
+            <div class="row justify-content-center">
+                <div class="card-title py-3 text-center">
+                    <h3 class="text-center">
+                        {% if not user_profile.first_name or not user_profile.last_name %}
+                        {{ user_profile.user.username|truncatechars:25 }}
                         {% else %}
-                        <img class="product-card-image img-fluid rounded product-image"
-                            src="{{ MEDIA_URL }}product-image-placeholder.png"
-                            alt="{{ user_profile }}'s profile picture">
+                        {% with user_profile.first_name|addstr:user_profile.last_name as fullname %}
+                        {{ fullname|truncatechars:25 }}
+                        {% endwith %}
                         {% endif %}
-                    </div>
-                    <div class="col-12 col-md-8">
-                        <h6>Bio:</h6>
-                        <p>
-                            {{ user_profile.bio|default:"This user hasn't added a bio yet." }}
-                        </p>
-                    </div>
+                    </h3>
+                    {{ user_profile.address.county|default:"" }},
+                    {{ user_profile.address.country|default:"" }}
                 </div>
-                {% if product_list %}
-                <div class="row">
-                    <div class="col-12">
-                        <hr>
-                    </div>
-                    <h5 class="text-center mb-3">Products:</h5>
-                    {% for item in product_list.values %}
-                    <div class="col-12 col-xl-6">
-                        <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
-                            <div class="row g-0">
-                                <div class="col-4 d-flex align-items-center">
-                                    {% if item.product.image %}
-                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
-                                        alt="{{ item.product.name }}">
-                                    {% elif product.image_url %}
-                                    <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
-                                        alt="{{ item.product.name }}">
-                                    {% else %}
-                                    <img class="product-card-image img-fluid rounded"
-                                        src="{{ MEDIA_URL }}product-image-placeholder.png"
-                                        alt="{{ item.product.name }}">
-                                    {% endif %}
-                                </div>
-                                <div class="col-8 card-body">
-                                    <h5 class="card-title">
-                                        <a href="{% url 'product-detail' item.product.id %}">
-                                            {{ item.product.name }}
-                                        </a>
-                                    </h5>
-                                    <p class="card-text">
-                                        {{ item.product.description }}
-                                    </p>
-                                    <p class="card-text">
-                                        Available in:
-                                        {% for variant in item.variants %}
-                                        {{ variant.size|cut:".00" }}{{ variant.unit }}:
-                                        €{{ variant.price|cut:".00" }},
-                                        {% endfor %}
-                                    </p>
-                                    <p class="card-text text-end">
-                                        <a class="btn btn-sm cta-button"
-                                            href="{% url 'product-detail' item.product.id %}">Details</a>
-                                        {% if item.product.created_by == request.user %}
-                                        <a class="btn btn-sm cta-button-secondary mt-2"
-                                            href="{% url 'product-edit' item.product.id %}">Edit Product</a>
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div class="col-8 col-md-4 text-center">
+                    {% if user_profile.image %}
+                    <img class="product-card-image img-fluid rounded product-image" src="{{ user_profile.image.url }}"
+                        alt="{{ user_profile }}'s profile picture">
+                    {% elif user_profile.image_url %}
+                    <img class="product-card-image img-fluid rounded product-image" src="{{ user_profile.image_url }}"
+                        alt="{{ user_profile }}'s profile picture">
+                    {% else %}
+                    <img class="product-card-image img-fluid rounded product-image"
+                        src="{{ MEDIA_URL }}product-image-placeholder.png" alt="{{ user_profile }}'s profile picture">
                     {% endif %}
+                </div>
+                <div class="col-12 col-md-8">
+                    <h6>Bio:</h6>
+                    <p>
+                        {{ user_profile.bio|default:"This user hasn't added a bio yet." }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% if product_list %}
+<div class="row justify-content-center py-3">
+    <div class="col-12 text-center">
+        <h3 class="text-center mb-3">Products:</h3>
+    </div>
+    <div class="col-12">
+        <hr>
+    </div>
+    {% for item in product_list.values %}
+    {% include 'includes/products/product-list-card.html' %}
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

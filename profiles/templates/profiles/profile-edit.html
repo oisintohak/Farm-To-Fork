@@ -5,47 +5,47 @@
 {% endblock %}
 {% block main_content %}
 <div class="container">
-    <div class="row justify-content-center py-3">
-        <h5 class="text-center">Enter your details:</h5>
+    <div class="row justify-content-center py-5">
+        <h3 class="text-center pb-3 pt-2">
+            Enter your details:
+        </h3>
         <div class="col-auto">
-            <form id="geocode-form" method="POST"
-                enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ forms.profile_form|crispy }}
-                {{ forms.address_form|crispy }}
-                <div class="text-center">
-                    <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit" value="Save" />
+            <form id="geocode-form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ forms.profile_form|crispy }}
+                        {{ forms.address_form|crispy }}
+                        <div class="text-center">
+                            <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit"
+                                value="Save" />
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="submit-modal" tabindex="-1" aria-labelledby="submit-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="submit-modal-label">Check your address.</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                We Couldn't find coordinates for that address, please enter an accurate street address.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
-    </div>
-</div>
 
-{% endblock %}
-{% block body_end_js %}
-<script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
-    async>
-</script>
-<script src="{% static 'js/geocode.js' %}"></script>
-{% endblock %}
+        <!-- Modal -->
+        <div class="modal fade" id="submit-modal" tabindex="-1" aria-labelledby="submit-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="submit-modal-label">Check your address.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        We Couldn't find coordinates for that address, please enter an accurate street address.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
+        {% endblock %}
+        {% block body_end_js %}
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_KIP4-e2L9q9sFgUbERToZ0u7Hc1AYrw&callback=init&libraries=&v=weekly&channel=2"
+            async>
+        </script>
+        <script src="{% static 'js/geocode.js' %}"></script>
+        {% endblock %}
