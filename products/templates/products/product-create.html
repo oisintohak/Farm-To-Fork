@@ -33,6 +33,9 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block body_end_js %}
 <script type="text/javascript">
     $(function () {
         $('.formset-formgroup').formset({
@@ -40,7 +43,4 @@
         });
     })
 </script>
-{% block body_end_js %}
-
-{% endblock %}
 {% endblock %}
