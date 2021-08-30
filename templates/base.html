@@ -96,7 +96,21 @@
                         </ul>
                     </div>
                 </li>
-                <li class="ms-auto nav-item">
+                <button class="d-xl-none ms-auto nav-item btn nav-link fs-3" type="button" id="mobileSearchDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="d-xl-none dropdown-menu mobile-search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                    aria-labelledby="mobileSearchDropdown">
+                    <form class="mobile-search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
+                        <div class="input-group">
+                            <input type="search" class="form-control search-input" name="q" placeholder="Search"
+                                aria-label="Search" aria-describedby="search-button">
+                            <button class="btn cta-button" type="submit" id="search-button">Go</button>
+                        </div>
+                    </form>
+                </div>
+                <li class="d-none d-xl-block ms-auto nav-item">
                     <div class="dropdown">
                         <button class="btn nav-link fs-3" type="button" id="searchDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
