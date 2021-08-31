@@ -21,7 +21,7 @@
 <div class="row item-row align-items-center">
     <div class="col-9 align-self-start">
         {% for item in farmer_order.line_items %}
-        <div class="row align-items-start">
+        <div class="row align-items-center">
             <div class="col-4 text-center">
                 <small class="text-center">
                     <a href="{% url 'product-detail' item.product.product.id %}">
@@ -46,7 +46,7 @@
     </div>
     <div class="col-3">
         <div class="row align-items-center">
-            {% if farmer_order.delivery %}
+            {% if farmer_order.farmer_order.delivery %}
             <div class="col-12 text-center p-0">
                 <small class="text-center">
                     <span class="badge bg-success text-l-green rounded-pill fs-6">
@@ -55,6 +55,7 @@
                     <a href="{% url 'profile' farmer.user.id %}">
                         <span>Farmer: {{ farmer.first_name }} {{farmer.last_name }}</span>
                     </a>
+                    Distance: {{ farmer_order.farmer_order.distance }}km
                 </small>
             </div>
             {% else %}
@@ -85,21 +86,27 @@
             </strong>
         </small>
     </div>
-    <hr>
+    <div class="col-12">
+        <hr>
+    </div>
 </div>
 <div class="row justify-content-center mb-3">
     <div class="col-12 col-md-8 col-lg-5">
         <h5 class="text-center py-2">Your delivery details:</h5>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush text-start">
             <li class="list-group-item">
-                Name: {{ order.first_name }}
-                {{ order.last_name }}
+                <strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}
             </li>
             <li class="list-group-item">
-                Phone: {{ order.phone_number }}
+                <strong>Phone:</strong> {{ order.phone_number }}
             </li>
             <li class="list-group-item">
-                Email: {{ order.email }}
+                <strong>Email:</strong> {{ order.email }}
+            </li>
+            <li class="list-group-item">
+                <strong>
+                    Address:
+                </strong>
             </li>
             <li class="list-group-item">
                 {{ order.address.street_address1 }}
@@ -114,10 +121,7 @@
                 {{ order.address.county }}
             </li>
             <li class="list-group-item">
-                {{ order.address.postcode }}
-            </li>
-            <li class="list-group-item">
-                {{ order.address.country }}
+                {{ order.address.postcode }}, {{ order.address.country }}
             </li>
         </ul>
     </div>

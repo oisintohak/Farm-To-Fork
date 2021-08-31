@@ -229,8 +229,16 @@ class OrderDetail(TemplateView):
         context = super().get_context_data(**kwargs)
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
-        context['line_items'] = OrderLineItem.objects.filter(order=order)
         context['order'] = order
+        farmer_orders = FarmerOrder.objects.filter(order=order)
+        farmer_order_list = {}
+        for index, farmer_order in enumerate(farmer_orders):
+            farmer_order_list[index] = {
+                'farmer_order': farmer_order,
+                'line_items': OrderLineItem.objects.filter(
+                    farmer_order=farmer_order)
+            }
+        context['farmer_order_list'] = farmer_order_list
         return context
 
 

@@ -4,48 +4,52 @@
 - Orders
 {% endblock %}
 {% block main_content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-auto text-center my-3">
-            <h5 class="text-center">My Orders:</h5>
-            {% if my_orders %}
-            <ul class="list-group">
-                {% for item in my_orders %}
-                <li class="list-group-item">
-                    <a href="{% url 'order-detail' item.order_number %}">
-                        {{ item }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <small class="text-center">
-                You haven't placed any orders yet.
-            </small>
-            {% endif %}
-        </div>
-        {% if request.user|has_group:'Farmers' %}
-        <div class="col-auto">
-            <hr>
-            <h5 class="text-center">Farmer Orders:</h5>
-            {% endif %}
-            {% if farmer_orders %}
-            <ul class="list-group">
-                {% for item in farmer_orders %}
-                <li class="list-group-item">
-                    <a href="{% url 'farmer-order-detail' item.id %}">
-                        {{ item }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <small class="text-center">
-                You haven't received any incoming orders yet.
-            </small>
-        </div>
-            {% endif %}
+<div class="row justify-content-center pt-5 pb-3">
+    <h3 class="text-center pb-3 pt-2">
+        My Orders:
+    </h3>
+    <div class="col-auto text-center my-3">
+        {% if my_orders %}
+        <ul class="list-group">
+            {% for item in my_orders %}
+            <li class="list-group-item">
+                <a href="{% url 'order-detail' item.order_number %}">
+                    {{ item }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <small class="text-center">
+            You haven't placed any orders yet.
+        </small>
+        {% endif %}
     </div>
 </div>
+{% if request.user|has_group:'Farmers' %}
+<div class="row justify-content-center pb-5">
+    <div class="col-auto">
+        <hr>
+        <h3 class="text-center pb-3 pt-2">
+            Farmer Orders:
+        </h3>
+        {% if farmer_orders %}
+        <ul class="list-group">
+            {% for item in farmer_orders %}
+            <li class="list-group-item">
+                <a href="{% url 'farmer-order-detail' item.id %}">
+                    {{ item }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <small class="text-center">
+            You haven't received any incoming orders yet.
+        </small>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
