@@ -4,8 +4,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 from .models import Address, FarmerOrder, Order, OrderLineItem
-from products.models import Product, ProductVariant
-from profiles.models import UserProfile
+from products.models import ProductVariant
 
 import json
 import time
@@ -19,43 +18,59 @@ class StripeWH_Handler:
 
     def _send_farmer_email(self, order):
         farmer_orders = FarmerOrder.objects.filter(order=order)
-        farmer_order_list = {}
+        farmer_order_list = []
         for index, farmer_order in enumerate(farmer_orders):
-            farmer_order_list[index] = {
+            farmer_order_list.append({
                 'farmer_order': farmer_order,
                 'line_items': OrderLineItem.objects.filter(
                     farmer_order=farmer_order)
-            }
-        for farmer_order in farmer_order_list:
-            with farmer_order.farmer_order.farmer as farmer:
-                recipient = farmer.email
-                subject = render_to_string
-                (
-                    'checkout/confirmation_emails/farmer_email_subject.txt',
-                    {'order': farmer_order.farmer_order}
+            })
+        for item in farmer_order_list:
+            print(item)
+            print(item['farmer_order'])
+            farmer_email = item['farmer_order'].farmer.email
+            farmer_subject = render_to_string(
+                'checkout/confirmation_emails/farmer_email_subject.txt',
+                {'order': item['farmer_order']})
+            farmer_body_context = {'order': item['farmer_order'],
+                                   'farmer': item['farmer_order'].farmer,
+                                   'contact_email': settings.DEFAULT_FROM_EMAIL
+                                   }
+            if item['farmer_order'].delivery:
+                farmer_body_context['address'] = order.address
+                farmer_body = render_to_string(
+                    'checkout/confirmation_emails/farmer_email_body_delivery.txt',
+                    farmer_body_context
                 )
-                body_context = {'order': farmer_order.farmer_order,
-                                'farmer': farmer,
-                                'contact_email': settings.DEFAULT_FROM_EMAIL
-                                }
-                if farmer_order.farmer_order.delivery:
-                    body_context['address'] = order.address
-                    body_context['delivery'] = 'Yes'
-                    body = render_to_string(
-                        'checkout/confirmation_emails/farmer_email_body_delivery.txt',
-                    )
-                else:
-                    body_context['delivery'] = 'Yes'
-                    body = render_to_string(
-                        'checkout/confirmation_emails/farmer_email_body.txt',
-                    )
-
+            else:
+                farmer_body = render_to_string(
+                    'checkout/confirmation_emails/farmer_email_body.txt',
+                    farmer_body_context
+                )
+                customer_email = item['farmer_order'].order.email
+                customer_subject = render_to_string(
+                    'checkout/confirmation_emails/collection_email_subject.txt',
+                    {'order': item['farmer_order']})
+                customer_body_context = {
+                    'order': item['farmer_order'],
+                    'contact_email': settings.DEFAULT_FROM_EMAIL
+                }
+                customer_body = render_to_string(
+                    'checkout/confirmation_emails/collection_email_body.txt',
+                    customer_body_context
+                )
                 send_mail(
-                    subject,
-                    body,
+                    customer_subject,
+                    customer_body,
                     settings.DEFAULT_FROM_EMAIL,
-                    [recipient]
+                    [customer_email]
                 )
+            send_mail(
+                farmer_subject,
+                farmer_body,
+                settings.DEFAULT_FROM_EMAIL,
+                [farmer_email]
+            )
 
     def _send_confirmation_email(self, order):
         """Send the user a confirmation email"""

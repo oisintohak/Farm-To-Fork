@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.conf import settings
@@ -20,7 +20,6 @@ from allauth.account.views import SignupView
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings
 from allauth.exceptions import ImmediateHttpResponse
-from django.views.decorators.http import require_POST
 
 
 import stripe

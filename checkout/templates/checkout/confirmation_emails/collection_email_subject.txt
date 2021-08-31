@@ -1,0 +1,1 @@
+Farm To Fork collection details for your products from {{ order.farmer.profile.first_name }} {{ order.farmer.profile.first_name }} on Order Number {{ order.order.order_number }}

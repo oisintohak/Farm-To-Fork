@@ -1,0 +1,31 @@
+Hi {{ order.order.first_name }} {{ order.order.last_name }},
+
+Thank you for your order with Farm To Fork. Here are your collection details for the products you ordered from {{ order.farmer.profile.first_name }} {{ order.farmer.profile.first_name }}.
+
+Order Number: {{ order.order.order_number }}
+Order Date: {{ order.order.date }}
+
+Farmer details:
+Name: {{ order.farmer.profile.first_name }} {{ order.farmer.profile.first_name }}
+Email: {{ order.farmer.email }}
+Phone: {{ order.farmer.profile.phone_number }}
+
+Address:
+{{ order.farmer.profile.address.street_address1 }},
+{{ order.farmer.profile.address.street_address2 }},
+{{ order.farmer.profile.address.town_or_city }},
+{{ order.farmer.profile.address.county }},
+{{ order.farmer.profile.address.postcode }}, {{ order.farmer.profile.address.country }}.
+
+Total for these products: €{{ order.farmer_order_total }}
+Product Count: {{ order.product_count }}
+
+You can view the order items and delivery/collection details here: https://farmtofork.herokuapp.com{% url 'order-detail' order.order.id %}
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+
+
+Sincerely,
+
+Farm To Fork

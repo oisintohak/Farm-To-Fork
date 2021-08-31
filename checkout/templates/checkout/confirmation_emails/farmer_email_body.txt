@@ -7,7 +7,12 @@ Order Date: {{ order.order.date }}
 Product Count: {{ order.product_count }}
 Order Total: €{{ order.farmer_order_total }}
 Customer Distance: {{ order.distance }}km
-Delivery: {{ delivery }}
+Delivery: No
+
+Customer contact information:
+Name:{{ order.order.first_name }} {{ order.order.last_name }}
+Email:{{ order.order.email }}
+Phone: {{ order.order.phone_number }}
 
 You can view the order items here: https://farmtofork.herokuapp.com{% url 'farmer-order-detail' order.id %}
 
