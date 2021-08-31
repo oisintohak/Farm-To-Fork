@@ -17,9 +17,50 @@ class StripeWH_Handler:
     def __init__(self, request):
         self.request = request
 
+    def _send_farmer_email(self, order):
+        farmer_orders = FarmerOrder.objects.filter(order=order)
+        farmer_order_list = {}
+        for index, farmer_order in enumerate(farmer_orders):
+            farmer_order_list[index] = {
+                'farmer_order': farmer_order,
+                'line_items': OrderLineItem.objects.filter(
+                    farmer_order=farmer_order)
+            }
+        for farmer_order in farmer_order_list:
+            with farmer_order.farmer_order.farmer as farmer:
+                recipient = farmer.email
+                subject = render_to_string
+                (
+                    'checkout/confirmation_emails/farmer_email_subject.txt',
+                    {'order': farmer_order.farmer_order}
+                )
+                body_context = {'order': farmer_order.farmer_order,
+                                'farmer': farmer,
+                                'contact_email': settings.DEFAULT_FROM_EMAIL
+                                }
+                if farmer_order.farmer_order.delivery:
+                    body_context['address'] = order.address
+                    body_context['delivery'] = 'Yes'
+                    body = render_to_string(
+                        'checkout/confirmation_emails/farmer_email_body_delivery.txt',
+                    )
+                else:
+                    body_context['delivery'] = 'Yes'
+                    body = render_to_string(
+                        'checkout/confirmation_emails/farmer_email_body.txt',
+                    )
+
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [recipient]
+                )
+
     def _send_confirmation_email(self, order):
         """Send the user a confirmation email"""
         cust_email = order.email
+
         subject = render_to_string(
             'checkout/confirmation_emails/confirmation_email_subject.txt',
             {'order': order})
@@ -74,6 +115,7 @@ class StripeWH_Handler:
             order.wh_success = True
             order.save()
             self._send_confirmation_email(order)
+            self._send_farmer_email(order)
             return HttpResponse(
                 content=(f'Webhook received: {event["type"]} | SUCCESS: '
                          'Verified order already in database'),

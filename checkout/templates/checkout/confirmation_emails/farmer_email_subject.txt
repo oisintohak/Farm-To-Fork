@@ -1,0 +1,1 @@
+Farm To Fork: You have received an order for €{{ order.farmer_order_total }}.

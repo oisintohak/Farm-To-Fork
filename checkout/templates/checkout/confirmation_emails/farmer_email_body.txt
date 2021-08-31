@@ -1,0 +1,19 @@
+Hi {{ farmer.profile.first_name }} {{ farmer.profile.last_name }},
+
+You have received an order for €{{ order.farmer_order_total }}.
+
+Order Number: {{ order.id }}
+Order Date: {{ order.order.date }}
+Product Count: {{ order.product_count }}
+Order Total: €{{ order.farmer_order_total }}
+Customer Distance: {{ order.distance }}km
+Delivery: {{ delivery }}
+
+You can view the order items here: https://farmtofork.herokuapp.com{% url 'farmer-order-detail' order.id %}
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+
+Sincerely,
+
+Farm To Fork

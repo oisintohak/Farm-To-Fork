@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import dj_database_url
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +32,7 @@ SECRET_KEY = os.environ.get(
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['farmtofork.herokuapp.com', '127.0.0.1']
 
@@ -119,13 +125,6 @@ else:
     }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -203,8 +202,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.UserModel'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -249,7 +246,19 @@ STRIPE_CURRENCY = 'eur'
 # STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'default')
 # STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'default')
 
-STRIPE_PUBLIC_KEY = 'pk_test_51JRZbxKGBmFv7pxwQbENF9k0Qujo9ebBhLY1owB5HeqZEBOPx5KPCfvF8cwbHJp3XyiaEzGkz9g8dOunnkwQg6cG003rEknglB'
-STRIPE_SECRET_KEY = 'sk_test_51JRZbxKGBmFv7pxw1kFWuq2dtP0z4s7VMepVlOdsg1ttsGBoNSst5W1YsQVDyYrp2iCK6ODYXpyi1JtR5r1OqHKo00Hx4A5dsa'
-STRIPE_WH_SECRET = 'whsec_848UnVRG6px3dYvcaOklfL3AKWwrxBqM'
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
+STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'boutiqueado@example.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
