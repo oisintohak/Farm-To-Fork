@@ -135,7 +135,5 @@ class FarmerMapView(TemplateView):
                         address.location.coords[1]
                     ]
                 }
-
         context['markers'] = markers
-        print(markers)
         return context
