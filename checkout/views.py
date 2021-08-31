@@ -174,9 +174,10 @@ class Orders(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['my_orders'] = Order.objects.filter(user=user)
+        context['my_orders'] = Order.objects.filter(user=user, wh_success=True)
         if user.groups.filter(name='Farmers').exists():
-            context['farmer_orders'] = FarmerOrder.objects.filter(farmer=user)
+            context['farmer_orders'] = FarmerOrder.objects.filter(
+                farmer=user, order__wh_success=True)
         return context
 
 
@@ -194,6 +195,13 @@ class RegisterWithOrder(SignupView):
                 self.request,
                 messages.ERROR,
                 'This order is was placed by another user.',
+            )
+            return HttpResponseRedirect(reverse('home'))
+        if not order.wh_success:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'Error retrieving order.',
             )
             return HttpResponseRedirect(reverse('home'))
 
@@ -225,6 +233,18 @@ class RegisterWithOrder(SignupView):
 class OrderDetail(TemplateView):
     template_name = 'checkout/order-detail.html'
 
+    def get(self, request, *args, **kwargs):
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        if not order.wh_success:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'Error retrieving order.',
+            )
+            return HttpResponseRedirect(reverse('home'))
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         order = get_object_or_404(
@@ -244,6 +264,18 @@ class OrderDetail(TemplateView):
 
 class FarmerOrderDetail(TemplateView):
     template_name = 'checkout/farmer-order-detail.html'
+
+    def get(self, request, *args, **kwargs):
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        if not order.wh_success:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'Error retrieving order.',
+            )
+            return HttpResponseRedirect(reverse('home'))
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
