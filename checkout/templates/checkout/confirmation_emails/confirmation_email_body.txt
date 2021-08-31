@@ -21,7 +21,7 @@ Name:{{ order.first_name }} {{ order.last_name }}
 Email:{{ order.email }}
 Phone: {{ order.phone_number }}
 
-You can view the order items and delivery/collection details here: https://farmtofork.herokuapp.com{% url 'order-detail' order.id %}
+You can view the order items and delivery/collection details here: https://farmtofork.herokuapp.com{% url 'order-detail' order.order_number %}
 
 If you have any questions, feel free to contact us at {{ contact_email }}.
 
