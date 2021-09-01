@@ -177,12 +177,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-3" href="{% url 'cart' %}">
+                    <a class="nav-link fs-3 position-relative" href="{% url 'cart' %}">
                         <i class="fas fa-shopping-basket"></i>
                         {% if total %}
                         <small>
-                            €{{ total }}
                         </small>
+                        <span class="position-absolute badge rounded-pill bg-l-brown shopping-cart-badge">
+                            €{{ total|truncatechars:5 }}
+                          </span>
                         {% endif %}
                     </a>
                 </li>

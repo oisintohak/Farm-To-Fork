@@ -24,7 +24,12 @@
         <hr>
     </div>
     <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
-        <h3 class="text-center py-3">Popular Farmers</h3>
+        <div class="row">
+            <h3 class="text-center py-3 d-inline">
+                Browse Farmers
+                <span class="fs-6 ps-3"><a href="{% url 'farmer-list' %}">See All</a></span>
+            </h3>
+        </div>
         <ul class="slick-slider pb-5 pt-0 px-0 m-0">
             {% for farmer in farmers %}
             <li class="slick-slider-slide-item">
@@ -77,8 +82,12 @@
         <hr>
     </div>
     <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
-        <h3 class="text-center py-3">Popular Products</h3>
-        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
+        <div class="row">
+            <h3 class="text-center py-3 d-inline">
+                Browse Products
+                <span class="fs-6 ps-3"><a href="{% url 'product-list' %}">See All</a></span>
+            </h3>
+        </div>        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
             {% for item in product_list.values %}
             <li class="slick-slider-slide-item">
                 <div class="col-12 p-2">

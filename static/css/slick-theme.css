@@ -20,6 +20,15 @@
     z-index: 100;
 }
 
+.slick-arrow:hover, .slick-arrow:active,
+.slick-arrow *:hover, .slick-arrow *:active {
+    color: #fbfffc !important; 
+}
+
+.slick-arrow, .slick-arrow * {
+    transition-duration: 0.3s;
+}
+
 @media only screen and (min-width: 1024px) {
     .slick-prev, .slick-next {
         bottom: -4rem;

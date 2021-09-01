@@ -121,7 +121,7 @@ body {
     color: var(--light-green) !important;
 }
 
-.cta-button:focus, .cta-button:active {
+.cta-button:focus, .cta-button:active, .delete-item-button:focus, .delete-item-button:active {
     box-shadow: 0 0 0 .25rem #ffa826b6 !important;
 }
 
@@ -189,6 +189,12 @@ body {
 
 .mobile-logo-text {
     font-size: 0.7rem;
+}
+
+.shopping-cart-badge {
+    font-size: 0.7rem;
+    bottom: -10%;
+    right: -5%;
 }
 
 /****** MESSAGES ****** */
