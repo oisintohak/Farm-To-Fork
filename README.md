@@ -51,14 +51,14 @@ Consumers can buy products from the website without having to register for an ac
 
 ### Development plan from user stories:
 
-Status:     | As A:           | I want to be able to...         | So that I can...                                  |
-------------| --------------- | --------------------------      | ----------------------------------------          |
--[x]        | Site User       | View a landing page             | Discover the purpose of the site                  |
--[x]        | Farmer/Customer | Register an account             | Save my details in an account                     |
--[x]        | Farmer/Customer | Login/Logout of my account      | View my account details/orders etc.               |
--[x]        | Farmer          | Add/Edit/Remove products        | Sell my produce and keep my inventory updated     |
--[x]        | Farmer/Customer | Add my location                 | Show only Products/Farmers near me                |
--[x]        | Farmer/Customer | View farmers/products on a map  | Discover farmers in my area                       |
+Status:      | As A:           | I want to be able to...         | So that I can...                                  |
+-------------| --------------- | --------------------------      | ----------------------------------------          |
+- [x]        | Site User       | View a landing page             | Discover the purpose of the site                  |
+- [x]        | Farmer/Customer | Register an account             | Save my details in an account                     |
+- [x]        | Farmer/Customer | Login/Logout of my account      | View my account details/orders etc.               |
+- [x]        | Farmer          | Add/Edit/Remove products        | Sell my produce and keep my inventory updated     |
+- [x]        | Farmer/Customer | Add my location                 | Show only Products/Farmers near me                |
+- [x]        | Farmer/Customer | View farmers/products on a map  | Discover farmers in my area                       |
 
 
 ### Database Schema:
