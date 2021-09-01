@@ -1,0 +1,33 @@
+{% load static %}
+{% load profiles_extras %}
+<div class="col-12 col-xl-6">
+    <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
+        <div class="row g-0">
+            <div class="col-12 col-md-4 d-flex align-items-center">
+                <a class="product-card-image" href="{% url 'profile' item.user.id %}">
+                    {% if item.product.image %}
+                    <img class="product-card-image img-fluid rounded" src="{{ item.image.url }}"
+                        alt="profile-picture">
+                    {% elif product.image_url %}
+                    <img class="product-card-image img-fluid rounded" src="{{ item.image_url }}"
+                        alt="profile-picture">
+                    {% else %}
+                    <img class="product-card-image img-fluid rounded" src="{{ MEDIA_URL }}product-image-placeholder.png"
+                        alt="profile-picture">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="card-body text-center text-sm-start">
+                    <h5 class="card-title"><a href="{% url 'profile' item.user.id %}">
+                            {{ item|truncatechars:15 }}
+                        </a>
+                    </h5>
+                    <p class="card-text">
+                        {{ item.bio|truncatechars:120 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
