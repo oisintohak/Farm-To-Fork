@@ -2,10 +2,23 @@
 
 Vegetable Delivery Service
 
-Welcome to Farm To Fork. This application was built to allow consumers to buy produce directly from farmers and for farmers to be able to sell their produce online directly to consumers. Consumers can buy products from the website without having to register for an account. Users can register for a Customer or Farmer account. Both account types can purchase products but only Farmers can add products. The live website can be found here: [Farm-To-Fork](https://farmtofork.herokuapp.com/)
+Welcome to Farm To Fork. This application was built to allow consumers to buy produce directly from farmers and for farmers to be able to sell their produce online directly to consumers. Consumers can buy products from the website without having to register for an account. Users can register for a Customer or Farmer account. Both account types can purchase products but only Farmers can add products. 
+
+The live website can be found here: [Farm-To-Fork](https://farmtofork.herokuapp.com/).
+
+To test the checkout process use the stripe test card details:
+
+- Card number: 4242424242424242
+- CVC: Any 3 digits
+- Expiry: Any future date (eg. 04/24)
+
+------
 
 ## User Experience Design
+
+
 ### Strategy
+
 #### Site Owner Goals:
 
 - To encourage new farmers to advertise their products on the site.
@@ -305,13 +318,17 @@ These are the steps to run this project in a local environment:
     - STRIPE_WH_SECRET=YOUR_STRIPE_WH_SECRET
     - USE_AWS=True
     - HEROKU=True
+- In the deploy tab click 'Deploy Branch' at the bottom (with 'main' selected)
+    - You can also optionally enable automatic deploys from a chosen branch, which will redeploy automatically every time you push to the branch.
+- In the top right click 'More' (beside 'Open App') and select 'Run Console'
+- Enter 'python manage.py migrate' and click 'Run'
+- Enter 'python manage.py createsuperuser' and click 'Run'
+- Enter any required details to create a superuser for the django admin
+- Click 'Open App' in the top right
+
 
 
 ### Issues
  - On the product edit/create page, if 10 variants are added, the 'add variant' button disappears and doesn't come back if variants are removed.
  - Need to add constraints to order views to only view orders that have received the stripe success webhook.
-<<<<<<< HEAD
  - Add redirects to checkout pages if an order has a stripe pid or wh_success
-=======
- - Add redirects to checkout pages if an order has a stripe pid or wh_success
->>>>>>> 858f920d0586208b1ef05a9493cdb46ec98f232a
