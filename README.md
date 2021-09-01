@@ -1,6 +1,16 @@
-# Farm-To-Fork
+# [Farm-To-Fork](https://farmtofork.herokuapp.com/)
 
 Vegetable Delivery Service
+
+Welcome to Farm To Fork. This application was built to allow consumers to buy produce directly from farmers.
+
+These are the core purposes of the application:
+
+ - Allow consumers to discover and purchase produce directly from farmers.
+ - Allow farmers to sell their produce online directly to consumers.
+
+Consumers can buy products from the website without having to register for an account. Users can register for a Customer or Farmer account. Both account types can purchase products but only Farmers can add products.
+
 
 ### Site Owner Goals:
 
@@ -41,12 +51,15 @@ Vegetable Delivery Service
 
 ### Development plan from user stories:
 
-| As A:           | I want to be able to...    | So that I can...                         |
-| --------------- | -------------------------- | ---------------------------------------- |
-| Site User       | View a landing page        | Discover the purpose of the site         |
-| Farmer/Customer | Register an account        | Add/buy products/subscriptions           |
-| Farmer/Customer | Login/Logout of my account | View my account details/orders etc.      |
-| Farmer/Customer | Add my location            | Show only Products/subscriptions near me |
+Status:     | As A:           | I want to be able to...         | So that I can...                                  |
+------------| --------------- | --------------------------      | ----------------------------------------          |
+-[x]        | Site User       | View a landing page             | Discover the purpose of the site                  |
+-[x]        | Farmer/Customer | Register an account             | Save my details in an account                     |
+-[x]        | Farmer/Customer | Login/Logout of my account      | View my account details/orders etc.               |
+-[x]        | Farmer          | Add/Edit/Remove products        | Sell my produce and keep my inventory updated     |
+-[x]        | Farmer/Customer | Add my location                 | Show only Products/Farmers near me                |
+-[x]        | Farmer/Customer | View farmers/products on a map  | Discover farmers in my area                       |
+
 
 ### Database Schema:
 
