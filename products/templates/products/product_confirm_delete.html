@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% load static %}
+{% load crispy_forms_tags %}
+{% block extra_js %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+{% endblock %}
+{% block extra_title %}
+- Delete Product - {{ product.name }}
+{% endblock %}
+
+{% block main_content %}
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-auto">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <p class="text-center">
+                    Are you sure you want to delete {{ object }}?
+                </p>
+                <input class="btn btn-lg cta-button bg-red text-white me-auto" type="submit" value="Delete">
+                <a class="btn cta-button-secondary ms-auto mt-auto" href="{% url 'product-detail' object.id %}">Go back</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

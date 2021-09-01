@@ -1,8 +1,12 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import request
+from django.http.response import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.shortcuts import get_object_or_404
+from django.views.generic.edit import DeleteView
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.contrib import messages
 from django.conf import settings
 from django.db.models.functions import Lower
@@ -46,9 +50,20 @@ class Products(ListView):
         return qs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        products = context[self.context_object_name]
         product_list = []
+        context = super().get_context_data(**kwargs)
+        if 'user' in self.kwargs:
+            user = self.kwargs['user']
+            products = Product.objects.filter(created_by__id=user)
+            for product in products:
+                product_list.append({
+                    'product': product,
+                    'variants': ProductVariant.objects.filter(
+                        product=product),
+                })
+            context['product_list'] = product_list
+            return context
+        products = context[self.context_object_name]
         if 'sort' in self.request.GET:
             sort = self.request.GET['sort']
             context['sort'] = sort
@@ -89,7 +104,6 @@ class Products(ListView):
         context['product_list'] = product_list
         if 'q' in self.request.GET:
             context['search_query'] = self.request.GET['q']
-
         return context
 
 
@@ -140,3 +154,24 @@ class ProductEdit(
         context['helper'] = ProductVariantFormHelper()
         context['product'] = self.object
         return context
+
+
+class ProductDelete(DeleteView, UserPassesTestMixin):
+    model = Product
+
+    def get_success_url(self):
+        return reverse(
+            'products', kwargs={'user': self.request.user.id})
+
+    def test_func(self):
+        return self.object.created_by == self.request.user
+
+    def handle_no_permission(self):
+        obj = self.get_object()
+        if obj.created_by != self.request.user:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You can only delete your own products.',
+            )
+            return HttpResponseRedirect(reverse('home'))
