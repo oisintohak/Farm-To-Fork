@@ -91,118 +91,175 @@ To test the checkout process use the stripe test card details:
  ### Structure
 
 **User Story:**
-> As a first time visitor to the site I would like to understand its' purpose.
+>  - As a first time visitor to the site I would like to understand its' purpose.
 
 **Acceptance Criteria:**
  - The home page has a heading that clearly describes the purpose of the site and who it is for.
 
-Implementation:
+**Implementation:**
+
 The home page will display a heading that clearly shows the site purpose.
+
 -----
 **User Stories:**
-> I would like to understand the delivery process.
-> I would like to see what percentage of the price paid by customers is given to farmers.
-> I would like to see how often farmers are paid.
-> I would like to know which payment method is used to pay farmers.
+>  - I would like to understand the delivery process.
+>  - I would like to see what percentage of the price paid by customers is given to farmers.
+>  - I would like to see how often farmers are paid.
+>  - I would like to know which payment method is used to pay farmers.
+
 **Acceptance Criteria:**
  - The user can see an FAQ/About page to find the following information:
     - Details about the delivery/collection process
     - Details about farmer fees and how much of the product price is given to farmers
     - Details about how farmers are paid and how often
 **Implementation:**
+
 There is a link to an FAQ/About page in the navbar and the footer. This page will contain information about:
     - The delivery/collection process
     - Farmer fees
     - Farmer payout frequency and payout method
+
 -----
 **User Stories:**
-> I would like to browse any current products offered by farmers.
-> I would like to search for products by keyword
-> I would like to sort products by name, date or distance
-> I would like to compare the products of nearby farmers.
+> - I would like to browse any current products offered by farmers.
+> - I would like to search for products by keyword
+> - I would like to sort products by name, date or distance
+> - I would like to compare the products of nearby farmers.
+
 **Acceptance Criteria:**
  - The user can see a list of products and enter search terms to find them
  - The user can sort a list of products by name, date and distance
+
 **Implementation:**
+
 There is an easily accessed search icon which will show a search bar for users to enter search queries. There is also a link to 'product list' in the navbar to display a list of products. The product list has a 'sort' feature where users can sort by product name, date added and distance from the user. The distance feature will use the geolocation API to access the user's device location, or prompt them to log in and add location details to their profile.
+
 -----
 **User Stories:**
-> I would like to see the prices of products offered by farmers.
-> I would like to see the different sizes/prices for a product.
-> I would like to read detailed information about the product.
+>  - I would like to see the prices of products offered by farmers.
+>  - I would like to see the different sizes/prices for a product.
+>  - I would like to read detailed information about the product.
+
 **Acceptance Criteria:**
  - The user can see price information for each product on a dedicated product page
  - The user can see size information for each product on a dedicated product page
  - The user can see a detailed description of each product
+
 **Implementation:**
+
 There is a dedicated product page for each product that contains information about product sizes and the price for each size. There is a description section for farmers to add descriptions to products.
+
 -----
+
 **User Stories:**
-> I would like to see the locations of farmers currently using the service.
+> -  I would like to see the locations of farmers currently using the service.
+
 **Acceptance Criteria:**
+
 - The user can access a map page to view farmer locations
+
 **Implementation:**
+
 There is a dedicated farmer map page where users can see farmers on a map with links to each farmer's profile and products.
+
 -----
+
 **User Stories:**
-> I would like to register for the service as a farmer/customer.
-> I would like to login/logout of the website.
-> I would like to receive a confirmation email after registration.
+
+> - I would like to register for the service as a farmer/customer.
+> - I would like to login/logout of the website.
+> - I would like to receive a confirmation email after registration.
+
 **Acceptance Criteria:**
+
 - The user can access a registration page and enter their details
 - The user receives a confirmation email after signing up
 - The user can access a login page and log in.
 - The user can access a logout page and log out.
+
 **Implementation:**
+
 There is an account icon with registration/login links displayed for unauthenticated users and a logout link displayed for authenticated users. Users will receive a confirmation email after registering.
+
 -----
+
 **User Story:**
-> I would like to see which products can be delivered
+> - I would like to see which products can be delivered
+
 **Acceptance Criteria:**
+
 - The user can view their cart and enter their address to view deliver/collection details for each product 
+
 **Implementation:**
+
 The user can easily access their shopping cart and proceed to checkout where they will be prompted to enter a delivery address. This address will then be used to calculate a distance for each product and determine if it is within the delivery radius. There will be an order summary displaying a delivery status for each product.
+
 -----
+
 **User Stories:**
-> I would like to use a secure and user-friendly checkout
-> I would like to receive an email confirmation after payment
-> I would like to receive collection details for any products that can't be delivered
-> I would like to receive a link to view my order details
+>  - I would like to use a secure and user-friendly checkout
+>  - I would like to receive an email confirmation after payment
+>  - I would like to receive collection details for any products that can't be delivered
+>  - I would like to receive a link to view my order details
+
 **Acceptance Criteria:**
+
 - The user can enter their card in a Stripe checkout form.
 - The user receives an order confirmation email if the payment is successful.
 - The user receives an email with collection details if any products are not marked for delivery.
 - All emails contain a link to view the order details
+
 **Implementation:**
+
 The payment page features a secure stripe card checkout. If the payment is successful, a webhook handler will send the user an order confirmation email with a link to view the order details and items. If any of the products on the order require collection, the user will receive an email with the farmer contact and address information.
+
 -----
+
 **User Stories:**
-> As a farmer I would like to add my details for customers to view (location, personal bio).
-> As a customer would like to view info about a farmer (location, delivery range, personal bio)
+> - As a farmer I would like to add my details for customers to view (location, personal bio).
+> - As a customer would like to view info about a farmer (location, delivery range, personal bio)
+
 **Acceptance Criteria:**
+
 - The user can add profile information
 - The user can view a profile
+
 **Implementation:**
+
 There is a link in the account dropdown displayed for authenticated users for 'Edit Profile'. On this page users can add information to their profiles including name, bio, image and address.
+
 -----
-**User Stories:**
-> As a farmer I would like to add/edit/remove products.
+
+**User Story:**
+
+> - As a farmer I would like to add/edit/remove products.
+
 **Acceptance Criteria:**
+
 - Farmers can add new products
 - Farmers can edit their
 - Farmers can delete their products
+
 **Implementation:**
------
+
 There is a 'my products' link shown to authenticated farmers. This page displays a farmers products and links to edit/delete each product and a link to add new products.
+
+-----
 
 
 
 ## FEATURE TO DO:
+
 **User Story:**
-> I would to browse farmers and sort them by distance
+
+> - I would to browse farmers and sort them by distance
+
 **Acceptance Criteria:**
+
 - The user can access a farmer list sorted by distance
+
 **Implementation:**
+
 There is a dedicated farmer list page where users can browse farmers and sort them by distance
 
 ##### Development plan from user stories:
@@ -235,10 +292,11 @@ To view wireframes please go to the [WIREFRAMES.md](WIREFRAMES.md) file.
 ### Design
 
 ##### Colors
-I tried to choose a color scheme to reflect the subject matter of the website (i.e farming, nature, vegetables etc.). This led me to a combination of green and brown.I avoided using excessively vibrant colors that might negatively affect the user experience or colors that would reduce accessibility for vision impaired users. I created a [color_palette](https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=C8E6C9&secondary.color=FFA726) with Google's Material Design Color Tool and used certain colors throughout the website. I used a light green (#fbfffc) for all page backgrounds and a green-black (#1a201a) for all text. A mint-green (#c8e6c9) was used for the navbar and footer backgrounds as well as the home-page carousels. I used a light brown (#ffd95b) for all primary action buttons and the previously mentioned light green and green black for secondary action buttons.
+I tried to choose a color scheme to reflect the subject matter of the website (i.e farming, nature, vegetables etc.). This led me to a combination of green and brown. I avoided using excessively vibrant colors that might negatively affect the user experience or colors that would reduce accessibility for vision impaired users. I created a [color_palette](https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=C8E6C9&secondary.color=FFA726) with Google's Material Design Color Tool and used certain colors throughout the website. I used a light green (#fbfffc) for all page backgrounds and a green-black (#1a201a) for all text. A mint-green (#c8e6c9) was used for the navbar and footer backgrounds as well as the home-page carousels. I used a light brown (#ffd95b) for all primary action buttons and the previously mentioned light green and green black for secondary action buttons.
 
 
 ##### Typography
+[Spectral](https://fonts.google.com/specimen/Spectral) was used for the logo and  [Roboto](https://fonts.google.com/specimen/Roboto) was used for all other text
 
 
 
