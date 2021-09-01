@@ -40,6 +40,6 @@ function geocodeAddress(geocoder) {
       );
       submitModal.show();
       submitButton.disabled = false;
-      submitButton.value = 'Save';
+      submitButton.innerHTML = 'Submit';
     });
 }

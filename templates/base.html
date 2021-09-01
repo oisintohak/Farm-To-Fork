@@ -54,10 +54,7 @@
                     <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'products' %}">Product List</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'products' %}">All Products</a>
                 </li>
                 {% if request.user|has_group:'Farmers' %}
                 <li class="nav-item">
@@ -76,8 +73,8 @@
             <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item d-lg-none">
                     <div class="dropdown">
-                        <button class="btn nav-link fs-3" type="button" id="navMenuDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn nav-link fs-3" type="button" id="navMenuDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <i class="fas fa-bars"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-start border-d-green border border-2 position-absolute"
@@ -89,11 +86,7 @@
                                 <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link" href="{% url 'farmer-list' %}">Farmer List</a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'products' %}">Product
-                                    List</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'products' %}">All Products</a>
                             </li>
                             {% if request.user|has_group:'Farmers' %}
                             <li class="dropdown-item">
@@ -120,8 +113,8 @@
                     aria-labelledby="mobileSearchDropdown">
                     <form class="mobile-search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                         <div class="input-group">
-                            <input type="search" class="form-control search-input" name="q" placeholder="Search"
-                                aria-label="Search" aria-describedby="search-button">
+                            <input id="mobileSearchInput" type="search" class="form-control search-input" name="q"
+                                placeholder="Search" aria-label="Search" aria-describedby="search-button">
                             <button class="btn cta-button" type="submit" id="search-button">Go</button>
                         </div>
                     </form>
@@ -136,8 +129,8 @@
                             aria-labelledby="searchDropdown">
                             <form class="search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                                 <div class="input-group">
-                                    <input type="search" class="form-control search-input" name="q" placeholder="Search"
-                                        aria-label="Search" aria-describedby="search-button">
+                                    <input id="searchInput" type="search" class="form-control search-input" name="q"
+                                        placeholder="Search" aria-label="Search" aria-describedby="search-button">
                                     <button class="btn cta-button" type="submit" id="search-button">Go</button>
                                 </div>
                             </form>
@@ -184,7 +177,7 @@
                         </small>
                         <span class="position-absolute badge rounded-pill bg-l-brown shopping-cart-badge">
                             €{{ total|truncatechars:5 }}
-                          </span>
+                        </span>
                         {% endif %}
                     </a>
                 </li>
@@ -230,6 +223,14 @@
         })
         toastList.forEach((toast) => {
             toast.show();
+        })
+
+        document.querySelector('#mobileSearchDropdown').addEventListener('click', function () {
+            document.querySelector('#mobileSearchInput').focus()
+        })
+
+        document.querySelector('#searchDropdown').addEventListener('click', function () {
+            document.querySelector('#searchInput').focus()
         })
     </script>
 

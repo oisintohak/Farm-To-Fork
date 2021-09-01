@@ -26,66 +26,8 @@
     <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
         <div class="row">
             <h3 class="text-center py-3 d-inline">
-                Browse Farmers
-                <span class="fs-6 ps-3"><a href="{% url 'farmer-list' %}">See All</a></span>
-            </h3>
-        </div>
-        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
-            {% for farmer in farmers %}
-            <li class="slick-slider-slide-item">
-                <a href="{% url 'profile' farmer.user.id %}">
-                    <div class="col-12 p-2">
-                        <div class="card bg-l-green border-d-green border border-3 p-2">
-                            <div class="row g-0">
-                                <div class="col-12 d-flex align-items-center">
-                                    <a class="product-card-image" href="{% url 'profile' farmer.user.id %}">
-                                        {% if item.product.image %}
-                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image.url }}"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% elif product.image_url %}
-                                        <img class="product-card-image img-fluid rounded" src="{{ farmer.image_url }}"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% else %}
-                                        <img class="product-card-image img-fluid rounded"
-                                            src="{{ MEDIA_URL }}product-image-placeholder.png"
-                                            alt="{{ farmer.user.username }}'s profile picture">
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <div class="col-12">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="{% url 'profile' farmer.user.id %}">
-                                                {% with farmer.first_name|addstr:farmer.last_name as fullname %}
-                                                {{ fullname|truncatechars:25 }}
-                                                {% endwith %}
-                                            </a>
-                                        </h5>
-                                        <p class="card-text">
-                                            {{ farmer.bio|default:"This user hasn't added a bio yet."|truncatechars:33 }}
-                                        </p>
-                                        <p class="card-text text-center">
-                                            <a class="btn cta-button" href="{% url 'profile' farmer.user.id %}">
-                                                View Profile
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="col-12">
-        <hr>
-    </div>
-    <div class="col-12 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
-        <div class="row">
-            <h3 class="text-center py-3 d-inline">
                 Browse Products
-                <span class="fs-6 ps-3"><a href="{% url 'product-list' %}">See All</a></span>
+                <span class="fs-6 ps-3"><a href="{% url 'products' %}">See All</a></span>
             </h3>
         </div>        <ul class="slick-slider pb-5 pt-0 px-0 m-0">
             {% for item in product_list.values %}

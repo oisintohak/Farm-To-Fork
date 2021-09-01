@@ -4,6 +4,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.conf import settings
 from django.db.models.functions import Lower
 from django.db.models import Q
 from extra_views import (
@@ -14,6 +15,8 @@ from extra_views import (
 from .models import ProductVariant, Product
 from .forms import ProductVariantFormHelper
 from .mixins import ProductCreationAccessMixin, ProductEditAccessMixin
+
+from geopy import distance
 
 
 class ProductDetail(DetailView):
@@ -45,29 +48,48 @@ class Products(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = context[self.context_object_name]
-        product_list = {}
+        product_list = []
         if 'sort' in self.request.GET:
             sort = self.request.GET['sort']
             context['sort'] = sort
-            if sort == 'alpha':
-                sortkey = 'lower_name'
-                products = products.annotate(lower_name=Lower('name'))
-            if sort == 'date':
-                sortkey = 'created_at'
-            if 'direction' in self.request.GET:
-                direction = self.request.GET['direction']
-                context['direction'] = direction
-                if direction == 'desc':
-                    sortkey = f'-{sortkey}'
-            products = products.order_by(sortkey)
-        for index, product in enumerate(products):
-            product_list[index] = {
+            if sort != 'distance':
+                if sort == 'alpha':
+                    sortkey = 'lower_name'
+                    products = products.annotate(lower_name=Lower('name'))
+                if sort == 'date':
+                    sortkey = 'created_at'
+                if 'direction' in self.request.GET:
+                    direction = self.request.GET['direction']
+                    context['direction'] = direction
+                    if direction == 'desc':
+                        sortkey = f'-{sortkey}'
+                if sortkey:
+                    products = products.order_by(sortkey)
+
+        for product in products:
+            product_list.append({
                 'product': product,
                 'variants': ProductVariant.objects.filter(
                     product=product),
-            }
+            })
+        if ('sort' in self.request.GET and
+                'lat' in self.request.GET and
+                'long' in self.request.GET):
+            for item in product_list:
+                user_location = (
+                    self.request.GET['lat'], self.request.GET['long'])
+                item_location = (
+                    item['product'].created_by.profile.address.location)
+                item['distance'] = round(distance.distance(
+                    (item_location.coords[1], item_location.coords[0]),
+                    user_location).km, 2)
+                if item['distance'] < settings.DEFAULT_DELIVERY_RADIUS:
+                    item['delivery'] = True
+            product_list = sorted(product_list, key=lambda i: i['distance'])
         context['product_list'] = product_list
-        print(self.request.GET.copy())
+        if 'q' in self.request.GET:
+            context['search_query'] = self.request.GET['q']
+
         return context
 
 

@@ -92,65 +92,6 @@ class ProfileEditView(LoginRequiredMixin, MultiModelFormView):
         return super().handle_no_permission()
 
 
-longitude = -80.191788
-latitude = 25.761681
-
-user_location = Point(longitude, latitude, srid=4326)
-
-
-class FarmerList(ListView):
-    # old distance sorting:
-    # model = UserProfile
-    # context_object_name = 'farmers'
-    # queryset = UserProfile.objects.filter(
-    #     user__groups__name='Farmers'
-    # ).annotate(
-    #     distance=Distance('address__location', user_location)
-    # ).order_by('distance')
-    # template_name = 'profiles/farmer-list.html'
-
-    template_name = 'profiles/farmer-list.html'
-    context_object_name = 'farmers'
-    model = UserProfile
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        query = self.request.GET.get('q')
-        if query:
-            queries = Q(first_name__icontains=query) | Q(
-                last_name__icontains=query) | Q(
-                description__icontains=query)
-            return qs.filter(queries)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        farmers = context[self.context_object_name].filter(user__user_type='Farmer')
-        farmer_list = {}
-        if 'sort' in self.request.GET:
-            sort = self.request.GET['sort']
-            context['sort'] = sort
-            if sort == 'alpha':
-                sortkey = 'lower_name'
-                farmers = farmers.annotate(
-                    lower_name=Lower('first_name'))
-            if sort == 'date':
-                sortkey = 'created_at'
-            if 'direction' in self.request.GET:
-                direction = self.request.GET['direction']
-                context['direction'] = direction
-                if direction == 'desc':
-                    sortkey = f'-{sortkey}'
-            farmers = farmers.order_by(farmers)
-        for index, farmer in enumerate(farmers):
-            farmer_list[index] = {
-                'farmer': farmer,
-            }
-        context['farmer_list'] = farmer_list
-        print(farmer_list)
-        return context
-
-
 class FarmerMapView(TemplateView):
     """
     Display a map with markers for farmer locations
