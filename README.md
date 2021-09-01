@@ -151,7 +151,7 @@ There is a dedicated product page for each product that contains information abo
 
 -----
 
-**User Stories:**
+**User Story:**
 > -  I would like to see the locations of farmers currently using the service.
 
 **Acceptance Criteria:**
@@ -316,6 +316,7 @@ I tried to choose a color scheme to reflect the subject matter of the website (i
         - Django allauth for user authentication
         - Django countries for country fields in address forms
         - Djang-extra-views for adding formsets to modelforms
+        - Django-multi-form view to display and handle multiple forms in a view
 - PostgreSQL
 - Amazon AWS S3 bucket for static file storage and uploads
 
@@ -350,7 +351,7 @@ These are the steps to run this project in a local environment:
 11. Back in the terminal run the server with ```python manage.py runserver```
 
 #### Heroku
-
+These are the steps to deploy this project to Heroku
 - Log in to Heroku
 - Click 'New'
 - Click 'Create New App'

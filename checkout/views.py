@@ -1,27 +1,27 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
 
+from multi_form_view import MultiModelFormView
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from profiles.forms import AddressForm
+from .models import Order, OrderLineItem, FarmerOrder
 from profiles.models import UserProfile
+from products.models import ProductVariant
 from .forms import OrderForm
+from profiles.forms import AddressForm
 from .mixins import EmptyCartMixin
 from cart.contexts import cart_contents
-from .models import Order, OrderLineItem, FarmerOrder
-from products.models import ProductVariant
-from multi_form_view import MultiModelFormView
-from geopy import distance
+
 from allauth.account.views import SignupView
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings
 from allauth.exceptions import ImmediateHttpResponse
 
-
+from geopy import distance
 import stripe
 import json
 
@@ -39,6 +39,8 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
 
     def get_initial(self):
         initial = super().get_initial()
+        # IF A USER IS LOGGED IN, POPULATE THE ORDER FORM
+        # WITH ANY EXISTING PROFILE DATA
         if self.request.user.is_authenticated:
             profile = get_object_or_404(UserProfile, user=self.request.user)
             initial['order_form']['email'] = self.request.user.email
@@ -63,6 +65,7 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order_cart = cart_contents(self.request)
         order_location = order.address.location
         for item in order_cart['cart_items']:
+            # CALCULATE DISTANCE FOR EACH ITEM
             item_location = (
                 item['product'].product.created_by.profile.address.location)
             dist = distance.distance(
@@ -75,6 +78,8 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
                     ProductVariant, pk=item['product_id']),
                 quantity=item['quantity'],
             )
+            # FOR EACH LINE ITEM, CREATE OR UPDATE AN EXISTING FARMER ORDER
+            # AND SET THE DISTANCE
             farmer_order, created = FarmerOrder.objects.update_or_create(
                 order=order,
                 farmer=item['product'].product.created_by
@@ -82,6 +87,7 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
             farmer_order.farmer = order_line_item.product.product.created_by
             farmer_order.distance = item_distance
             order_line_item.farmer_order = farmer_order
+            # SET THE DELIVERY STATUS BASED ON DISTANCE
             if item_distance < settings.DEFAULT_DELIVERY_RADIUS:
                 farmer_order.delivery = True
             order_line_item.save()
@@ -137,6 +143,20 @@ class Payment(EmptyCartMixin, TemplateView):
         context['client_secret'] = intent.client_secret
         return context
 
+    def get(self, request, *args, **kwargs):
+        order = get_object_or_404(
+            Order, order_number=self.kwargs['order_number'])
+        # REDIRECT TO ORDER DETAIL PAGE IF ORDER HAS BEEN PAID FOR
+        if order.wh_success:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'This order has already been paid for.',
+            )
+            return redirect(reverse(
+                'order-detail', kwargs={'order_number': order.order_number}))
+        return super().get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         order = get_object_or_404(
             Order, order_number=self.kwargs['order_number'])
@@ -146,6 +166,7 @@ class Payment(EmptyCartMixin, TemplateView):
 
 
 class CheckoutComplete(TemplateView):
+    """ A view to display the order details after payment."""
     template_name = 'checkout/checkout-complete.html'
 
     def get_context_data(self, **kwargs):
@@ -169,6 +190,9 @@ class CheckoutComplete(TemplateView):
 
 
 class Orders(LoginRequiredMixin, TemplateView):
+    """
+    A view to display all orders associated with a user.
+    """
     template_name = 'checkout/orders.html'
 
     def get_context_data(self, **kwargs):
@@ -183,7 +207,8 @@ class Orders(LoginRequiredMixin, TemplateView):
 
 class RegisterWithOrder(SignupView):
     """
-    Register a user and add an order and address to their account
+    Register a user and add an order and address to their account.
+    This view can be accessed after an unauthenticated user places an order
     """
     template_name = 'checkout/register-with-order.html'
 
@@ -231,6 +256,10 @@ class RegisterWithOrder(SignupView):
 
 
 class OrderDetail(TemplateView):
+    """
+    A view to display all items in an order and delivery/collection
+    status for each farmer within the order.
+    """
     template_name = 'checkout/order-detail.html'
 
     def get(self, request, *args, **kwargs):
@@ -263,6 +292,10 @@ class OrderDetail(TemplateView):
 
 
 class FarmerOrderDetail(TemplateView):
+    """
+    A view to display all items in a farmer order and
+    the delivery/collection status.
+    """
     template_name = 'checkout/farmer-order-detail.html'
 
     def get(self, request, *args, **kwargs):
