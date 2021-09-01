@@ -2,6 +2,16 @@
 
 /* https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=C8E6C9&secondary.color=FFA726 */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@700&display=swap');
+body, .base-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.logo-font {
+    font-family: 'Spectral', sans-serif;
+}
+
 :root {
     --dark-green: #97b498;
     --light-green: #fbfffc;
@@ -90,6 +100,7 @@ body {
 }
 
 /* set max width of all containers */
+
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     max-width: 1920px;
 }
@@ -176,6 +187,10 @@ body {
     width: 20em;
 }
 
+.mobile-logo-text {
+    font-size: 0.7rem;
+}
+
 /****** MESSAGES ****** */
 
 .message-container {
@@ -229,6 +244,7 @@ body {
 }
 
 /* ***** SHOPPING CART ***** */
+
 .cart-quantity-input {
     width: 2.5rem;
 }

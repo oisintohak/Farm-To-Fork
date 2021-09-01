@@ -65,10 +65,18 @@
                 </li>
                 {% endif %}
             </ul>
-            <ul class="navbar-nav w-100">
-                <li class="nav-item me-auto d-lg-none">
+            <a href="{% url 'home' %}" class="navbar-brand logo-font d-none d-lg-block mx-auto">
+                <div class="d-flex flex-column align-items-center">
+                    <img src="{{ MEDIA_URL }}icon_sm.png" alt="hand holding plant icon">
+                    <span class="ps-1 text-uppercase">
+                        FARM TO FORK
+                    </span>
+                </div>
+            </a>
+            <ul class="navbar-nav w-100 justify-content-end">
+                <li class="nav-item d-lg-none">
                     <div class="dropdown">
-                        <button class="btn nav-link fs-3 px-4" type="button" id="navMenuDropdown"
+                        <button class="btn nav-link fs-3" type="button" id="navMenuDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-bars"></i>
                         </button>
@@ -96,7 +104,15 @@
                         </ul>
                     </div>
                 </li>
-                <button class="d-xl-none ms-auto nav-item btn nav-link fs-3" type="button" id="mobileSearchDropdown"
+                <a href="{% url 'home' %}" class="navbar-brand logo-font d-lg-none nav-item mx-auto">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="{{ MEDIA_URL }}icon_xs.png" alt="hand holding plant icon">
+                        <span class="ps-1 text-uppercase mobile-logo-text">
+                            FARM TO FORK
+                        </span>
+                    </div>
+                </a>
+                <button class="d-xl-none nav-item btn nav-link fs-3" type="button" id="mobileSearchDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-search"></i>
                 </button>
@@ -201,6 +217,8 @@
         <div class="container-fluid container-xxl">
             <h5>Farm To Fork.</h5>
         </div>
+        <div>Logo Icon made by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius Dan</a>
+            from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
     </footer>
 
     <script type="text/javascript">
