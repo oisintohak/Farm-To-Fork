@@ -86,9 +86,9 @@ To test the checkout process use the stripe test card details:
  - Farmers should receive payouts after both customer and farmer have verified the order.
 
 
-
-
  ### Structure
+
+ #### Fulfilled User stories
 
 **User Story:**
 >  - As a first time visitor to the site I would like to understand its' purpose.
@@ -242,13 +242,13 @@ There is a link in the account dropdown displayed for authenticated users for 'E
 
 **Implementation:**
 
-There is a 'my products' link shown to authenticated farmers. This page displays a farmers products and links to edit/delete each product and a link to add new products.
+There is a 'create product' link shown to authenticated farmers. On this page they can create new products. There is a 'my products' link shown to authenticated farmers. This page displays a farmer's products and on each product page there is an 'edit product' link. On the edit product page they can edit or delete the product.
 
 -----
 
 
 
-## FEATURE TO DO:
+ #### Unfulfilled User stories
 
 **User Story:**
 
@@ -385,9 +385,7 @@ These are the steps to deploy this project to Heroku
 - Enter any required details to create a superuser for the django admin
 - Click 'Open App' in the top right
 
-
-
 ### Issues
  - On the product edit/create page, if 10 variants are added, the 'add variant' button disappears and doesn't come back if variants are removed.
- - Need to add constraints to order views to only view orders that have received the stripe success webhook.
- - Add redirects to checkout pages if an order has a stripe pid or wh_success
+ - Product cards do not have equal height due to differing content size.
+ - Need to add, 'back to products' button on product pages.
