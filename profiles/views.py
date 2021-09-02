@@ -1,20 +1,14 @@
-from django import forms
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from django.db.models import F
-from django.db.models import Q
-from django.db.models.functions import Lower
-from django.contrib.gis.geos import Point
-from django.contrib.gis.db.models.functions import Distance
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import json
-from geopy import distance
+from django.contrib.auth import logout
 from django.core.serializers import serialize
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
 from django.views.generic.detail import DetailView
-from django.views.generic import ListView
 from django.views.generic.base import TemplateView
-from extra_views.advanced import InlineFormSetFactory, UpdateWithInlinesView
 from accounts.models import UserModel
 from .models import UserProfile
 from checkout.models import Address
@@ -122,3 +116,35 @@ class FarmerMapView(TemplateView):
                 }
         context['markers'] = markers
         return context
+
+
+class ProfileDelete(UserPassesTestMixin, DeleteView):
+    model = UserProfile
+    template_name = 'profiles/profile-delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        logout(request)
+        obj = self.get_object()
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            f'Account for {obj.user.email} deleted successfully.',
+        )
+        return super().delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+
+    def handle_no_permission(self):
+        obj = self.get_object()
+        if obj.user != self.request.user:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You can only delete your own profile.',
+            )
+            return HttpResponseRedirect(reverse('home'))

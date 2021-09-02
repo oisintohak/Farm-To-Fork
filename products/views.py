@@ -1,11 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import request
 from django.http.response import HttpResponseRedirect
-from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView
-from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.conf import settings
@@ -156,15 +153,27 @@ class ProductEdit(
         return context
 
 
-class ProductDelete(DeleteView, UserPassesTestMixin):
+class ProductDelete(UserPassesTestMixin, DeleteView):
     model = Product
+    template_name = 'products/product-delete.html'
+    raise_exception = True
+
+    def delete(self, request, *args, **kwargs):
+        object = self.get_object()
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            f'{object} deleted successfully.',
+        )
+        return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse(
             'products', kwargs={'user': self.request.user.id})
 
     def test_func(self):
-        return self.object.created_by == self.request.user
+        object = self.get_object()
+        return object.created_by == self.request.user
 
     def handle_no_permission(self):
         obj = self.get_object()

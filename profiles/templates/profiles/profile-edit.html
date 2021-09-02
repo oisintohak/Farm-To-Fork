@@ -17,6 +17,12 @@
                         <div class="text-center">
                             <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit"
                                 value="Save" />
+                            {% if request.user.is_authenticated %}
+                            <div class="text-center my-2">
+                                <a class="btn btn-sm cta-button bg-red text-white" href="{% url 'profile-delete' request.user.profile.id %}">Delete Profile</a>
+                            </div>
+                            {% endif %}
+                
                         </div>
                     </form>
                 </div>

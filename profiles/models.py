@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.gis.geos import Point
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_delete, post_save, pre_delete, pre_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib import auth
@@ -29,7 +29,8 @@ class UserProfile(models.Model):
         max_length=40,
         null=True,
     )
-    phone_number = models.CharField(max_length=20, null=True, blank=False, default=None)
+    phone_number = models.CharField(
+        max_length=20, null=True, blank=False, default=None)
     address = models.OneToOneField(
         'checkout.Address',
         on_delete=models.SET_NULL,
@@ -46,6 +47,11 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        if self.user:
+            self.user.delete()
 
 
 @receiver(post_save, sender=auth.get_user_model())

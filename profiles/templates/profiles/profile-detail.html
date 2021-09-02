@@ -32,11 +32,16 @@
                         src="{{ MEDIA_URL }}product-image-placeholder.png" alt="{{ user_profile }}'s profile picture">
                     {% endif %}
                 </div>
-                <div class="col-12 col-md-8">
-                    <h6>Bio:</h6>
-                    <p>
+                <div class="col-12 col-md-8 card-body d-flex flex-column justify-content-between">
+                    <p class="card-text text-center text-md-start">
                         {{ user_profile.bio|default:"This user hasn't added a bio yet." }}
                     </p>
+                    {% if user_profile.user == request.user %}
+                    <div class="col-auto align-self-end">
+                        <a class="btn cta-button-secondary mt-auto" href="{% url 'profile-edit' %}">Edit Profile</a>
+                    </div>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

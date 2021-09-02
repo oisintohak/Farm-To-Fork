@@ -1,5 +1,7 @@
 {% extends "base.html" %} {% load static %}
 {% load crispy_forms_tags %}
+{% load profiles_extras %}
+{% load check_group %}
 {% block extra_js %}
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 {% endblock %}
@@ -15,7 +17,13 @@
                 {% csrf_token %}
                 {{ form|crispy }}
                 <p class="text-center">
-                    Are you sure you want to delete {{ object }}?
+                    Are you sure you want to delete the profile for {{ object.user.email }}? 
+                    {% if request.user|has_group:'Farmers' %}
+                    This will also delete your account and any products on your account.
+                    {% else %}
+                    This will also delete your user account.
+                    {% endif %}
+                    You will not be able to login to your profile again.
                 </p>
                 <input class="btn btn-lg cta-button bg-red text-white me-auto" type="submit" value="Delete">
                 <a class="btn cta-button-secondary ms-auto mt-auto" href="{% url 'product-detail' object.id %}">Go back</a>
