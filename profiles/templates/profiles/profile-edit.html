@@ -15,8 +15,7 @@
                         {{ forms.profile_form|crispy }}
                         {{ forms.address_form|crispy }}
                         <div class="text-center">
-                            <input id="submit-form" class="btn btn-lg cta-button w-auto mb-3" type="submit"
-                                value="Save" />
+                            <button id="submit-form" class="btn cta-button mb-3" type="submit">Submit</button>
                             {% if request.user.is_authenticated %}
                             <div class="text-center my-2">
                                 <a class="btn btn-sm cta-button bg-red text-white" href="{% url 'profile-delete' request.user.profile.id %}">Delete Profile</a>

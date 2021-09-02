@@ -7,9 +7,9 @@
 <div class="row justify-content-center py-5">
     <div class="col-12 col-lg-10 text-center">
         <h3 class="text-center pb-3 pt-2">
-            Payment successful
+            Checkout successful
         </h3>
-        <small class="text-center">You order details and delivery/collection information have been sent to:
+        <small class="text-center">Once your payment is confirmed, we will send your order details to: 
             <strong>{{ order.email }}</strong></small>
         {% include 'includes/checkout/order-summary.html' %}
         {% if not request.user.is_authenticated and not order.user %}

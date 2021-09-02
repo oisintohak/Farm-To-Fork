@@ -73,7 +73,7 @@
                     </span>
                 </div>
             </a>
-            <ul class="navbar-nav w-100 justify-content-end">
+            <ul id="mobileSearchDropdownParent" class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item d-lg-none">
                     <div class="dropdown">
                         <button class="btn nav-link fs-3" type="button" id="navMenuDropdown" data-bs-toggle="dropdown"
@@ -115,7 +115,7 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-search"></i>
                 </button>
-                <div class="d-xl-none dropdown-menu mobile-search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                <div id="mobileSearchDropdownMenu" class="d-xl-none dropdown-menu mobile-search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                     aria-labelledby="mobileSearchDropdown">
                     <form class="mobile-search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                         <div class="input-group">
@@ -126,12 +126,12 @@
                     </form>
                 </div>
                 <li class="d-none d-xl-block ms-auto nav-item">
-                    <div class="dropdown">
+                    <div id="searchDropdownParent" class="dropdown">
                         <button class="btn nav-link fs-3" type="button" id="searchDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <i class="fas fa-search"></i>
                         </button>
-                        <div class="dropdown-menu search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                        <div id="searchDropdownMenu" class="dropdown-menu search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                             aria-labelledby="searchDropdown">
                             <form class="search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                                 <div class="input-group">
@@ -278,12 +278,15 @@
             toast.show();
         })
 
-        document.querySelector('#mobileSearchDropdown').addEventListener('click', function () {
-            document.querySelector('#mobileSearchInput').focus()
+        var mobileSearchInput = document.querySelector('#mobileSearchInput')
+        document.querySelector('#mobileSearchDropdownParent').addEventListener('shown.bs.dropdown', function () {
+            console.log('searchshown');
+            mobileSearchInput.focus()
         })
-
-        document.querySelector('#searchDropdown').addEventListener('click', function () {
-            document.querySelector('#searchInput').focus()
+        var searchInput = document.querySelector('#searchInput')
+        document.querySelector('#searchDropdownParent').addEventListener('shown.bs.dropdown', function () {
+            console.log('searchshown');
+            searchInput.focus()
         })
     </script>
 
