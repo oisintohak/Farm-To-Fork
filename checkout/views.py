@@ -299,9 +299,9 @@ class FarmerOrderDetail(TemplateView):
     template_name = 'checkout/farmer-order-detail.html'
 
     def get(self, request, *args, **kwargs):
-        order = get_object_or_404(
-            Order, order_number=self.kwargs['id'])
-        if not order.wh_success:
+        farmer_order = get_object_or_404(
+            FarmerOrder, order_number=self.kwargs['id'])
+        if not farmer_order.order.wh_success:
             messages.add_message(
                 self.request,
                 messages.ERROR,
