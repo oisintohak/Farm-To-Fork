@@ -2,6 +2,11 @@
 {% load static %}
 {% load check_group %}
 {% load profiles_extras %}
+{% block extra_title %}
+{% with user_profile.first_name|addstr:user_profile.last_name as fullname %}
+ - {{ fullname|truncatechars:25 }}
+{% endwith %}
+{% endblock %}
 {% block main_content %}
 <div class="row justify-content-center py-3">
     <div class="col-12 col-md-10 col-xl-8">

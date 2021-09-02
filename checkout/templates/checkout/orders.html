@@ -14,7 +14,7 @@
             {% for item in my_orders %}
             <li class="list-group-item">
                 <a href="{% url 'order-detail' item.order_number %}">
-                    {{ item }}
+                    Order of {{ item.product_count }} product{{ item.product_count|pluralize }} on {{ item.date }}
                 </a>
             </li>
             {% endfor %}
@@ -38,7 +38,7 @@
             {% for item in farmer_orders %}
             <li class="list-group-item">
                 <a href="{% url 'farmer-order-detail' item.id %}">
-                    {{ item }}
+                    Order of {{ item.product_count }} product{{ item.product_count|pluralize }} on {{ item.order.date }}
                 </a>
             </li>
             {% endfor %}

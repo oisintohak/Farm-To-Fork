@@ -1,4 +1,7 @@
 {% extends "base.html" %} {% load static %}
+{% block extra_title %}
+ - {{ product.name }}
+{% endblock %}
 {% block main_content %}
 <div class="container">
     <div class="row justify-content-center py-3">
