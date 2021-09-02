@@ -300,7 +300,7 @@ class FarmerOrderDetail(TemplateView):
 
     def get(self, request, *args, **kwargs):
         farmer_order = get_object_or_404(
-            FarmerOrder, order_number=self.kwargs['id'])
+            FarmerOrder, id=self.kwargs['id'])
         if not farmer_order.order.wh_success:
             messages.add_message(
                 self.request,
