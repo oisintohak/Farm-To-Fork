@@ -101,6 +101,14 @@ class Products(ListView):
         context['product_list'] = product_list
         if 'q' in self.request.GET:
             context['search_query'] = self.request.GET['q']
+        if (
+            self.request.user.is_authenticated and
+            self.request.user.profile.address.location
+        ):
+            location = self.request.user.profile.address.location
+            context['user_address_lat'] = location.coords[1]
+            context['user_address_long'] = location.coords[0]
+
         return context
 
 
