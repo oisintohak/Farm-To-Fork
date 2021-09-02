@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
-{% block main_content %}
 {% block extra_title %}
- - 400 Error
+- 400 Error
 {% endblock %}
+{% block main_content %}
 
 <div class="row justify-content-center py-3">
     <div class="col-12 col-md-10 col-xl-8">
@@ -15,6 +15,11 @@
                 <small class="text-center">
                     Bad Request.
                 </small>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <a class="btn cta-button" href="{% url 'home' %}">Home Page</a>
+                </div>
             </div>
         </div>
     </div>

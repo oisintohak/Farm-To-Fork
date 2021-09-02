@@ -1,7 +1,6 @@
-{% extends "base.html" %} {% load static %} {% block main_content %}
-{% block extra_title %}
- - 404 Error
-{% endblock %}
+{% extends "base.html" %} {% load static %} 
+{% block extra_title %} - 404 Error{% endblock %}
+{% block main_content %}
 <div class="row justify-content-center py-3">
     <div class="col-12 col-md-10 col-xl-8">
         <div class="card bg-l-green border-d-green border border-3 p-2 w-auto">
@@ -12,6 +11,11 @@
                 <small class="text-center">
                     Page not found.
                 </small>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <a class="btn cta-button" href="{% url 'home' %}">Home Page</a>
+                </div>
             </div>
         </div>
     </div>
