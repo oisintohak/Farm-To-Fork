@@ -21,6 +21,8 @@ stripe = "*"
 geopy = "*"
 django-filter = "*"
 django-environ = "*"
+selenium = "*"
+pytest = "*"
 
 [dev-packages]
 
