@@ -1,6 +1,13 @@
 #map {
-    height: 80vh;
+    height: 70vh;
     width: auto;
     position: relative;
     top: 0;
+}
+
+/* move zoom controls to bottom */
+
+.leaflet-top {
+    top: unset !important;
+    bottom: 0 !important;
 }

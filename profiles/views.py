@@ -104,9 +104,12 @@ class FarmerMapView(TemplateView):
                 geometry_field='location',
             )
         )
+        # loop through the array to add coordinates and address
+        # details for each farmer to geoJSON
         for item in markers['features']:
             address = Address.objects.get(id=item['properties']['address'])
             if address.location:
+                item['properties']['area'] = f'{address.town_or_city}, {address.county}'
                 item['geometry'] = {
                     'type': 'Point',
                     'coordinates': [
