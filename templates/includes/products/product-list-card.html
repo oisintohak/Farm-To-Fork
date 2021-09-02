@@ -3,14 +3,30 @@
 <div class="col-12 col-xl-6">
     <div class="card bg-l-green border-d-green border border-3 mb-3 p-2">
         <div class="row g-0">
+            {% if item.distance %}
+            <div class="ms-auto position-absolute product-badge-container">
+                <span class="product-distance-badge position-absolute text-l-green translate-middle badge rounded-pill bg-success">
+                    Distance: {{ item.distance|truncatechars:4 }}km
+                </span>
+                {% if item.delivery %}
+                <span class="product-delivery-badge position-absolute text-l-green translate-middle badge rounded-pill bg-success">
+                    Delivery: Yes
+                </span>
+                {% else %}
+                <span class="product-delivery-badge position-absolute text-l-green translate-middle badge rounded-pill bg-danger">
+                    Delivery: No
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
             <div class="col-12 col-md-4 d-flex align-items-center">
                 <a class="product-card-image" href="{% url 'product-detail' item.product.id %}">
                     {% if item.product.image %}
                     <img class="product-card-image img-fluid rounded" src="{{ item.product.image.url }}"
-                        alt="{{ item.product.name }}">
+                    alt="{{ item.product.name }}">
                     {% elif product.image_url %}
                     <img class="product-card-image img-fluid rounded" src="{{ item.product.image_url }}"
-                        alt="{{ item.product.name }}">
+                    alt="{{ item.product.name }}">
                     {% else %}
                     <img class="product-card-image img-fluid rounded" src="{{ MEDIA_URL }}product-image-placeholder.png"
                         alt="{{ item.product.name }}">

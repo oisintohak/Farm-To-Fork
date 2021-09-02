@@ -262,6 +262,24 @@ body {
 .product-image-placeholder {
     font-size: 10rem;
 }
+.product-badge-container{
+    height: 20px;
+    width: 20px;
+    top: 0;
+    right: 0;
+}
+
+.product-delivery-badge {
+    top: 5%;
+    right: -3.2rem;
+    font-size: .85rem;
+}
+
+.product-distance-badge {
+    top: 2rem;
+    right: -4rem;
+    font-size: .85rem;
+}
 
 /* ***** SHOPPING CART ***** */
 
