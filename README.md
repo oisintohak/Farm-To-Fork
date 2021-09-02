@@ -286,7 +286,7 @@ To view wireframes please go to the [WIREFRAMES.md](WIREFRAMES.md) file.
 
 ### Database Schema:
 
-**Database Schema** ![Database_schema](docs/database_schema/schema.png)
+**Database Schema** ![Database_schema](docs/database_schema/SCHEMA.png)
 
 
 ### Design
