@@ -48,19 +48,22 @@
         <div class="container-fluid container-xxl">
             <ul class="navbar-nav text-primary-dark w-100 d-none d-lg-flex me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link active" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'products' %}">All Products</a>
+                    <a class="nav-link" href="{% url 'products' %}">All Products</a>
                 </li>
                 {% if request.user|has_group:'Farmers' %}
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create Product</a>
+                    <a class="nav-link" href="{% url 'product-create' %}">Create Product</a>
                 </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About/FAQs</a>
+                </li>
             </ul>
             <a href="{% url 'home' %}" class="navbar-brand logo-font d-none d-lg-block mx-auto">
                 <div class="d-flex flex-column align-items-center">
@@ -80,20 +83,23 @@
                         <ul class="dropdown-menu dropdown-menu-start border-d-green border border-2 position-absolute"
                             aria-labelledby="navMenuDropdown">
                             <li class="dropdown-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                                <a class="nav-link active" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="dropdown-item">
                                 <a class="nav-link" href="{% url 'farmer-map' %}">Farmer Map</a>
                             </li>
                             <li class="dropdown-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'products' %}">All Products</a>
+                                <a class="nav-link" href="{% url 'products' %}">All Products</a>
                             </li>
                             {% if request.user|has_group:'Farmers' %}
                             <li class="dropdown-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create
+                                <a class="nav-link" href="{% url 'product-create' %}">Create
                                     Product</a>
                             </li>
                             {% endif %}
+                            <li class="dropdown-item">
+                                <a class="nav-link" href="{% url 'about' %}">About/FAQs</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -147,12 +153,13 @@
                         {% if request.user.is_authenticated %}
                         {% if request.user|has_group:'Farmers' %}
                         <li class="dropdown-item">
-                            <a class="nav-link" aria-current="page" href="{% url 'products' user=request.user.id %}">My Products</a>
+                            <a class="nav-link" href="{% url 'products' user=request.user.id %}">My
+                                Products</a>
                         </li>
                         <li class="dropdown-item">
-                            <a class="nav-link" aria-current="page" href="{% url 'product-create' %}">Create Product</a>
+                            <a class="nav-link" href="{% url 'product-create' %}">Create Product</a>
                         </li>
-                        {% endif %}        
+                        {% endif %}
                         <li class="dropdown-item">
                             <a class="nav-link text-end" href="{% url 'orders' %}">My Orders</a>
                         </li>
@@ -218,10 +225,48 @@
 
     <footer class="bg-p-green mt-auto py-3">
         <div class="container-fluid container-xxl">
-            <h5>Farm To Fork.</h5>
+            <div class="row">
+                <div class="col">
+                    <small>
+                        <a href="mailto:info@farmtoforkproject.com">
+                            <i class="fas fa-envelope pe-1"></i>
+                            <span class="d-none d-md-inline">
+                                info@farmtoforkproject.com
+                            </span>
+                        </a> <br>
+                        <a href="tel:+123456789">
+                            <i class="fas fa-phone-alt pe-1"></i>
+                            <span class="d-none d-md-inline">
+                                123456789
+                            </span>
+                        </a>
+                    </small>
+                </div>
+                <div class="col">
+                    <a href="{% url 'home' %}" class="navbar-brand logo-font nav-item mx-auto">
+                        <div class="d-flex flex-column align-items-center">
+                            <img src="{{ MEDIA_URL }}icon_xs.png" alt="hand holding plant icon">
+                            <span class="ps-1 text-uppercase mobile-logo-text">
+                                FARM TO FORK
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col text-end">
+                    <a href="{% url 'about' %}">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="d-none d-md-inline">
+                            About/FAQs
+                        </span>
+                    </a>
+                </div>
+                <small class="logo-icon-attribution">
+                    Logo Icon made by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius
+                        Dan</a> from
+                    <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+                </small>
+            </div>
         </div>
-        <div>Logo Icon made by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius Dan</a>
-            from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
     </footer>
 
     <script type="text/javascript">

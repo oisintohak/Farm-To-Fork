@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_title %}
+- About
+{% endblock %}
+{% block main_content %}
+
+
+<div class="row justify-content-center">
+    <div class="col-11 col-md-9 col-lg-7 col-xl-5 text-center rounded border border-2 border-d-green my-5 pb-5 bg-p-green">
+        <div class="row">
+            <h3 class="text-center py-3">
+                About
+            </h3>
+        </div>
+        <div class="row justify-content-center">
+            <h5 class="py-3 text-center">
+                Delivery/Collection Process
+            </h5>
+            <p class="text-start">
+                When you order a product, we calculate the distance between you and the farmer. If it is above 10KM, the
+                item is marked for collection, otherwise the farmer will deliver it to your door. When an order is paid
+                for, you will receive an email with the order details and an additional email for each farmer in the
+                order who is more than 10KM away. The farmer will receive an email with your details and the
+                delivery/collection status of the items.
+            </p>
+        </div>
+        <div class="row justify-content-center">
+            <h5 class="py-3 text-center">
+                Farmer Fees
+            </h5>
+            <p class="text-start">
+                When a customer buys your product you, will receive 95% of the purchase price. The rest is kept as a fee
+                for the service and to cover transaction costs.
+            </p>
+        </div>
+        <div class="row justify-content-center">
+            <h5 class="py-3 text-center">
+                Farmer Payouts
+            </h5>
+            <p class="text-start">
+                Farmer orders are verified at the end of each month and our accounts team will contact you to arrange
+                payouts. We are currently developing an automated payout system.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

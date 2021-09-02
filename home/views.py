@@ -25,3 +25,7 @@ class Home(TemplateView):
 
         context['product_list'] = product_list
         return context
+
+
+class About(TemplateView):
+    template_name = 'home/about.html'

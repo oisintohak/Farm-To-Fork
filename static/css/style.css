@@ -197,6 +197,16 @@ body {
     right: -5%;
 }
 
+/****** FOOTER ****** */
+
+.logo-icon-attribution {
+    font-size: 0.6rem;
+}
+
+.contact-link:hover, .contact-link:active {
+    color: #fbfffc !important;
+}
+
 /****** MESSAGES ****** */
 
 .message-container {
