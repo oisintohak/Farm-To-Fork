@@ -99,6 +99,10 @@ body {
     color: var(--primary-dark) !important;
 }
 
+.text-underline {
+    text-decoration: underline !important;
+}
+
 /* set max width of all containers */
 
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
@@ -236,7 +240,7 @@ body {
 }
 
 .home-banner-text {
-    background-color: #c8e6c9b8;
+    background-color: #97b498c7;
 }
 
 .carousel-card-list-group {

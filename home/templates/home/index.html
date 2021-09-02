@@ -9,11 +9,16 @@
 <div class="row home-banner">
     <div class="col-12">
         <div class="row justify-content-end py-5 px-2">
-            <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 my-5 text-end home-banner-text rounded h-auto">
-                <h1 class="text-l-green text-end logo-font">Farm To Fork</h1>
-                <p class="text-l-green text-end">
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 my-5 text-end home-banner-text rounded h-auto py-2">
+                <h1 class="text-l-green text-end logo-font text-underline my-3">Farm To Fork</h1>
+                <h5 class="text-l-green text-end w-75 ms-auto">
                     Find the freshest produce from your local farmer.
+                </h5>
+                <p class="text-l-green text-end my-2 fs-6 w-75 ms-auto">
+                    A site where farmers can sell their produce directly to consumers.
                 </p>
+                <a class="btn cta-button-secondary ms-auto my-2" href="{% url 'account_login' %}">Log In</a>
+                <a class="btn cta-button my-2" href="{% url 'account_signup' %}">Register</a>
             </div>
         </div>
     </div>
