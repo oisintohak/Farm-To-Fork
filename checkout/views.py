@@ -308,11 +308,19 @@ class FarmerOrderDetail(TemplateView):
     def get(self, request, *args, **kwargs):
         farmer_order = get_object_or_404(
             FarmerOrder, id=self.kwargs['id'])
+
         if not farmer_order.order.wh_success:
             messages.add_message(
                 self.request,
                 messages.ERROR,
                 'Error retrieving order.',
+            )
+            return HttpResponseRedirect(reverse('home'))
+        elif self.request.user is not farmer_order.farmer:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'This order is not assigned to your account.',
             )
             return HttpResponseRedirect(reverse('home'))
         return super().get(request, *args, **kwargs)
