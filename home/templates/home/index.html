@@ -17,7 +17,8 @@
                 <p class="text-l-green text-end my-2 fs-6 w-75 ms-auto">
                     A site where farmers can sell their produce directly to consumers.
                     <br>
-                    <small class="text-l-green text-end">Are you a farmer and want to know how it works? You can read more <a class="text-l-green" href="{% url 'about' %}">Here</a></small>
+                    <small class="text-l-green text-end">Are you a farmer and want to know how it works? You can read
+                        more <a class="text-l-green" href="{% url 'about' %}">Here</a></small>
                 </p>
                 {% if not request.user.is_authenticated %}
                 <a class="btn cta-button-secondary ms-auto my-2" href="{% url 'account_login' %}">Log In</a>
@@ -72,7 +73,7 @@
                                             {{ item.product.created_by.profile.last_name }}
                                         </a>
                                     </small>
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         Available in:
                                         <ul class="list-group carousel-card-list-group">
                                             {% for variant in item.variants %}
@@ -81,8 +82,8 @@
                                                 {{ variant.size|cut:".00" }}
                                                 {{ variant.unit }}:
                                                 €{{ variant.price|cut:".00" }}
-                                                {% endif %}
                                             </li>
+                                            {% endif %}
                                             {% if item.variants|length > 2 and forloop.counter == 3 %}
                                             <li class="list-group-item">
                                                 <a href="{% url 'product-detail' item.product.id %}">
@@ -92,7 +93,7 @@
                                             {% endif %}
                                             {% endfor %}
                                         </ul>
-                                    </p>
+                                    </div>
                                     <p class="card-text text-center">
                                         <a class="btn cta-button"
                                             href="{% url 'product-detail' item.product.id %}">Details

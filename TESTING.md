@@ -1,8 +1,39 @@
-## Testing
+# Testing
 
 ### Code Validation
 
-### Performance
+Python code was checked with a PEP8 validator with no issues
+
+all CSS files were validated with no issues
+
+Here is a list of pages checked for HTML validation with a user logged in, logged out and a farmer user:
+
+- home
+- about
+- login
+- register
+- log out confirm
+- change password
+- change password confirmation
+- farmer map
+- product list
+- my product list
+- product list with distance
+- product detail
+- product form
+- product delete
+- profile detail
+- profile form
+- profile delete
+- cart
+- order form
+- payment
+- payment success
+- order list
+- order detail
+- farmer order detail
+- 404
+
 
 ## Manual Continuous Testing
 
@@ -329,11 +360,6 @@ The following details were verified to ensure the website was responsive and the
 
     - The error message is sized and positioned correctly
 
-
-
-### User Story Testing
-
-### Automated Testing
 
 ### Unresolved Issues
 

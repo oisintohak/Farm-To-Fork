@@ -60,8 +60,8 @@
                                         {{ variant.size|cut:".00" }}
                                         {{ variant.unit }}:
                                         €{{ variant.price|cut:".00" }}
-                                        {% endif %}
                                     </li>
+                                    {% endif %}
                                     {% if item.variants|length > 3 and forloop.counter == 3 %}
                                     <li class="list-group-item">
                                         <a href="{% url 'product-detail' item.product.id %}">
