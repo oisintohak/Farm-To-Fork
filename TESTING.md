@@ -346,11 +346,13 @@ The following details were verified to ensure the website was responsive and the
  - a farmer can purchase their own products if they add them to the cart before logging in
   - On the product edit/create page, if 10 variants are added, the 'add variant' button disappears and doesn't come back if variants are removed.
  - Product cards do not have equal height due to differing content size.
-
+ - BUG: if using register with order view, a user can become a farmer and add products without adding  a name.
+    - POTENTIAL FIX: change the access mixin for product edit/create to check if a user profile has been completed (new boolean model field on profile)
 
 ## Planned features:
 
     - add min_price and max_price fields to products to be able to sort by price
 
     - product page pagination 
-    - 
+    - remove bio, image and image_url fields from customer profiles and don't allow users to view customer profiles
+    - add payouts system for farmers
