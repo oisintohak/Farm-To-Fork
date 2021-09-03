@@ -59,7 +59,6 @@ class ProfileEditView(LoginRequiredMixin, MultiModelFormView):
         'address_form': AddressForm,
     }
     template_name = 'profiles/profile-edit.html'
-    raise_exception = True
 
     def get_objects(self):
         profile = get_object_or_404(UserProfile, user=self.request.user)
