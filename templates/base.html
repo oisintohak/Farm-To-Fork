@@ -16,8 +16,10 @@
     {% endblock %}
 
     {% block core_css %}
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/slick.css' %}" />
     <link rel="stylesheet" href="{% static 'css/slick-theme.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -31,10 +33,11 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/8bdadb5ed1.js" crossorigin="anonymous"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="{% static 'js/slick.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
     {% endblock %}
 
     {% block extra_js %}
@@ -115,7 +118,8 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-search"></i>
                 </button>
-                <div id="mobileSearchDropdownMenu" class="d-xl-none dropdown-menu mobile-search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                <div id="mobileSearchDropdownMenu"
+                    class="d-xl-none dropdown-menu mobile-search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                     aria-labelledby="mobileSearchDropdown">
                     <form class="mobile-search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                         <div class="input-group">
@@ -131,7 +135,8 @@
                             aria-expanded="false">
                             <i class="fas fa-search"></i>
                         </button>
-                        <div id="searchDropdownMenu" class="dropdown-menu search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
+                        <div id="searchDropdownMenu"
+                            class="dropdown-menu search-dropdown-menu dropdown-menu-end border-d-green border border-2 position-absolute p-0"
                             aria-labelledby="searchDropdown">
                             <form class="search-dropdown-form p-2" method="GET" action="{% url 'products' %}">
                                 <div class="input-group">
