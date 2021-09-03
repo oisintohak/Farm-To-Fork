@@ -15,7 +15,7 @@ Browser device simulation:
     - Google Chrome: Moto G4, Pixel 2 XL, iPhone/SE, iPhone X, iPad, iPad Pro, Galaxy Fold
     - Mozilla Firefox: Microsoft Lumia 950 (Windows Phone 10.0), Galaxy S9/S9+ (Android 7.0), Galaxy Note 3 (Android 4.3)
 
-The following details were verified to ensure the website was responsive and the UI and design were consistent on all devices and browser device simulations:
+The following details were verified to ensure the website was responsive and the UI and design were consistent on all devices and browser device simulations, in addition to verifying that access to certain pages was only granted to the correct users and all operations worked as expected:
 
 - ### All pages
 
@@ -214,7 +214,7 @@ The following details were verified to ensure the website was responsive and the
 
         - Unauthenticated users will be redirected to login with a message: 'Please log in to view profiles.'
 
-- ### Profile Edit/Create Form, Checkout Form, Profile delete confirmation
+- ### Profile Edit/Create Form, Profile delete confirmation
 
     ##### Visuals & Responsiveness:
 
@@ -222,7 +222,6 @@ The following details were verified to ensure the website was responsive and the
         - All elements have adequate space and are correctly aligned
         - The button text and loading icon are displayed correctly when fetching the geocoding data on the address forms
         - Any django form validation errors are sized and positioned correctly
-
 
     ##### Functionality:
         - All inputs work as expected
@@ -232,26 +231,57 @@ The following details were verified to ensure the website was responsive and the
         - If the address can't be geo-located there is a popup modal with an error message
 
     ##### Defensive design:
+        - Unauthenticated users will be redirected to login with a message 'Please log in to edit your profile.'
 
+- ### Cart
 
-- ##### Cart
     ##### Visuals & Responsiveness:
+
+        - The headings, cart items and button text are all readable
+        - The product items are spaced evenly and the buttons work as expected
+
     ##### Functionality:
-    ##### Defensive design:
 
-    - The headings, cart items and button text are all readable
-    - The product items are spaced evenly and the buttons work as expected
+        - All links work and link to the correct page
+        - The quantity input and delete buttons work as expected
+        - The update cart button works as expected
 
-- ##### Payment form/ Checkout complete
+- ###  Checkout Form
+    
     ##### Visuals & Responsiveness:
-    ##### Functionality:
-    ##### Defensive design:
 
-    - All headings and text are sized and positioned correctly
-    - All order items are sized and positioned correctly
-    - The delivery information notice is positioned correctly
-    - The customer details are displayed correctly
-    - The card form, card validation errors, and card loading spinner are displayed correctly
+        - The heading, input and label text is sized properly
+        - All elements have adequate space and are correctly aligned
+        - The button text and loading icon are displayed correctly when fetching the geocoding data on the address forms
+        - Any django form validation errors are sized and positioned correctly
+
+    ##### Functionality:
+
+        - All inputs work as expected
+        - Any existing user data is in the correct fields
+        - There are validation error messages if the form is filled incorrectly
+        - The submit button changes text when fetching address data and changes back when the request is completed
+        - If the address can't be geo-located there is a popup modal with an error message
+
+- ### Payment form/ Checkout complete
+
+    ##### Visuals & Responsiveness:
+
+        - All headings and text are sized and positioned correctly
+        - All order items are sized and positioned correctly
+        - The delivery information notice is positioned correctly
+        - The customer details are displayed correctly
+        - The card form, card validation errors, and card loading spinner are displayed correctly
+
+    ##### Functionality:
+
+        - Payment form:
+            - Any form validation errors are displayed
+            - All items have the delivery status badge displayed
+            - The total is calculated correctly
+        - Checkout success:
+            - The users details are displayed
+    ##### Defensive design:
 
 - ##### Order list
     ##### Visuals & Responsiveness:
