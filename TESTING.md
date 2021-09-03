@@ -4,7 +4,9 @@
 
 ### Performance
 
-### Responsiveness
+## Manual Continuous Testing
+
+
 This website was designed using a mobile-first approach and was tested for responsiveness on multiple device sizes in addition to browser-simulated devices in Google Chrome Developer Tools and Firefox Developer Tools
 
 Devices Used : Redmi Note 4, Redmi Note 9, Lenovo Tab4 10
@@ -15,56 +17,139 @@ Browser device simulation:
 
 The following details were verified to ensure the website was responsive and the UI and design were consistent on all devices and browser device simulations:
 
-- #### All pages
-    - There is no horizontal overflow from any elements outside the page boundaries
+- ### All pages
 
-- #### Navbar
+    ##### Visuals & Responsiveness
+
+    - There is no horizontal overflow from any elements outside the page boundaries
+    - The navbar is at the top of the page and the footer at the bottom, even if there is only a small amount of content between
+    - The visuals and layout are consistent on all screen sizes
+
+
+- ### Navbar
+
+    ##### Visuals & Responsiveness
+
     - All links are horizontally and vertically aligned and centered
     - Dropdowns are working correctly and text can be entered into the search box
     - All link text is readable
     - If the cart total is more than 5 digits, there is no overflow and the layout is not affected negatively
+    - The search input dropdown is sized correctly across all screen sizes
+    - The main navigation becomes a dropdown at the appropriate screen width
+    - The logo is sized appropriately at different screen widths
 
-- #### Footer
+    ##### Functionality
+
+    - All links work and link to the correct page
+    - For the account dropdown
+        - Unauthenticated users will only see the login and register links
+        - Only authenticated users will see the 'my orders' 'my profile', 'edit profile' and 'logout' links
+        - Only authenticated Farmers will see the 'my products' and 'create product' links
+
+- ### Footer
+
+    ##### Visuals & Responsiveness:
+
     - The logo, email, phone and about link text is readable
     - On smaller screens, only the icons are displayed for email, phone and about links
     - The logo icon is sized correctly
     - The logo icon attribution is sized correctly
 
-- #### Home
+    ##### Functionality:
 
--  Banners
-    - The banner image positioning is correct and that the apple basket is visible on all screen sizes
-    - The banner text is readable and scales properly across different screen sizes
-    - The banner login and register buttons are sized correctly and the text is readable
+    - All links work and link to the correct page
+    - The logo attribution links open in a new tab
 
--  Carousel
-    - The carousel slide items are scaled properly across device sizes
-    - The carousel doesn't display too many items for the screen width
-    - The carousel item text and buttons are readable and properly aligned
-    - On mobile devices the carousel items can be swiped
-    - The carousel next and previous buttons are sized properly and work as expected
 
-- ##### Login, Registration, Log out, Change Password Pages
-    - All text is sized correctly
-    - There is adequate spacing around the text, labels, inputs and button
-    - The inputs and button are size correctly
-    - Any django form validation errors are sized properly and their positioning is correct
+- ### Home
 
-- ##### About Page
-    - All headings and paragraphs are readable
-    - The sections and headings have appropriate padding and positioning
+    ##### Visuals & Responsiveness:
 
-- ##### Farmer Map
-    - The heading text is sized and positioned correctly
-    - The map zoom and pan works as expected
-    - The map markers can be clicked and the marker content is displayed properly
+        - Banner:
+            - The banner image positioning is correct and that the apple basket is visible on all screen sizes
+            - The banner text is readable and scales properly across different screen sizes
+            - The banner login and register buttons are sized correctly and the text is readable
 
-- ##### Product List/Search Results/My Products List
-    - The product count heading and sort button text is readable
-    - The sort button and dropdown menu are positioned correctly
-    - The product card images are sized and positioned correctly
-    - The product card text and buttons are sized and positioned correctly
-    - If present the search term display is sized and positioned correctly
+        - Carousel:
+            - The carousel slide items are scaled properly across device sizes
+            - The carousel doesn't display too many items for the screen width
+            - The carousel item text and buttons are readable and properly aligned
+            - The carousel next and previous buttons are sized properly.
+
+    ##### Functionality:
+        
+        - Banner:
+            - All links work and link to the right pages
+        
+        - Carousel:
+            - All links work and link to the right pages
+            - On mobile devices the carousel items can be swiped
+
+- ### Login, Registration, Log out, Change Password Pages
+
+    ##### Visuals & Responsiveness:
+
+        - All text is sized correctly
+        - There is adequate spacing around the text, labels, inputs and button
+        - The inputs and button are size correctly
+        - Any django form validation errors are sized properly and their positioning is correct
+
+    ##### Functionality:
+
+        - All links work and link to the right pages
+
+
+    ##### Defensive design:
+
+        - For authenticated users:
+            - Navigating to the login and register pages redirects to the home page
+        - For unauthenticated users:
+            - Navigating the the logout page redirects to the home page
+            - Navigating to the password change/reset/reset-done/set or the email confirmation/change/view email pages all redirect to the login page
+
+- ### About Page
+
+    ##### Visuals & Responsiveness:
+  
+        - All headings and paragraphs are readable
+        - The sections and headings have appropriate padding and positioning
+
+    ##### Functionality:
+        
+        -The login and register links are only displayed to unauthenticated users
+        - If visible, the login and register links work and link to the correct pages
+
+
+
+- ### Farmer Map
+    
+    ##### Visuals & Responsiveness:
+
+        - The heading text is sized and positioned correctly
+        - The map zoom and pan works as expected
+        - The map markers can be clicked and the marker content is displayed properly
+
+    ##### Functionality:
+
+        - The farmer profile links work and link to the right pages
+
+- ### Product List/Search Results/My Products List
+
+    ##### Visuals & Responsiveness:
+
+        - The product count heading and sort button text is readable
+        - The sort button and dropdown menu are positioned correctly
+        - The product card images are sized and positioned correctly
+        - The product card text and buttons are sized and positioned correctly
+        - If present, the search term display is sized and positioned correctly
+        - If present, th
+
+    ##### Functionality:
+
+
+
+
+    ##### Defensive design:
 
 - ##### Product Detail
     - The product card image is sized and positioned correctly
@@ -110,6 +195,8 @@ The following details were verified to ensure the website was responsive and the
 - ##### 404 error page
     - The error message is sized and positioned correctly
 
+
+### Testing 
 
 
 ### Defensive Design Testing
