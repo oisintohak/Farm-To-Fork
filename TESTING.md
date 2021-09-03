@@ -5,34 +5,39 @@
 Python code was checked with a PEP8 validator with no issues
 
 all CSS files were validated with no issues
+all JS files were validated with no issues
 
 Here is a list of pages checked for HTML validation with a user logged in, logged out and a farmer user:
 
-- home
-- about
-- login
-- register
-- log out confirm
-- change password
-- change password confirmation
-- farmer map
-- product list
-- my product list
-- product list with distance
-- product detail
-- product form
-- product delete
-- profile detail
-- profile form
-- profile delete
-- cart
-- order form
-- payment
-- payment success
-- order list
-- order detail
-- farmer order detail
-- 404
+- home PASS
+- about PASS
+- login PASS
+- register PASS
+- log out confirm PASS
+- change password PASS
+- change password confirmation PASS
+- farmer map PASS
+- product list:
+    - the w3 validator throws an error for the </p> tag on product cards i couldn't find the error in the code. the product card code is in 'templates/includes/products/product-list-card.html'
+- my product list:
+    -same issue as above
+- product list with distance:
+    -same issue as above
+- product detail PASS
+- product form PASS
+- product delete PASS
+- profile detail:
+    - same issue from product list card (it uses the same 'includes')
+- profile form PASS
+- profile delete PASS
+- cart PASS
+- order form PASS
+- payment PASS
+- payment success PASS
+- order list PASS
+- order detail PASS
+- farmer order detail PASS
+- 404 PASS
 
 
 ## Manual Continuous Testing

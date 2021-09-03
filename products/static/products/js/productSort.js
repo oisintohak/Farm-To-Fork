@@ -39,8 +39,7 @@ document.querySelectorAll('.product-sort-link').forEach(function (element) {
 var shareLocationButton = document.querySelector('#shareLocationButton');
 function geoLocate() {
     shareLocationButton.disabled = true;
-    shareLocationButton.innerHTML = '<span class="spinner-grow spinner-grow-lg mx-3 align-middle" role="status" aria-hidden="true"></span>'
-        + '<span class="align-middle">Searching</span>';
+    shareLocationButton.innerHTML = '<span class="spinner-grow spinner-grow-lg mx-3 align-middle" role="status" aria-hidden="true"></span><span class="align-middle">Searching</span>';
     if (!navigator.geolocation) {
         window.alert('Geolocation is not supported by your browser');
     } else {

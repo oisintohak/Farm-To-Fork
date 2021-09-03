@@ -28,8 +28,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center"
-                method="POST">
+            <form id="payment-form" method="POST" class="row gy-2 gx-3 align-items-center justify-content-center">
                 {% csrf_token %}
                 <!--Stripe.js injects the Card Element-->
                 <div id="card-element">

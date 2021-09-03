@@ -6,8 +6,6 @@
     https://stripe.com/docs/stripe-js
 */
 
-// var stripePublicKey = document.querySelector('#id_stripe_public_key').value
-// var clientSecret = document.querySelector('#id_client_secret').value
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
 
