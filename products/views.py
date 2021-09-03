@@ -136,7 +136,8 @@ class ProductVariantInline(InlineFormSetFactory):
     factory_kwargs = {
         'extra': 1,
         'can_delete': True,
-        'max_num': 10
+        'max_num': 10,
+        'min_num': 1,
     }
     fields = ['price', 'size', 'unit', ]
     exclude = ['product', 'id']
