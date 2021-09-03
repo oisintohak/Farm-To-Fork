@@ -25,7 +25,6 @@ The following details were verified to ensure the website was responsive and the
     - The navbar is at the top of the page and the footer at the bottom, even if there is only a small amount of content between
     - The visuals and layout are consistent on all screen sizes
 
-
 - ### Navbar
 
     ##### Visuals & Responsiveness
@@ -59,7 +58,6 @@ The following details were verified to ensure the website was responsive and the
 
     - All links work and link to the correct page
     - The logo attribution links open in a new tab
-
 
 - ### Home
 
@@ -98,7 +96,6 @@ The following details were verified to ensure the website was responsive and the
 
         - All links work and link to the right pages
 
-
     ##### Defensive design:
 
         - For authenticated users:
@@ -118,8 +115,6 @@ The following details were verified to ensure the website was responsive and the
         
         -The login and register links are only displayed to unauthenticated users
         - If visible, the login and register links work and link to the correct pages
-
-
 
 - ### Farmer Map
     
@@ -142,40 +137,116 @@ The following details were verified to ensure the website was responsive and the
         - The product card images are sized and positioned correctly
         - The product card text and buttons are sized and positioned correctly
         - If present, the search term display is sized and positioned correctly
-        - If present, th
+        - If present, the product delivery status and distance badges are sized and positioned correctly with readable text
+        - There is user feedback on the 'share location' button on the distance sorting modal that lets the user know what is happening
 
     ##### Functionality:
 
+        - The sort dropdown works as expected
+        - Each of the sort functions work as expected
+        - All product and farmer profile links work and link to the right pages
+        - On the distance sorting modal:
+            - All users will see the link to share their device location
+            - Only authenticated users without an address on their profile will see a link to add their address
+            - Only authenticated users with an address on their profile will see a link to use their address to sort products by distance
 
+- ##### Product Detail
 
+    ##### Visuals & Responsiveness:
+
+        - The product card image is sized and positioned correctly
+        - The product card text and add to cart/edit product button is sized and positioned correctly
+        - The variant and quantity inputs are sized and positioned correctly
+
+    ##### Functionality:
+
+        - All links work and link to the correct page
+        - The variant select and quantity input works as expected
+        - The add to cart button works as expected
+    
+    ##### Defensive design:
+
+        - Authenticated farmers who have created the product will only see the 'edit product' button, all other users will only see the add to cart button
+
+- ### Product Edit/Create Form, Product delete confirmation
+
+    ##### Visuals & Responsiveness:
+
+        - The heading, input and label text is sized properly
+        - All elements have adequate space and are correctly aligned
+        - The dynamic variant subform is displayed properly across all screen sizes
+        - Any django form validation errors are sized and positioned correctly
+
+    ##### Functionality:
+        - All inputs work as expected
+        - Any existing user data is in the correct fields
+        - ** Unresolved Issue:**
+            - The form can be saved without variants
+        - ** Unresolved Issue:**
+            - If a user adds 10 product variants, the 'add variant' button disappears and doesn't come back if variants are removed.
+            - If 10 variants are saved and the user removes one, they will need to save the form and edit the product again to add another variant
+    
+    ##### Defensive design:
+        - Create Product:
+            - Unauthenticated users will be redirected to the login page with a message: 'Login to a farmer account to create/edit products.'
+            - Users with a customer account will redirected to the home page with a message: 'Only farmer accounts can create/edit products.'
+        - Edit Product:
+            - Only the owner of the product can view the edit product page, all other authenticated users will be redirected to the home page with a message 'you can only edit your own products'
+            - Unauthenticated users will be redirected to login with a message 'You need to login to edit your products.'
+        - Delete Product:
+            - Customer accounts or unauthenticated users will be redirected to the home page with a message: 'You don't have permission to delete this product.'
+            - Farmers who don't own the product will be redirected to the home page with a message: 'You can only delete your own products.'
+
+- ### Profile Detail
+
+    ##### Visuals & Responsiveness:
+
+        - The profile card image is sized and positioned correctly
+        - The profile card text and edit profile button (if shown) is sized and positioned correctly
+        - The product card images, text and 'details' button are all sized and positioned correctly
+
+    ##### Functionality:
+
+        - All links work and link to the correct page
+        - Only the profile owner can see the edit profile button
 
     ##### Defensive design:
 
-- ##### Product Detail
-    - The product card image is sized and positioned correctly
-    - The product card text and add to cart/edit product button is sized and positioned correctly
-    - The variant and quantity inputs are sized and positioned correctly
+        - Unauthenticated users will be redirected to login with a message: 'Please log in to view profiles.'
 
-- ##### Product Edit/Create Form, Product delete confirmation
-    - The heading, input and label text is sized properly
-    - All elements have adequate space and are correctly aligned
-    - The dynamic variant subform behaves as expected
+- ### Profile Edit/Create Form, Checkout Form, Profile delete confirmation
 
-- ##### Profile Detail
-    - The profile card image is sized and positioned correctly
-    - The profile card text and edit profile button is sized and positioned correctly
-    - The product card images, text and 'details' button are all sized and positioned correctly
+    ##### Visuals & Responsiveness:
 
-- ##### Profile Edit/Create Form, Checkout Form, Profile delete confirmation
-    - The heading, input and label text is sized properly
-    - All elements have adequate space and are correctly aligned
-    - The button text and loading icon are displayed correctly when fetching the geocoding data on the address forms
+        - The heading, input and label text is sized properly
+        - All elements have adequate space and are correctly aligned
+        - The button text and loading icon are displayed correctly when fetching the geocoding data on the address forms
+        - Any django form validation errors are sized and positioned correctly
+
+
+    ##### Functionality:
+        - All inputs work as expected
+        - Any existing user data is in the correct fields
+        - There are validation error messages if the form is filled incorrectly
+        - The submit button changes text when fetching address data and changes back when the request is completed
+        - If the address can't be geo-located there is a popup modal with an error message
+
+    ##### Defensive design:
+
 
 - ##### Cart
+    ##### Visuals & Responsiveness:
+    ##### Functionality:
+    ##### Defensive design:
+
     - The headings, cart items and button text are all readable
     - The product items are spaced evenly and the buttons work as expected
 
 - ##### Payment form/ Checkout complete
+    ##### Visuals & Responsiveness:
+    ##### Functionality:
+    ##### Defensive design:
+
     - All headings and text are sized and positioned correctly
     - All order items are sized and positioned correctly
     - The delivery information notice is positioned correctly
@@ -183,23 +254,31 @@ The following details were verified to ensure the website was responsive and the
     - The card form, card validation errors, and card loading spinner are displayed correctly
 
 - ##### Order list
+    ##### Visuals & Responsiveness:
+    ##### Functionality:
+    ##### Defensive design:
+
     - All headings and order titles are readable
     - There is adequate spacing around all elements
 
 - ##### Order detail, Farmer order detail
+    ##### Visuals & Responsiveness:
+    ##### Functionality:
+    ##### Defensive design:
+
     - All headings and text are sized and positioned correctly
     - All order items are sized and positioned correctly
     - The delivery information notice is positioned correctly
     - The customer details are displayed correctly
 
 - ##### 404 error page
+    ##### Visuals & Responsiveness:
+    ##### Functionality:
+    ##### Defensive design:
+
     - The error message is sized and positioned correctly
 
 
-### Testing 
-
-
-### Defensive Design Testing
 
 ### User Story Testing
 
@@ -212,3 +291,13 @@ The following details were verified to ensure the website was responsive and the
  - A product can be added without variants
  - between 992 and 1164 px the main nav links are spaced over two lines
     - fix: add white-space: nowrap to navlinks
+
+ - need to require a variant for products
+ - a farmer can purchase their own products if they add them to the cart before logging in
+
+## Planned features:
+
+    - add min_price and max_price fields to products to be able to sort by price
+
+    - product page pagination 
+    - 
