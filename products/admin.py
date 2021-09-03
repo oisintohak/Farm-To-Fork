@@ -13,7 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     fields = (
         'name', 'description', 'image_url', 'image', 'created_by',
     )
-    readonly_fields = ['id']
+    readonly_fields = ['id', 'created_by']
 
 
 admin.site.register(Product, ProductAdmin)

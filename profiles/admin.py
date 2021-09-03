@@ -6,7 +6,6 @@ from .models import UserProfile
 
 class UserProfileAdmin(admin.ModelAdmin):
     exclude = ()
-#     readonly_fields = ['user']
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

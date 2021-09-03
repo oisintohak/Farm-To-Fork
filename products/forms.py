@@ -8,6 +8,9 @@ from crispy_forms.layout import (
 
 
 class ProductVariantFormHelper(FormHelper):
+    """
+    Crispy forms FormHelper for product variant inline forms
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.form_tag = False

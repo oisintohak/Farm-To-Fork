@@ -342,9 +342,11 @@ The following details were verified to ensure the website was responsive and the
  - A product can be added without variants
  - between 992 and 1164 px the main nav links are spaced over two lines
     - fix: add white-space: nowrap to navlinks
-
  - need to require a variant for products
  - a farmer can purchase their own products if they add them to the cart before logging in
+  - On the product edit/create page, if 10 variants are added, the 'add variant' button disappears and doesn't come back if variants are removed.
+ - Product cards do not have equal height due to differing content size.
+
 
 ## Planned features:
 

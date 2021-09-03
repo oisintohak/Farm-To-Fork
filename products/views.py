@@ -21,6 +21,10 @@ from geopy import distance
 
 
 class ProductDetail(DetailView):
+    """
+    A view to display a specified product and
+    any variants
+    """
     model = Product
     context_object_name = 'product'
     template_name = 'products/product-detail.html'
@@ -33,6 +37,10 @@ class ProductDetail(DetailView):
 
 
 class Products(ListView):
+    """
+    A view to display all products with
+    any queries, filters or sorting applied
+    """
     template_name = 'products/product-list.html'
     context_object_name = 'product_list'
     model = Product
@@ -40,6 +48,7 @@ class Products(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         query = self.request.GET.get('q')
+        # filter by search query:
         if query:
             queries = Q(name__icontains=query) | Q(
                 description__icontains=query)
@@ -49,6 +58,7 @@ class Products(ListView):
     def get_context_data(self, **kwargs):
         product_list = []
         context = super().get_context_data(**kwargs)
+        # sort by product owner:
         if 'user' in self.kwargs:
             user = self.kwargs['user']
             products = Product.objects.filter(created_by__id=user)
@@ -61,6 +71,8 @@ class Products(ListView):
             context['product_list'] = product_list
             return context
         products = context[self.context_object_name]
+
+        # sort by name or date:
         if 'sort' in self.request.GET:
             sort = self.request.GET['sort']
             context['sort'] = sort
@@ -84,6 +96,8 @@ class Products(ListView):
                 'variants': ProductVariant.objects.filter(
                     product=product),
             })
+
+        # sort by distance
         if ('sort' in self.request.GET and
                 'lat' in self.request.GET and
                 'long' in self.request.GET):
@@ -97,7 +111,7 @@ class Products(ListView):
                         (item_location.coords[1], item_location.coords[0]),
                         user_location).km, 2)
                 else:
-                    # set a default distance if 
+                    # set a default distance if
                     # location for the item can't be found
                     item['distance'] = 99999
                 if item['distance'] < settings.DEFAULT_DELIVERY_RADIUS:
@@ -133,6 +147,10 @@ class ProductCreate(
     ProductCreationAccessMixin,
     CreateWithInlinesView,
 ):
+    """
+    A view to display the product form and
+    create a new product
+    """
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
@@ -153,6 +171,10 @@ class ProductEdit(
     ProductEditAccessMixin,
     UpdateWithInlinesView,
 ):
+    """
+    A view to display the product form and
+    edit an existing product
+    """
     model = Product
     inlines = [ProductVariantInline]
     fields = ['name', 'description', 'image_url', 'image']
@@ -169,6 +191,9 @@ class ProductEdit(
 class ProductDelete(LoginRequiredMixin,
                     UserPassesTestMixin,
                     DeleteView):
+    """
+    A view to delete a product
+    """
     model = Product
     template_name = 'products/product-delete.html'
     raise_exception = True

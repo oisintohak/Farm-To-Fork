@@ -3,7 +3,7 @@ from products.models import ProductVariant
 
 
 def cart_contents(request):
-
+    """ Return the current cart contents"""
     cart_items = []
     total = 0
     product_count = 0

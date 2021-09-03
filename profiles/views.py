@@ -18,6 +18,7 @@ from multi_form_view import MultiModelFormView
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
+    """View a specific user profile"""
     model = UserModel
     context_object_name = 'user_profile'
     template_name = 'profiles/profile-detail.html'
@@ -54,6 +55,10 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class ProfileEditView(LoginRequiredMixin, MultiModelFormView):
+    """
+    A view to display the profile form and
+    edit an existing profile
+    """
     form_classes = {
         'profile_form': UserProfileForm,
         'address_form': AddressForm,
@@ -108,7 +113,9 @@ class FarmerMapView(TemplateView):
         for item in markers['features']:
             address = Address.objects.get(id=item['properties']['address'])
             if address.location:
-                item['properties']['area'] = f'{address.town_or_city}, {address.county}'
+                item['properties']['area'] = (
+                    f'{address.town_or_city}, {address.county}'
+                )
                 item['geometry'] = {
                     'type': 'Point',
                     'coordinates': [
@@ -121,6 +128,9 @@ class FarmerMapView(TemplateView):
 
 
 class ProfileDelete(UserPassesTestMixin, DeleteView):
+    """
+    A view to delete an existing product
+    """
     model = UserProfile
     template_name = 'profiles/profile-delete.html'
 

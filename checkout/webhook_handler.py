@@ -17,6 +17,10 @@ class StripeWH_Handler:
         self.request = request
 
     def _send_farmer_email(self, order):
+        """
+        For each farmer-order, send an email to
+        the respective customer and farmer
+        """
         farmer_orders = FarmerOrder.objects.filter(order=order)
         farmer_order_list = []
         for index, farmer_order in enumerate(farmer_orders):
@@ -73,7 +77,7 @@ class StripeWH_Handler:
             )
 
     def _send_confirmation_email(self, order):
-        """Send the user a confirmation email"""
+        """Send the customer an order confirmation email"""
         cust_email = order.email
 
         subject = render_to_string(

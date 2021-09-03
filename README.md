@@ -88,7 +88,6 @@ To test the checkout process use the stripe test card details:
 
  ### Structure
 
- #### Fulfilled User stories
 
 **User Story:**
 >  - As a first time visitor to the site I would like to understand its' purpose.
@@ -99,6 +98,8 @@ To test the checkout process use the stripe test card details:
 **Implementation:**
 
 The home page will display a heading that clearly shows the site purpose.
+
+**Status**: user story fulfilled
 
 -----
 **User Stories:**
@@ -119,7 +120,10 @@ There is a link to an FAQ/About page in the navbar and the footer. This page wil
     - Farmer fees
     - Farmer payout frequency and payout method
 
+**Status**: user stories fulfilled
+
 -----
+
 **User Stories:**
 > - I would like to browse any current products offered by farmers.
 > - I would like to search for products by keyword
@@ -134,7 +138,10 @@ There is a link to an FAQ/About page in the navbar and the footer. This page wil
 
 There is an easily accessed search icon which will show a search bar for users to enter search queries. There is also a link to 'product list' in the navbar to display a list of products. The product list has a 'sort' feature where users can sort by product name, date added and distance from the user. The distance feature will use the geolocation API to access the user's device location, or prompt them to log in and add location details to their profile.
 
+**Status**: all user stories fulfilled, but a desirable future feature is to have a price sorting option
+
 -----
+
 **User Stories:**
 >  - I would like to see the prices of products offered by farmers.
 >  - I would like to see the different sizes/prices for a product.
@@ -149,6 +156,8 @@ There is an easily accessed search icon which will show a search bar for users t
 
 There is a dedicated product page for each product that contains information about product sizes and the price for each size. There is a description section for farmers to add descriptions to products.
 
+**Status**: user stories fulfilled
+
 -----
 
 **User Story:**
@@ -161,6 +170,8 @@ There is a dedicated product page for each product that contains information abo
 **Implementation:**
 
 There is a dedicated farmer map page where users can see farmers on a map with links to each farmer's profile and products.
+
+**Status**: user stories fulfilled
 
 -----
 
@@ -181,6 +192,8 @@ There is a dedicated farmer map page where users can see farmers on a map with l
 
 There is an account icon with registration/login links displayed for unauthenticated users and a logout link displayed for authenticated users. Users will receive a confirmation email after registering.
 
+**Status**: user stories fulfilled
+
 -----
 
 **User Story:**
@@ -192,7 +205,10 @@ There is an account icon with registration/login links displayed for unauthentic
 
 **Implementation:**
 
-The user can easily access their shopping cart and proceed to checkout where they will be prompted to enter a delivery address. This address will then be used to calculate a distance for each product and determine if it is within the delivery radius. There will be an order summary displaying a delivery status for each product.
+The user can sort products by distance with their device location using the geo-location API or with an address assigned to their profile.
+The user can also easily access their shopping cart and proceed to checkout where they will be prompted to enter a delivery address. This address will then be used to calculate a distance for each product and determine if it is within the delivery radius. There will be an order summary displaying a delivery status for each product.
+
+**Status**: user story fulfilled
 
 -----
 
@@ -213,6 +229,8 @@ The user can easily access their shopping cart and proceed to checkout where the
 
 The payment page features a secure stripe card checkout. If the payment is successful, a webhook handler will send the user an order confirmation email with a link to view the order details and items. If any of the products on the order require collection, the user will receive an email with the farmer contact and address information.
 
+**Status**: user stories fulfilled
+
 -----
 
 **User Stories:**
@@ -228,6 +246,8 @@ The payment page features a secure stripe card checkout. If the payment is succe
 
 There is a link in the account dropdown displayed for authenticated users for 'Edit Profile'. On this page users can add information to their profiles including name, bio, image and address.
 
+**Status**: user stories fulfilled
+
 -----
 
 **User Story:**
@@ -237,12 +257,14 @@ There is a link in the account dropdown displayed for authenticated users for 'E
 **Acceptance Criteria:**
 
 - Farmers can add new products
-- Farmers can edit their
+- Farmers can edit their products
 - Farmers can delete their products
 
 **Implementation:**
 
 There is a 'create product' link shown to authenticated farmers. On this page they can create new products. There is a 'my products' link shown to authenticated farmers. This page displays a farmer's products and on each product page there is an 'edit product' link. On the edit product page they can edit or delete the product.
+
+**Status**: user stories fulfilled
 
 -----
 
@@ -260,7 +282,7 @@ There is a 'create product' link shown to authenticated farmers. On this page th
 
 **Implementation:**
 
-There is a dedicated farmer list page where users can browse farmers and sort them by distance
+- This feature has not been implemented yet.
 
 ##### Development plan from user stories:
 
@@ -294,10 +316,8 @@ To view wireframes please go to the [WIREFRAMES.md](WIREFRAMES.md) file.
 ##### Colors
 I tried to choose a color scheme to reflect the subject matter of the website (i.e farming, nature, vegetables etc.). This led me to a combination of green and brown. I avoided using excessively vibrant colors that might negatively affect the user experience or colors that would reduce accessibility for vision impaired users. I created a [color_palette](https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=C8E6C9&secondary.color=FFA726) with Google's Material Design Color Tool and used certain colors throughout the website. I used a light green (#fbfffc) for all page backgrounds and a green-black (#1a201a) for all text. A mint-green (#c8e6c9) was used for the navbar and footer backgrounds as well as the home-page carousels. I used a light brown (#ffd95b) for all primary action buttons and the previously mentioned light green and green black for secondary action buttons.
 
-
 ##### Typography
 [Spectral](https://fonts.google.com/specimen/Spectral) was used for the logo and  [Roboto](https://fonts.google.com/specimen/Roboto) was used for all other text
-
 
 
 ## Technologies
@@ -311,19 +331,25 @@ I tried to choose a color scheme to reflect the subject matter of the website (i
     - leaflet.js for the farmer map page
 - Python
     - Django
+        - Django-environ for handling environment variables
         - GeoDjango for storing location data
         - Django crispy forms for form styling
         - Django allauth for user authentication
         - Django countries for country fields in address forms
         - Djang-extra-views for adding formsets to modelforms
         - Django-multi-form view to display and handle multiple forms in a view
-- PostgreSQL
+- PostgreSQL with POSTGIS for storing GeoDjango spatial data
 - Amazon AWS S3 bucket for static file storage and uploads
 
 
+## Media
+
+All photos were taken from [Unsplash](https://unsplash.com/)
+I cannot verify the source of photos uploaded by other users.
 
 ## Testing
 
+Testing details can be viewed in the [TESTING.md](TESTING.md) file
 
 ## Deployment
 
@@ -385,7 +411,40 @@ These are the steps to deploy this project to Heroku
 - Enter any required details to create a superuser for the django admin
 - Click 'Open App' in the top right
 
-### Issues
- - On the product edit/create page, if 10 variants are added, the 'add variant' button disappears and doesn't come back if variants are removed.
- - Product cards do not have equal height due to differing content size.
- - Need to add, 'back to products' button on product pages.
+## Credits
+
+#### Acknowledgements
+
+I would like to thank Brian Macharia my CI mentor for his excellent guidance and advice throughout the development of this project.
+
+
+#### References and tutorials used
+
+[Database_schema_and_design](https://medium.com/@johnwadelinatoc/build-an-ecommerce-database-schema-3b5e04b4f8b6)
+
+[Project_planning](https://dev.to/thecodepixi/fullstack-project-planning-3jml)
+
+Django dynamic formsets and multi form views:
+
+- [this](https://simpleit.rocks/python/django/dynamic-add-form-with-add-button-in-django-modelformset-template/)
+- [this](https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6)
+- and [this](https://concisecoder.io/2018/10/20/combining-inherited-django-forms-in-the-same-formview/)
+
+[Custom_user_model](https://testdriven.io/blog/django-custom-user-model/)
+
+Django Mixins:
+- [this](https://www.thedigitalcatonline.com/blog/2020/03/27/mixin-classes-in-python/)
+- and [this](https://stackoverflow.com/questions/42865183/django-how-to-use-two-userpassestestmixin)
+
+GeoDjango:
+    - [this](https://realpython.com/location-based-app-with-geodjango-tutorial/)
+    - [this](https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/)
+    - and [this](https://www.pointsnorthgis.ca/blog/geodjango-gdal-setup-windows-10/)
+
+
+#### Media
+
+Logo made by [Darius_Dan](https://www.flaticon.com/authors/darius-dan) from [www.flaticon.com](https://www.flaticon.com/)
+All photos were taken from [Unsplash](https://unsplash.com/)
+I cannot verify the source of photos uploaded by other users.
+This site is for educational purposes only.
