@@ -92,9 +92,14 @@ class Products(ListView):
                     self.request.GET['lat'], self.request.GET['long'])
                 item_location = (
                     item['product'].created_by.profile.address.location)
-                item['distance'] = round(distance.distance(
-                    (item_location.coords[1], item_location.coords[0]),
-                    user_location).km, 2)
+                if item_location:
+                    item['distance'] = round(distance.distance(
+                        (item_location.coords[1], item_location.coords[0]),
+                        user_location).km, 2)
+                else:
+                    # set a default distance if 
+                    # location for the item can't be found
+                    item['distance'] = 99999
                 if item['distance'] < settings.DEFAULT_DELIVERY_RADIUS:
                     item['delivery'] = True
             product_list = sorted(product_list, key=lambda i: i['distance'])
@@ -161,7 +166,9 @@ class ProductEdit(
         return context
 
 
-class ProductDelete(UserPassesTestMixin, DeleteView):
+class ProductDelete(LoginRequiredMixin,
+                    UserPassesTestMixin,
+                    DeleteView):
     model = Product
     template_name = 'products/product-delete.html'
     raise_exception = True
@@ -181,11 +188,27 @@ class ProductDelete(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         object = self.get_object()
-        return object.created_by == self.request.user
+        return (
+            self.request.user.groups.filter(name='Farmers').exists() and
+            object.created_by == self.request.user
+        )
 
     def handle_no_permission(self):
         obj = self.get_object()
-        if obj.created_by != self.request.user:
+        if (
+            not self.request.user.is_authenticated or
+            not self.request.user.groups.filter(name='Farmers').exists()
+        ):
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You don\'t have permission to delete this product.',
+            )
+            return HttpResponseRedirect(reverse('account_login'))
+        elif (
+            obj.created_by != self.request.user and
+            self.request.user.groups.filter(name='Farmers').exists()
+        ):
             messages.add_message(
                 self.request,
                 messages.ERROR,

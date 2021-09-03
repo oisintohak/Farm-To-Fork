@@ -8,13 +8,20 @@ class ProductCreationAccessMixin(UserPassesTestMixin):
     raise_exception = True
 
     def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'Login to a farmer account to create/edit products.',
+            )
+            return HttpResponseRedirect(reverse('account_login'))
         if not self.request.user.groups.filter(name='Farmers').exists():
             messages.add_message(
                 self.request,
                 messages.ERROR,
-                'Login to a farmer account to create products.',
+                'Only farmer accounts can create/edit products.',
             )
-            return HttpResponseRedirect(reverse('account_login'))
+            return HttpResponseRedirect(reverse('home'))
         if self.request.user.profile.address.location is None:
             messages.add_message(
                 self.request,
@@ -34,6 +41,13 @@ class ProductEditAccessMixin(ProductCreationAccessMixin, UserPassesTestMixin):
     raise_exception = True
 
     def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You need to login to edit your products.',
+            )
+            return HttpResponseRedirect(reverse('account_login'))
         ProductCreationAccessMixin.handle_no_permission(self)
         obj = self.get_object()
         if obj.created_by != self.request.user:
