@@ -316,7 +316,7 @@ class FarmerOrderDetail(TemplateView):
                 'Error retrieving order.',
             )
             return HttpResponseRedirect(reverse('home'))
-        elif self.request.user is not farmer_order.farmer:
+        elif self.request.user != farmer_order.farmer:
             messages.add_message(
                 self.request,
                 messages.ERROR,
