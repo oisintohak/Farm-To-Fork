@@ -9,6 +9,7 @@
         <h3 class="text-center pb-3 pt-2">
             Checkout successful
         </h3>
+        <h6 class="text-center py-2">Order number: {{ order.order_number }}</h6>
         <small class="text-center">Once your payment is confirmed, we will send your order details to: 
             <strong>{{ order.email }}</strong></small>
         {% include 'includes/checkout/order-summary.html' %}
