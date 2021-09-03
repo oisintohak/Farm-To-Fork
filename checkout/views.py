@@ -64,6 +64,13 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order.save()
         order_cart = cart_contents(self.request)
         order_location = order.address.location
+        if order_cart['product_count'] == 0:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'No items in your cart.',
+            )
+            return redirect(reverse('cart'))
         for item in order_cart['cart_items']:
             # CALCULATE DISTANCE FOR EACH ITEM
             item_location = (

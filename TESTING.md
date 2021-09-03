@@ -263,6 +263,10 @@ The following details were verified to ensure the website was responsive and the
         - The submit button changes text when fetching address data and changes back when the request is completed
         - If the address can't be geo-located there is a popup modal with an error message
 
+    ##### Defensive design:
+
+        - If the user has no items in their cart they are redirected to the cart page with a message 'No items in your cart.'
+
 - ### Payment form/ Checkout complete
 
     ##### Visuals & Responsiveness:
@@ -280,26 +284,44 @@ The following details were verified to ensure the website was responsive and the
             - All items have the delivery status badge displayed
             - The total is calculated correctly
         - Checkout success:
-            - The users details are displayed
+            - The users details and order number are displayed
+
     ##### Defensive design:
 
-- ##### Order list
+        - If the order has received the stripe success webhook, instead of trying to pay for the order again, the user will be redirected to the order detail page 
+
+- ### Order list
+
     ##### Visuals & Responsiveness:
+
+        - All headings and order titles are readable
+        - There is adequate spacing around all elements
+
     ##### Functionality:
+
+        - All links work and link to the correct pages
+
     ##### Defensive design:
 
-    - All headings and order titles are readable
-    - There is adequate spacing around all elements
+        - Only display orders that have received the stripe success webhook
 
-- ##### Order detail, Farmer order detail
+- ### Order detail, Farmer order detail
+
     ##### Visuals & Responsiveness:
+
+        - All headings and text are sized and positioned correctly
+        - All order items are sized and positioned correctly
+        - The delivery information notice is positioned correctly
+        - The customer details are displayed correctly
+
     ##### Functionality:
+    
+        - Any products from a specific farmer are grouped together with a deliver status badge
+        - The distance is shown for each farmer
+    
     ##### Defensive design:
 
-    - All headings and text are sized and positioned correctly
-    - All order items are sized and positioned correctly
-    - The delivery information notice is positioned correctly
-    - The customer details are displayed correctly
+        - If the order has not received the stripe success webhook redirect the user to the home page with a message 'error retrieving order'
 
 - ##### 404 error page
     ##### Visuals & Responsiveness:
