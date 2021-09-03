@@ -322,11 +322,10 @@ The following details were verified to ensure the website was responsive and the
     ##### Defensive design:
 
         - If the order has not received the stripe success webhook redirect the user to the home page with a message 'error retrieving order'
+        - For farmer orders: if the user is not the specified farmer, redirect to home page with a message: 'This order is not assigned to your account.'
 
-- ##### 404 error page
+- ### 404 error page
     ##### Visuals & Responsiveness:
-    ##### Functionality:
-    ##### Defensive design:
 
     - The error message is sized and positioned correctly
 
