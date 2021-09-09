@@ -244,7 +244,8 @@ body {
 }
 
 .carousel-card-list-group {
-    min-height: 3rem;
+    min-height: 8rem;
+    justify-content: center;
 }
 
 /* ***** PRODUCT PAGES ****** */

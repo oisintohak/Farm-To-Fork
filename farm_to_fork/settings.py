@@ -40,7 +40,7 @@ if 'HEROKU' not in os.environ:
     DEBUG = True
 # DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = ['farmtofork.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['farmtofork.herokuapp.com', '127.0.0.1', 'farmtoforkheroku.herokuapp.com']
 
 
 # Application definition
