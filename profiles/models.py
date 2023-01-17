@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.gis.geos import Point
+# from django.contrib.gis.geos import Point
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -76,11 +76,11 @@ def add_user_to_group(sender, instance, created, **kwargs):
         instance.groups.add(group)
 
 
-@receiver(pre_save, sender=Address)
-def generate_location(sender, instance, **kwargs):
-    if instance.latitude and instance.longitude:
-        location = Point(
-            float(instance.longitude),
-            float(instance.latitude)
-        )
-        instance.location = location
+# @receiver(pre_save, sender=Address)
+# def generate_location(sender, instance, **kwargs):
+#     if instance.latitude and instance.longitude:
+#         location = Point(
+#             float(instance.longitude),
+#             float(instance.latitude)
+#         )
+#         instance.location = location

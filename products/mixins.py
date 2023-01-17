@@ -22,7 +22,8 @@ class ProductCreationAccessMixin(UserPassesTestMixin):
                 'Only farmer accounts can create/edit products.',
             )
             return HttpResponseRedirect(reverse('home'))
-        if self.request.user.profile.address.location is None:
+        if (self.request.user.profile.address.longitude is None and
+            self.request.user.profile.address.latitude is None):
             messages.add_message(
                 self.request,
                 messages.ERROR,
@@ -33,7 +34,8 @@ class ProductCreationAccessMixin(UserPassesTestMixin):
     def test_func(self):
         return (
             self.request.user.groups.filter(name='Farmers').exists() and
-            self.request.user.profile.address.location is not None
+            self.request.user.profile.address.latitude is not None and
+            self.request.user.profile.address.latitude is not None
         )
 
 

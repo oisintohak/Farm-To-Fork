@@ -63,7 +63,8 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
         order.address = all_forms['address_form'].save()
         order.save()
         order_cart = cart_contents(self.request)
-        order_location = order.address.location
+        order_coords = (order.address.latitude,
+                        order.address.longitude)
         if order_cart['product_count'] == 0:
             messages.add_message(
                 self.request,
@@ -73,11 +74,12 @@ class Checkout(EmptyCartMixin, MultiModelFormView):
             return redirect(reverse('cart'))
         for item in order_cart['cart_items']:
             # CALCULATE DISTANCE FOR EACH ITEM
-            item_location = (
-                item['product'].product.created_by.profile.address.location)
+            item_coords = (
+                item['product'].product.created_by.profile.address.latitude,
+                item['product'].product.created_by.profile.address.longitude)
             dist = distance.distance(
-                (item_location.coords[1], item_location.coords[0]),
-                (order_location.coords[1], order_location.coords[0])).km
+                (item_coords[1], item_coords[0]),
+                (order_coords[1], order_coords[0])).km
             item_distance = round(dist, 2)
             order_line_item = OrderLineItem(
                 order=order,

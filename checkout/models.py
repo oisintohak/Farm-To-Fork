@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.fields import BooleanField
 from products.models import ProductVariant
-from django.contrib.gis.db.models import PointField
+# from django.contrib.gis.db.models import PointField
 
 from django_countries.fields import CountryField
 
@@ -27,7 +27,7 @@ class Address(models.Model):
     longitude = models.DecimalField(
         max_digits=30, decimal_places=20, blank=True, null=True
     )
-    location = PointField(blank=True, null=True)
+    # location = PointField(blank=True, null=True)
 
     def __str__(self):
         return (f'{self.street_address1}, {self.street_address1}'

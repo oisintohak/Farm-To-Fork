@@ -48,7 +48,7 @@ class FarmerOrderAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
-    readonly_fields = ['latitude', 'longitude', 'location']
+    readonly_fields = ['latitude', 'longitude']
 
 
 admin.site.register(Order, OrderAdmin)

@@ -13,13 +13,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dj_database_url
 
+if os.path.isfile("env.py"):
+    import env
+
 
 # only use django-environ on local environment
-if 'HEROKU' not in os.environ:
-    import environ
-    env = environ.Env()
-    # reading .env file
-    environ.Env.read_env()
+# if 'HEROKU' not in os.environ:
+#     import environ
+#     env = environ.Env()
+#     # reading .env file
+#     environ.Env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,7 +43,7 @@ if 'HEROKU' not in os.environ:
     DEBUG = True
 # DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = ['farmtoforkheroku.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['farmtoforkheroku.herokuapp.com', '127.0.0.1', 'localhost']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
@@ -58,7 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.gis',
+    # 'django.contrib.gis',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -124,16 +127,16 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'postgresql',
-            'USER': 'geodjango',
-            'PASSWORD': '1234',
-        },
-    }
+    # DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#             'NAME': 'postgresql',
+#             'USER': 'geodjango',
+#             'PASSWORD': '1234',
+#         },
+#     }
 
 
 # Password validation
@@ -242,12 +245,12 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # use this if setting up on Windows 10 with GDAL installed from OSGeo4W using defaults
-if os.name == 'nt':
-    VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
-    os.environ['PATH'] = os.path.join(
-        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
-    os.environ['PROJ_LIB'] = os.path.join(
-        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
+# if os.name == 'nt':
+#     VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
+#     os.environ['PATH'] = os.path.join(
+#         VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
+#     os.environ['PROJ_LIB'] = os.path.join(
+#         VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
 
 
 DEFAULT_DELIVERY_RADIUS = 10
@@ -262,14 +265,14 @@ STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 
 
-# if DEBUG:
-#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#     DEFAULT_FROM_EMAIL = 'farmtoforkdjango@gmail.com'
-# else:
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'farmtoforkdjango@gmail.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
