@@ -6,3 +6,4 @@ env.py
 *.whl
 /.vscode
 *.env
+.
