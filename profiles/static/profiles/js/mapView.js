@@ -11,7 +11,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {
 const markers = JSON.parse(document.getElementById('markers-data').textContent);
 let url = "{% url 'profile' 'replacethistext' %}";
 let feature = L.geoJSON(markers).bindPopup(function (layer) {
-  let profileUrl = url.replace('replacethistext', layer.feature.properties.user)
+  console.log(layer)
+  let profileUrl = url.replace('replacethistext', layer.feature.properties.fields.user)
   return `
   <div class="card bg-l-green border-d-green row g-0">
       <div class="col-12 text-center">

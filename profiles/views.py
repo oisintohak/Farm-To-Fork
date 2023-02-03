@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-import json
 from django.contrib.auth import logout
 from django.core.serializers import serialize
 from django.views.generic.edit import DeleteView
@@ -15,6 +14,9 @@ from checkout.models import Address
 from .forms import UserProfileForm, AddressForm
 from products.models import Product, ProductVariant
 from multi_form_view import MultiModelFormView
+
+from geojson import Point, Feature, FeatureCollection
+import json
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
@@ -101,29 +103,22 @@ class FarmerMapView(TemplateView):
         Add an array to context containing GeoJSON information about farmers
         """
         context = super().get_context_data(**kwargs)
-        markers = json.loads(
-            serialize(
-                'geojson',
-                UserProfile.objects.filter(user__groups__name='Farmers'),
-                geometry_field='location',
-            )
-        )
-        # loop through the array to add coordinates and address
-        # details for each farmer to geoJSON
-        for item in markers['features']:
-            address = Address.objects.get(id=item['properties']['address'])
-            if address.location:
-                item['properties']['area'] = (
-                    f'{address.town_or_city}, {address.county}'
-                )
-                item['geometry'] = {
-                    'type': 'Point',
-                    'coordinates': [
-                        address.location.coords[0],
-                        address.location.coords[1]
-                    ]
-                }
-        context['markers'] = markers
+        profiles = UserProfile.objects.filter(user__groups__name='Farmers')
+
+        features = []
+
+        data = json.loads(serialize('json', profiles))
+
+
+        for index, profile in enumerate(profiles):
+            point = Point(
+                (profile.address.longitude, profile.address.latitude))
+            feature = Feature(geometry=point, properties=data[index])
+            features.append(feature)
+        
+        feature_collection = FeatureCollection(features)
+
+        context['markers'] = feature_collection
         return context
 
 
