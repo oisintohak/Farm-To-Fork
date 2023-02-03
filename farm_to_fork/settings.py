@@ -125,7 +125,7 @@ WSGI_APPLICATION = 'farm_to_fork.wsgi.application'
 
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), ssl_require=True)
     }
     # DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 # else:
