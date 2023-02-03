@@ -104,11 +104,21 @@ class Products(ListView):
             for item in product_list:
                 user_location = (
                     self.request.GET['lat'], self.request.GET['long'])
-                item_location = (
-                    item['product'].created_by.profile.address.location)
-                if item_location:
+                # item_location = (
+                #     item['product'].created_by.profile.address.location)
+                item_lat = (
+                    item['product'].created_by.profile.address.latitude
+                )
+                item_long = (
+                    item['product'].created_by.profile.address.longitude
+                )
+                # if item_location:
+                #     item['distance'] = round(distance.distance(
+                #         (item_location.coords[1], item_location.coords[0]),
+                #         user_location).km, 2)
+                if item_lat and item_long:
                     item['distance'] = round(distance.distance(
-                        (item_location.coords[1], item_location.coords[0]),
+                        (item_lat, item_long),
                         user_location).km, 2)
                 else:
                     # set a default distance if
@@ -122,11 +132,12 @@ class Products(ListView):
             context['search_query'] = self.request.GET['q']
         if (
             self.request.user.is_authenticated and
-            self.request.user.profile.address.location
+            self.request.user.profile.address.latitude and
+            self.request.user.profile.address.longitude
         ):
-            location = self.request.user.profile.address.location
-            context['user_address_lat'] = location.coords[1]
-            context['user_address_long'] = location.coords[0]
+            # location = self.request.user.profile.address.location
+            context['user_address_lat'] = self.request.user.profile.address.latitude
+            context['user_address_long'] = self.request.user.profile.address.longitude
 
         return context
 
